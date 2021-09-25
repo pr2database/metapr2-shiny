@@ -20,9 +20,6 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/191439796.svg)](https://zenodo.org/badge/latestdoi/191439796)
 <!-- badges: end -->
 
----
-
-
 
 An [interactive database](https://app.metapr2.org/) of eukaryotic metabarcodes compiled from the literature. 
 
@@ -42,7 +39,7 @@ devtools::install_github("vaulot/metapr2-shiny")
 ```
 
 
-### Step 2 - Launch the metaPR2 shiny server
+#### Step 2 - Launch the metaPR2 shiny server
 
 
 ```{r example}
