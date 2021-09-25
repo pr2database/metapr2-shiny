@@ -1,0 +1,32 @@
+Package: metapr2
+Title: Metabarcoding data display
+Version: 0.1.0
+Authors@R: 
+    person(given = "Daniel",
+           family = "Vaulot",
+           role = c("aut", "cre"),
+           email = "vaulot@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()`
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    dplyr,
+    DT,
+    forcats,
+    ggplot2,
+    leaflet,
+    markdown,
+    patchwork,
+    rio,
+    shiny,
+    shinycssloaders,
+    shinyFeedback,
+    stringr,
+    tidyr,
+    viridis
+Depends: 
+    R (>= 2.10)
