@@ -15,11 +15,12 @@ df_map <- reactive({
 n_samples_with_taxa <- reactive(n_distinct(df_map()$present$file_code))
 n_samples_without_taxa <- reactive(n_distinct(df_map()$absent$file_code))
 
-output$sample_number <- renderText({stringr::str_c("Number of samples with taxa: ",n_samples_with_taxa(),
-                                                   ", without taxa: ",n_samples_without_taxa(),
+output$sample_number <- renderText({stringr::str_c("Number of samples with taxon: <b>",n_samples_with_taxa(),
+                                                   "</b>, without taxon: <b>",n_samples_without_taxa(),"</b>",
                                                    sep=" ")})
 
-output$taxo_selected <- renderText({stringr::str_c("Taxo level: ", taxo()$level, "name: ", taxo()$name, sep=" ")})
+output$taxo_selected <- renderText({stringr::str_c("Taxo level: <b>", taxo()$level, 
+                                                   "</b>- Taxon name: <b>", taxo()$name,"</b>", sep=" ")})
 
 output$map_1 <- renderLeaflet({map_leaflet_init()})
 

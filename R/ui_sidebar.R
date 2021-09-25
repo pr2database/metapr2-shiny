@@ -24,13 +24,10 @@ sidebar <- function() {sidebarPanel(width = 3,
                h3("Select Samples"),
                
                checkboxGroupInput("gene_region", "Gene regions", inline = TRUE,  choices = gene_regions, selected = gene_regions),
-               checkboxGroupInput("DNA_RNA", "DNA or RNA", inline = TRUE,  choices = DNA_RNAs, selected = DNA_RNAs),
+               checkboxGroupInput("DNA_RNA", "DNA or RNA", inline = TRUE,  choices = DNA_RNAs, selected = "DNA"),
                checkboxGroupInput("substrate", "Substrates", inline = TRUE,  choices = substrates, selected = substrates),
                checkboxGroupInput("fraction_name", "Fractions", inline = TRUE,  choices = fraction_names, selected = fraction_names),
-               checkboxGroupInput("depth_level", "Depth levels", inline = TRUE,  choices = depth_levels, selected = depth_levels),
-               
-               h3("Change scale"),
-               sliderInput("pct_max", label ="% max", min = 0, max = 100, value = 100),
+               checkboxGroupInput("depth_level", "Depth levels", inline = TRUE,  choices = depth_levels, selected = "surface"),
                
                # actionButton("button_map_update", "Draw map"),
                

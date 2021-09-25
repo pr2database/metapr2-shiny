@@ -1,43 +1,74 @@
-## The metaPR2 metabarcode database
----
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+## Shiny server for the metaPR2 database
+
+<!-- badges: start -->
+
 [![DOI](https://zenodo.org/badge/191439796.svg)](https://zenodo.org/badge/latestdoi/191439796)
+<!-- badges: end -->
 
+------------------------------------------------------------------------
 
-An [interactive database](https://app.metapr2.org/) of eukaryotic metabarcodes compiled from the literature. 
+An [interactive database](https://app.metapr2.org/) of eukaryotic
+metabarcodes compiled from the literature.
 
-### Introduction
+### Presentation
 
+MetaPR2 is a database of published 18S rRNA metabarcodes. This R package
+launches a shiny application that allows to interact with the database
+by mapping, searching and downloading the barcodes.
 
+### How run the metaPR2 shiny server
+
+#### Step 1 - Install the R package from GitHub
+
+Run the following line from R studio
+
+``` r
+install.packages(devtools)
+devtools::install_github("vaulot/metapr2-shiny")
+```
+
+### Step 2 - Launch the metaPR2 shiny server
+
+``` r
+library(metapr2)
+metapr2App()
+```
 
 ### Panels
 
-* **About**: Basic information on the metapr2 database
-* **Datasets**: List of datasets used.
-* **Map**: Maps of relative abundance. Taxonomic level can be chosen as well as sample types (RNA/DNA, substrate, depth layer...)
+-   **About**: Basic information on the metapr2 database
+-   **Datasets**: List of datasets used.
+-   **Map**: Maps of relative abundance. Taxonomic level can be chosen
+    as well as sample types (RNA/DNA, substrate, depth layer…)
+-   **Search**: Search metabarcode similar to your sequence
 
 ### Errors
 
-Please report errors or primer sets not listed here in the [Issues page of the metaPR2 primer database](https://xxx).
-
+Please report errors in the [Issues page of the metaPR2 primer
+database](https://xxx).
 
 ### Citation
 
-Vaulot, D., Mahé, F., Bass, D., & Geisen, S. (2021). [pr2-primer : An 18S rRNA primer database for protists](https://onlinelibrary.wiley.com/doi/abs/10.1111/1755-0998.13465). Molecular Ecology Resources, in press. DOI: 10.1111/1755-0998.13465
+Vaulot, D. et al. (2021). [metaPR2 : An interactive 18S rRNA metabarcode
+database](). Unpublished
 
 ### Resources
-* Website: https://app.metapr2.org/
-* Docker: https://hub.docker.com/repository/docker/vaulot/metapr2
-* Source code: https://github.com/pr2database/metapr2
+
+-   Website: <https://app.metapr2.org/>
+-   Docker: <https://hub.docker.com/repository/docker/vaulot/metapr2>
+-   Source code: <https://github.com/pr2database/metapr2>
 
 ### Maintainer
-* Daniel Vaulot: vaulot@gmail.com
+
+-   Daniel Vaulot: <vaulot@gmail.com>
 
 ### Contributors
 
-* 
+-   
 
 ### Versions
 
-
-1.0.0 - 2021-xx-xx
-* Initial version
+1.0.0 - 2021-xx-xx \* Initial version

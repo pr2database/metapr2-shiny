@@ -9,25 +9,77 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  eval = FALSE
 )
 ```
 
-# metapr2
+## Shiny server for the metaPR2 database
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![DOI](https://zenodo.org/badge/191439796.svg)](https://zenodo.org/badge/latestdoi/191439796)
 <!-- badges: end -->
 
-The goal of metapr2 is to ...
+---
 
 
-## Example
 
-This is a basic example which shows you how to solve a common problem:
+An [interactive database](https://app.metapr2.org/) of eukaryotic metabarcodes compiled from the literature. 
+
+### Presentation
+
+MetaPR2 is a database of published 18S rRNA metabarcodes. This R package launches a shiny application that allows to interact with the database by mapping, searching and downloading the barcodes.
+
+### How run the metaPR2 shiny server
+
+#### Step 1 - Install the R package from GitHub
+
+Run the following line from R studio
+
+```{r}
+install.packages(devtools)
+devtools::install_github("vaulot/metapr2-shiny")
+```
+
+
+### Step 2 - Launch the metaPR2 shiny server
+
 
 ```{r example}
 library(metapr2)
-## basic example code
+metapr2App()
+
 ```
 
+### Panels
+
+* **About**: Basic information on the metapr2 database
+* **Datasets**: List of datasets used.
+* **Map**: Maps of relative abundance. Taxonomic level can be chosen as well as sample types (RNA/DNA, substrate, depth layer...)
+* **Search**: Search metabarcode similar to your sequence
+
+### Errors
+
+Please report errors in the [Issues page of the metaPR2 primer database](https://xxx).
+
+
+### Citation
+
+Vaulot, D. et al. (2021). [metaPR2 : An interactive 18S rRNA metabarcode database](). Unpublished
+
+### Resources
+* Website: https://app.metapr2.org/
+* Docker: https://hub.docker.com/repository/docker/vaulot/metapr2
+* Source code: https://github.com/pr2database/metapr2
+
+### Maintainer
+* Daniel Vaulot: vaulot@gmail.com
+
+### Contributors
+
+* 
+
+### Versions
+
+1.0.0 - 2021-xx-xx
+* Initial version
