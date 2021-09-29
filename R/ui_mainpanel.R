@@ -15,6 +15,10 @@
              p(),
              includeMarkdown("readme_download.md")
     ),
+    tabPanel("Treemap",
+             # htmlOutput("taxo_selected"),
+             shinycssloaders::withSpinner(uiOutput('treemap'))
+    ),
     
     tabPanel("Map",
              h4("Map of the number of reads of the  selected taxon relative to the total number of eukaryotic reads."), 

@@ -1,5 +1,7 @@
 
-legend_title <- reactive( if_else(TRUE, "% of euks", "% of supergroup"))
+# legend_title <- reactive( if_else(TRUE, "% of euks", "% of supergroup"))
+
+legend_title <- function(){"% of euks"} 
 
 # output$test1 <- renderText(taxo()$level)
 # output$test2 <- renderText(taxo()$name)

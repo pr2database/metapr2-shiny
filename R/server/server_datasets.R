@@ -43,11 +43,13 @@ samples_selected <- reactive({
            dataset_id %in% datasets_id_selected()
     ) })
 
+# Filter asv_set$df for samples selected
 df_selected_taxa_all <- reactive({
   asv_set$df %>%
     filter(file_code %in% samples_selected()$file_code)
 })
 
+# Filter asv_set$df for taxa selected AND merge with taxonomy
 df_selected_taxa_one <- reactive({
   df_selected_taxa_all() %>%
     inner_join(select(fasta_selected_taxa_one(), any_of(taxo_levels)))

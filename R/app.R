@@ -39,6 +39,10 @@ server <- function(input, output, session) {
   
   source("R/server/server_datasets.R", local = TRUE)
   
+  # Panel - Treemap
+  
+  source("R/server/server_treemap.R", local = TRUE)
+  
   # Panel - Leaflet map
   
   source("R/server/server_map.R", local = TRUE)

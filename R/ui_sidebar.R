@@ -9,6 +9,7 @@ sidebar <- function() {sidebarPanel(width = 3,
              
               conditionalPanel(
                 'input.panel == "Datasets"||
+                 input.panel == "Treemap"||
                  input.panel == "Map"||
                  input.panel == "Download"
                 ',
@@ -18,6 +19,7 @@ sidebar <- function() {sidebarPanel(width = 3,
                 ),           
              conditionalPanel(
                'input.panel == "Map"||
+                 input.panel == "Treemap"||
                  input.panel == "Download"
                 ',
                
@@ -36,6 +38,7 @@ sidebar <- function() {sidebarPanel(width = 3,
              # --- Dynamic boxes for taxonomy - See https://mastering-shiny.org/action-dynamic.html
              conditionalPanel(
                'input.panel == "Map" ||
+                 input.panel == "Treemap"||
                  input.panel == "Download"
                 ', 
                
