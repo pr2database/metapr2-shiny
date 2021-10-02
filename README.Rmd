@@ -52,8 +52,14 @@ metapr2App()
 
 * **About**: Basic information on the metapr2 database
 * **Datasets**: List of datasets used.
-* **Map**: Maps of relative abundance. Taxonomic level can be chosen as well as sample types (RNA/DNA, substrate, depth layer...)
-* **Search**: Search metabarcode similar to your sequence
+* **Map**: Maps of relative abundance. Taxonomic level can be chosen as well as sample types (RNA/DNA, substrate, depth layer...).
+* **Treemap**: Create treemap graphs for samples and taxon selected
+* **Query**: Enter a sequence and search for metabarcode that are similar to your sequence using BLAST like search.
+
+### Data processing
+
+
+* Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads.
 
 ### Errors
 

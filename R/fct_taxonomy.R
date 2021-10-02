@@ -32,8 +32,13 @@ taxo_selected <- function(supergroup, division, class, order, family, genus, spe
               taxo_level = "division"
               taxo_name = division
             } else {
+              if(!(supergroup %in% c("All", "")) ) {
               taxo_level = "supergroup"
               taxo_name = supergroup
+              } else {
+                taxo_level = "kingdom"
+                taxo_name = "Eukaryota" 
+                }
             }
           }
         }

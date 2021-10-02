@@ -1,35 +1,36 @@
 
-table_datasets <- select(asv_set$datasets, dataset_id, dataset_name, region, paper_reference)
+table_datasets <- reactive ({
+  DT::datatable(asv_set$datasets %>% 
+    select(dataset_id, dataset_name, region, paper_reference) %>%
+    mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)),
+    rownames = FALSE
+  ) %>% DT::formatStyle("selected",  target = 'row',
+                        backgroundColor = DT::styleEqual(c(FALSE, TRUE), c('white', 'yellow'))
+                        )
+  })
 
 # See:
 # Column width: https://stackoverflow.com/questions/25205410/r-shiny-set-datatable-column-width
 
-output$table_datasets <- DT::renderDT(table_datasets, 
-                                      rownames = TRUE,
-                                      selection = list(selected = 1:nrow(table_datasets)),
-                                      options = list(pageLength = 20,
-                                                     columnDefs = list(list(width = '200px', targets = c(1)),
-                                                                       list(width = '500px', targets = c(4)))
-                                                     )
-                                      )
+output$table_datasets <- DT::renderDT(table_datasets())
 
 # Select the datasets based on the table but must make sure that the table has been displayed
 
-datasets_id_selected <- reactive({
-  if(!is.null(input$table_datasets_rows_selected)) { 
-    table_datasets %>% 
-      dplyr::slice(input$table_datasets_rows_selected) %>% 
-      pull(dataset_id) 
-    } else {
-      table_datasets %>% 
-        pull(dataset_id)
-    }
-})
+# datasets_id_selected <- reactive({
+#   if(!is.null(input$table_datasets_rows_selected)) { 
+#     table_datasets %>% 
+#       dplyr::slice(input$table_datasets_rows_selected) %>% 
+#       pull(dataset_id) 
+#     } else {
+#       table_datasets %>% 
+#         pull(dataset_id)
+#     }
+# })
 
 datasets_selected <- reactive({
   asv_set$datasets %>%
-    filter(dataset_id %in% datasets_id_selected()
-    ) })
+    filter(dataset_id %in% input$datasets_selected_id) 
+  })
 
 # Select samples based on different parameters and datasets
 
@@ -40,19 +41,23 @@ samples_selected <- reactive({
            depth_level %in% input$depth_level,
            fraction_name %in% input$fraction_name,
            substrate %in% input$substrate,
-           dataset_id %in% datasets_id_selected()
+           dataset_id %in% input$datasets_selected_id
     ) })
 
 # Filter asv_set$df for samples selected
+
 df_selected_taxa_all <- reactive({
   asv_set$df %>%
     filter(file_code %in% samples_selected()$file_code)
 })
 
 # Filter asv_set$df for taxa selected AND merge with taxonomy
+# Mutate asv_code to keep only 8 characters 
+
 df_selected_taxa_one <- reactive({
   df_selected_taxa_all() %>%
-    inner_join(select(fasta_selected_taxa_one(), any_of(taxo_levels)))
+    inner_join(select(fasta_selected_taxa_one(), any_of(global$taxo_levels))) %>% 
+    mutate(asv_code = str_sub(asv_code, 1,8))
 })
 
 fasta_selected_taxa_one <- reactive({
@@ -61,7 +66,8 @@ fasta_selected_taxa_one <- reactive({
 })
 
 # To display datasets selected
-output$datasets_id_selected = renderText(datasets_id_selected())
+output$datasets_selected_id = renderText(input$datasets_selected_id)
+
 
 # Downlaod files (zip)
 # See:  https://stackoverflow.com/questions/43916535/download-multiple-csv-files-with-one-button-downloadhandler-with-r-shiny

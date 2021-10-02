@@ -14,6 +14,11 @@ df_map <- reactive({
     reformat_df_map(samples = samples_selected(), taxo_level = taxo()$level, taxo_name = taxo()$name)
 })
 
+df_map_pie <- reactive({
+  df_selected_taxa_one() %>%
+    reformat_df_map_pie(samples = samples_selected(), taxo_level = taxo()$level, taxo_name = taxo()$name)
+})
+
 n_samples_with_taxa <- reactive(n_distinct(df_map()$present$file_code))
 n_samples_without_taxa <- reactive(n_distinct(df_map()$absent$file_code))
 
@@ -29,8 +34,12 @@ output$map_1 <- renderLeaflet({map_leaflet_init()})
 observe({
   leafletProxy("map_1") %>%
     clearControls() %>%
-    clearMarkers() %>%
-    map_leaflet(df_map(), pct_max = input$pct_max, legend_title = legend_title())
+    clearMarkers() %>% 
+    leaflet.minicharts::clearMinicharts() %>% 
+    map_leaflet(df_map(), 
+                pct_max = input$pct_max, 
+                legend_title = legend_title(),
+                map_type = input$map_type)
 })
 
 
@@ -43,8 +52,8 @@ observe({
 #     filter(file_code %in% samples()$file_code)
 # })
 # 
-# df2 <- select(asv_set$fasta, any_of(taxo_levels))
+# df2 <- select(asv_set$fasta, any_of(global$taxo_levels))
 #   
 # 
-# output$test3 <- renderDataTable(df_test()) 
+output$test3 <- renderDataTable(df_map()$present) 
 # output$test4 <- renderDataTable(df2) 

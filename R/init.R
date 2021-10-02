@@ -19,13 +19,7 @@
 #' @import forcats
 #' @import ggplot2
 #' @import leaflet
-
-# Packages that have not been used yet
-
-# library(patchwork) 
-# library(viridis)
-# library(Biostrings)
-
+#' @import patchwork
 
 # Add the inst/www as a path called www. Images are then loaded as "img(src='www/metapr2_logo.png', width="80")"
 # See: https://stackoverflow.com/questions/61276679/favicon-not-displaying-in-shiny

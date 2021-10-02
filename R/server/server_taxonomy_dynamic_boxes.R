@@ -19,7 +19,7 @@ taxo <- reactive({taxo_selected(input$supergroup, input$division, input$class, i
 
 division_list <- reactive({
   req(input$supergroup)
-  filter(pr2_taxo, supergroup == input$supergroup) %>%
+  filter(global$pr2_taxo, supergroup == input$supergroup) %>%
     pull(division) %>%
     unique()
 })
@@ -32,7 +32,7 @@ observeEvent(division_list(), {
 # --- Class
 class_list <- reactive({
   req(input$division)
-  filter(pr2_taxo, division == input$division) %>%
+  filter(global$pr2_taxo, division == input$division) %>%
     pull(class) %>%
     unique()
 })
@@ -45,7 +45,7 @@ observeEvent(class_list(), {
 # --- Orders
 order_list <- reactive({
   req(input$class)
-  filter(pr2_taxo, class == input$class) %>%
+  filter(global$pr2_taxo, class == input$class) %>%
     pull(order) %>%
     unique()
 })
@@ -58,7 +58,7 @@ observeEvent(order_list(), {
 # --- Families
 family_list <- reactive({
   req(input$order)
-  filter(pr2_taxo, order == input$order) %>%
+  filter(global$pr2_taxo, order == input$order) %>%
     pull(family) %>%
     unique()
 })
@@ -71,7 +71,7 @@ observeEvent(family_list(), {
 # --- Genera
 genus_list <- reactive({
   req(input$family)
-  filter(pr2_taxo, family == input$family) %>%
+  filter(global$pr2_taxo, family == input$family) %>%
     pull(genus) %>%
     unique()
 })
@@ -84,7 +84,7 @@ observeEvent(genus_list(), {
 # --- Species
 species_list <- reactive({
   req(input$genus)
-  filter(pr2_taxo, genus == input$genus) %>%
+  filter(global$pr2_taxo, genus == input$genus) %>%
     pull(species) %>%
     unique()
 })

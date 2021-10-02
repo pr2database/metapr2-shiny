@@ -32,8 +32,8 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  # Stop the application of the session is closed (after 10 min)
-  session$onSessionEnded(stopApp)
+  # Stop the application of the session is closed (after 10 min) - Only for web application
+  # session$onSessionEnded(stopApp)
 
   # Datasets - Reformat the datasets and creates output for download  
   
@@ -46,6 +46,10 @@ server <- function(input, output, session) {
   # Panel - Leaflet map
   
   source("R/server/server_map.R", local = TRUE)
+  
+  # Panels - Alpha and beta diversity
+  
+  source("R/server/server_phyloseq.R", local = TRUE)
   
   # Panel - Matching ASV
   

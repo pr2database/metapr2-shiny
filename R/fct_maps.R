@@ -35,8 +35,12 @@ map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 2,
 
 
 map_leaflet <- function(map, df, pct_max = 100,
-                        legend_title="% of eukaryotes") {
+                        legend_title="% of eukaryotes",
+                        map_type = "pie") {
   
+
+# map_type can be "pie", "dominant"  
+    
   cross <- makeIcon(
     iconUrl = "https://unpkg.com/ionicons@5.2.3/dist/svg/add-outline.svg",
     iconWidth = 10, iconHeight = 10,
@@ -49,25 +53,12 @@ map_leaflet <- function(map, df, pct_max = 100,
   size_labels = c(1, 0.25, 0.10, 0.025, 0.01)*pct_max
   size_factor = 30
   
-  pal <-  colorFactor(palette = "viridis", df$present$dominant_taxon)
+  df_taxa <- dplyr::select(df$present, -(file_code:dominant_taxon))
   
-  map  %>%
-    addCircleMarkers(data = df$present, 
-                     lat = ~ latitude, 
-                     lng = ~ longitude,
-                     radius = ~ sqrt(pct/pct_max)*size_factor,
-                     popup = ~ stringr::str_c(label, " - ", sprintf(pct, fmt = '%.2f'), " %"),
-                     color = ~ pal(dominant_taxon),
-                     weight = 0,  # No line
-                     fillOpacity = 0.5, # Alpha factor
-                     labelOptions = labelOptions(textsize = "10px", 
-                                                 noHide = F)) %>% 
-    
-    addLegend("bottomright",
-              title = "Dominant taxon",
-              pal = pal,
-              values = df$present$dominant_taxon,
-              opacity = 1) %>% 
+  pal_dominant <-  colorFactor(palette = "viridis", df$present$dominant_taxon)
+  pal_pie = viridis::viridis(ncol(df_taxa), option = "A")
+  
+  map <- map  %>% 
     addMarkers(data = df$absent,
                lat = ~ latitude, 
                lng = ~ longitude, 
@@ -81,6 +72,42 @@ map_leaflet <- function(map, df, pct_max = 100,
                     sizes = sqrt(size_scale)*size_factor,
                     legend_title = legend_title
     )
+ 
+  if (map_type == "pie"){
+   
+    map <- map  %>% 
+    leaflet.minicharts::addMinicharts(
+      lng = df$present$longitude,
+      lat = df$present$latitude,
+      type = "pie",
+      chartdata = df_taxa,
+      colorPalette = pal_pie,
+      width =  sqrt(df$present$pct/pct_max)*size_factor*1.8 ,
+      opacity = 0.5,
+      transitionTime = 0,
+      # popup = stringr::str_c(df$present$label, " - ", sprintf(df$present$pct, fmt = '%.2f'), " %"),
+      legendPosition = "bottomright"
+    ) 
+    } else  if (map_type == "dominant") {
+
+    map <- map %>%
+    addCircleMarkers(data = df$present,
+                     lat = ~ latitude,
+                     lng = ~ longitude,
+                     radius = ~ sqrt(pct/pct_max)*size_factor,
+                     popup = ~ stringr::str_c(label, " - ", sprintf(pct, fmt = '%.2f'), " %"),
+                     color = ~ pal_dominant(dominant_taxon),
+                     weight = 0,  # No line
+                     fillOpacity = 0.5, # Alpha factor
+                     labelOptions = labelOptions(textsize = "10px",
+                                                 noHide = F)) %>%
+    addLegend("bottomright",
+              title = "Dominant taxon",
+              pal = pal_dominant,
+              values = df$present$dominant_taxon,
+              opacity = 1)}
+    
+  return(map)
 }
 
 
@@ -102,42 +129,62 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
   
   # Compute the level below the rank considered (e.g. species for genus)
   
-  taxo_level_below = taxo_levels[which(taxo_levels == taxo_level) + 1]
+  taxo_level_below = taxo_levels[which(global$taxo_levels == taxo_level) + 1]
   
   # Compute number for reads at taxo_level and taxo_level + 1
-  samples_counts_1 <- df %>%   
-    group_by(file_code, !!as.symbol(taxo_level)) %>% 
-    summarise(n_reads_1 = sum(n_reads, na.rm = TRUE)) %>% 
-    ungroup()
   
-  samples_counts_2 <- df %>% 
-    group_by(file_code, !!as.symbol(taxo_level_below)) %>% 
-    summarise(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>% 
-    ungroup()
+  samples_counts <- df %>%
+    group_by(file_code, !!as.symbol(taxo_level), !!as.symbol(taxo_level_below)) %>%
+    mutate(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>%
+    ungroup(!!as.symbol(taxo_level_below)) %>%
+    mutate(n_reads_1 = sum(n_reads, na.rm = TRUE)) %>% 
+    ungroup() %>% 
+    select(file_code, !!as.symbol(taxo_level), !!as.symbol(taxo_level_below), n_reads_1, n_reads_2) %>% 
+    distinct()
+  
+
+  # samples_counts_1 <- df %>%
+  #   group_by(file_code, !!as.symbol(taxo_level)) %>%
+  #   summarise(n_reads_1 = sum(n_reads, na.rm = TRUE)) %>%
+  #   ungroup()
+
+  # samples_counts_2 <- df %>%
+  #   group_by(file_code, !!as.symbol(taxo_level_below)) %>%
+  #   summarise(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>%
+  #   ungroup()
   
   # taxon_list = unique(pull(samples_counts_2, !!as.symbol(taxo_level_below)))
   
-  df <- samples %>%             # This is necessary to include also the sampleswhere the taxo group is absent...
-    select(file_code) %>% 
-    left_join(samples_counts_2) %>% 
-    tidyr::expand(file_code, !!as.symbol(taxo_level_below)) %>% 
-    left_join(samples_counts_1) %>% 
-    left_join(samples_counts_2) %>% 
-    mutate(n_reads_1 = tidyr::replace_na(n_reads_1, 0),
-           n_reads_2 = tidyr::replace_na(n_reads_2, 0)) %>% 
-    left_join(select(samples, file_code, latitude, longitude, label, reads_corrected_total)) 
+  # df <- samples %>%             # This is necessary to include also the samples where the taxo group is absent...
+  #   select(file_code) %>% 
+  #   left_join(samples_counts_2) %>% 
+  #   tidyr::expand(file_code, !!as.symbol(taxo_level_below)) %>% 
+  #   left_join(samples_counts_1) %>% 
+  #   left_join(samples_counts_2) %>% 
+  #   mutate(n_reads_1 = tidyr::replace_na(n_reads_1, 0),
+  #          n_reads_2 = tidyr::replace_na(n_reads_2, 0)) %>% 
+  #   left_join(select(samples, file_code, latitude, longitude, label)) 
   
-  absent <- df %>% 
-    filter(n_reads_1 == 0) %>% 
+  df <- samples %>%             
+    select(file_code) %>% 
+    left_join(samples_counts)
+  
+  absent <- df %>%
+    filter(is.na(n_reads_1))%>% 
+    left_join(select(samples, file_code, latitude, longitude, label)) %>% 
     select(file_code, latitude, longitude, label) %>% 
     distinct()
   
-  present <- df %>% 
-    filter(n_reads_1 != 0)   
-  
-  present <- present %>% 
+  present <- df %>%   
+    filter(!is.na(n_reads_1)) %>%  # Next line is necessary to include also the samples where the taxo group is absent...
+    tidyr::expand(file_code, !!as.symbol(taxo_level), !!as.symbol(taxo_level_below)) %>% 
+    left_join(samples_counts) %>% 
+    mutate(n_reads_1 = tidyr::replace_na(n_reads_1, 0),  # This line is not necessary should there be no
+           n_reads_2 = tidyr::replace_na(n_reads_2, 0)) %>% 
+    filter(n_reads_1 != 0) %>% 
+    left_join(select(samples, file_code, latitude, longitude, label)) %>% 
     distinct() %>% 
-    mutate(pct = n_reads_1/reads_corrected_total*100)
+    mutate(pct = (n_reads_1/global$n_reads_tot_normalized)*100)
   
 # Debug
 # browser()
@@ -150,8 +197,10 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
     select(file_code, dominant_taxon)
   
   present <- left_join(present, dominant_taxon) %>% 
-    select(file_code, label, longitude, latitude, pct, dominant_taxon) %>% 
-    distinct()
+    pivot_wider(names_from = !!as.symbol(taxo_level_below),
+                values_from = n_reads_2,
+                values_fill = 0) %>% 
+    select(-n_reads_1)
   
   return(list(present=present, absent = absent))
   
