@@ -21,10 +21,10 @@
     tabPanel("Map",
              uiOutput('ui_map'),
     ),    
-    # tabPanel("Barplot",
-    #          uiOutput('ui_barplot'),
-    #          shinycssloaders::withSpinner(uiOutput('graph_barplot'))
-    # ),
+    tabPanel("Barplot",
+             uiOutput('ui_barplot'),
+             shinycssloaders::withSpinner(uiOutput('graph_barplot'))
+    ),
     
     tabPanel("Alpha diversity",
              uiOutput('ui_ps_alpha'),
@@ -37,20 +37,6 @@
     
     tabPanel("Query",
              uiOutput('ui_query'),
-             # h4("BLAST-like searchfor  metabarcode similar to existing sequence."),
-             # p("Aligns query sequence to all metabarcodes and return those above a fixed threshold"),
-             # p(),
-             # 
-             # sliderInput("pct_id_min", label ="% identity min", min = 98.0, max = 100.0, 
-             #             step = 0.1, value = 100, width = "300px"),
-             # 
-             # textAreaInput("query", label = "Query - at least 300 bp", value = "", 
-             #               width = "100%", height = "100px",
-             #               cols = NULL, rows = NULL, 
-             #               placeholder = "GTAGTTGGATTTCTGTTGAGGACGGC...", resize = NULL),
-             # 
-             # actionButton("button_match", "Search"),
-             
              shinycssloaders::withSpinner(uiOutput('ui_query_results'))
     ),
     

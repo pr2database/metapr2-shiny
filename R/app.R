@@ -57,7 +57,7 @@ server <- function(input, output, session) {
   
   # Panels - Barplot
   
-  # source("R/server/server_barplot.R", local = TRUE)
+  source("R/server/server_barplot.R", local = TRUE)
   
   
   # Panels - Alpha and beta diversity

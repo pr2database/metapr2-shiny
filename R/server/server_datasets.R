@@ -83,6 +83,16 @@ datasets_selected <- reactive({
 output$datasets_selected_id = renderText(input$datasets_selected_id)
 
 
+# Build the whole dataset
+
+df_full <- asv_set$df %>% 
+  left_join(asv_set$samples) %>% 
+  left_join(select(asv_set$fasta, asv_code, kingdom:species)) %>% 
+  filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
+  mutate(depth_level = forcats::fct_relevel(depth_level, 
+                                   levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
+
+
 # Select samples based on different parameters and datasets --------------------
 
 samples_selected <- reactive({
@@ -97,6 +107,20 @@ samples_selected <- reactive({
            fraction_name %in% input$fraction_name,
            substrate %in% input$substrate,
            dataset_id %in% input$datasets_selected_id
+    ) })
+
+df_selected <- reactive({
+  # First check some samples are chosen
+  req(iv_samples$is_valid())
+  
+  df_full %>%
+    filter( #gene_region %in% input$gene_region,
+      DNA_RNA %in% input$DNA_RNA,
+      depth_level %in% input$depth_level,
+      fraction_name %in% input$fraction_name,
+      substrate %in% input$substrate,
+      dataset_id %in% input$datasets_selected_id,
+      !!as.symbol(taxo()$level) %in% taxo()$name
     ) })
 
 # Filter asv_set$df for samples selected ---------------------------------------
@@ -121,7 +145,6 @@ df_selected_taxa_one <- reactive({
     inner_join(select(fasta_selected_taxa_one(), any_of(global$taxo_levels))) %>% 
     mutate(asv_code = str_sub(asv_code, 1,8)) 
 })
-
 
 
 # Filter dasta df by taxon selected ---------------------------------------

@@ -41,8 +41,6 @@ map_leaflet <- function(map, df, pct_max = 100,
 
 # map_type can be "pie", "dominant"  
   
-  print("Enter map_leaflet")
-    
   cross <- makeIcon(
     iconUrl = "https://unpkg.com/ionicons@5.2.3/dist/svg/add-outline.svg",
     iconWidth = 10, iconHeight = 10,
