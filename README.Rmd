@@ -34,7 +34,9 @@ MetaPR2 is a database of published 18S rRNA metabarcodes. This R package launche
 Run the following line from R studio
 
 ```{r}
+# Allow installtion form github
 install.packages(devtools)
+
 devtools::install_github("vaulot/metapr2-shiny")
 ```
 

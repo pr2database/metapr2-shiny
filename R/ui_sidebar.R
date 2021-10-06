@@ -1,5 +1,18 @@
 # --- Side bar Panel
 sidebar <- function() {sidebarPanel(width = 3,
+                  conditionalPanel(
+                    condition = 'input.panel == "Alpha diversity" ||
+                                 input.panel == "Beta diversity"' ,
+                    numericInput(
+                      "ps_reads_min",
+                      "Minimum number of total reads per ASV",
+                      100,
+                      min = 1,
+                      max = 10000,
+                      step = NA,
+                      width = NULL
+                      )
+                    ),
                         
                   conditionalPanel(
                     condition ='input.panel == "Datasets"',
@@ -22,6 +35,7 @@ sidebar <- function() {sidebarPanel(width = 3,
               conditionalPanel(
                 condition = 'input.panel == "Datasets" ||
                  input.panel == "Treemap" ||
+                 input.panel == "Barplot" ||
                  input.panel == "Alpha diversity" ||
                  input.panel == "Beta diversity" ||
                  input.panel == "Map" ||
@@ -34,6 +48,7 @@ sidebar <- function() {sidebarPanel(width = 3,
               
              conditionalPanel(
                condition = 'input.panel == "Treemap" ||
+                 input.panel == "Barplot" ||
                  input.panel == "Alpha diversity" ||
                  input.panel == "Beta diversity" ||
                  input.panel == "Map" ||
@@ -41,7 +56,7 @@ sidebar <- function() {sidebarPanel(width = 3,
                
                h3("Select Samples"),
                
-               checkboxGroupInput("gene_region", "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = global$gene_regions),
+               # checkboxGroupInput("gene_region", "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = global$gene_regions),
                checkboxGroupInput("DNA_RNA", "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
                checkboxGroupInput("substrate", "Substrates", inline = TRUE,  choices = global$substrates, selected = global$substrates),
                checkboxGroupInput("fraction_name", "Fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),

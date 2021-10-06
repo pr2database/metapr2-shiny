@@ -25,7 +25,7 @@ addLegendCustom <- function(map, colors, labels, sizes, opacity = 0.5, legend_ti
 map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 2, 
                              width=1000,  height=1000) {
   
-  
+
   map <- leaflet(width = width, height = height) %>%
     addTiles() %>%
     setView(lng=lng_center, lat=lat_center, zoom=zoom)
@@ -40,6 +40,8 @@ map_leaflet <- function(map, df, pct_max = 100,
   
 
 # map_type can be "pie", "dominant"  
+  
+  print("Enter map_leaflet")
     
   cross <- makeIcon(
     iconUrl = "https://unpkg.com/ionicons@5.2.3/dist/svg/add-outline.svg",
@@ -129,7 +131,7 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
   
   # Compute the level below the rank considered (e.g. species for genus)
   
-  taxo_level_below = taxo_levels[which(global$taxo_levels == taxo_level) + 1]
+  taxo_level_below = global$taxo_levels[which(global$taxo_levels == taxo_level) + 1]
   
   # Compute number for reads at taxo_level and taxo_level + 1
   
@@ -197,7 +199,7 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
     select(file_code, dominant_taxon)
   
   present <- left_join(present, dominant_taxon) %>% 
-    pivot_wider(names_from = !!as.symbol(taxo_level_below),
+    tidyr::pivot_wider(names_from = !!as.symbol(taxo_level_below),
                 values_from = n_reads_2,
                 values_fill = 0) %>% 
     select(-n_reads_1)

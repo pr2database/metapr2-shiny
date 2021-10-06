@@ -1,75 +1,119 @@
-# Phyloseq filtration
-# - Cannot the function 
 
-ps_selected <- reactive({
-  keepSamples = (get_variable(asv_set$ps, "DNA_RNA") %in% input$DNA_RNA ) & 
-                (get_variable(asv_set$ps, "depth_level") %in% input$depth_level) & 
-                (get_variable(asv_set$ps, "fraction_name") %in% input$fraction_name)& 
-                (get_variable(asv_set$ps, "substrate") %in% input$substrate)& 
-                (get_variable(asv_set$ps, "dataset_id") %in% input$datasets_selected_id)
+# Filer ps with selected samples ------------------------------------------
+
+ps_selected <- reactive({ 
+
+  req(iv_samples$is_valid())
   
-  # Check some samples are left...
-  if(length(keepSamples[keepSamples]) > 1 ) {  
-    ps1 <- prune_samples(keepSamples, asv_set$ps) %>% 
-      filter_taxa(function(x) sum(x) > 0, prune = TRUE)   # Need to remove the taxa that do not appear in any sample
-    }
-  else {
-    print("Error in sample selection")
-    ps1 <- asv_set$ps
-  }
-  
-  TT = as(tax_table(ps1), "matrix")
-  keepTaxa = TT[, taxo()$level] %in%taxo()$name
-  
-  if(length(keepTaxa) > 1){
-    ps1 <- prune_taxa(keepTaxa, ps1) 
-    ps1 <- prune_samples(sample_sums(ps1)>0, ps1)  # Need to remove the samples that do not have the taxon
-  } else {
-    warning("One or Zero taxon left")
-    ps1
-  }
+  ps_select (ps = asv_set$ps, 
+             DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
+             fraction_name = input$fraction_name, substrate = input$substrate, 
+             datasets_selected_id = input$datasets_selected_id,
+             ps_reads_min = input$ps_reads_min, 
+             taxo_level = taxo()$level, taxo_name = taxo()$name)
 })
 
-output$ps_alpha <- renderUI({
-  req(ps_selected())
+
+# Alpha UI ----------------------------------------------------------------
+
+output$ui_ps_alpha <- renderUI({
+  tagList(
   
-  tagList(
-    p(""),
-    renderPrint(print(ps_selected())),
-    renderPlot({
-      phyloseq::plot_richness(ps_selected(), 
-                              x="latitude", color = "depth", shape = "fraction_name" ,
-                              measures=input$alpha_method) +
-        geom_point(size=5, alpha=0.7) +
-        xlim(-90,90) +
-        scale_color_gradient(high = "darkblue", low = "lightblue1") 
-    },  height = 600, width = 1200, res = 96)
-  )  
-})
-
-output$ps_beta <- renderUI({
-  req(ps_selected())
-
-  ps_ordinate <- ordinate(ps_selected(), method = input$beta_method, distance = "bray")
-  tagList(
-    p(""),
-    renderPrint(print(ps_selected())),
-    renderPlot({
-      phyloseq::plot_ordination(ps_selected(), ps_ordinate,
-                                type="samples",
-                                color="latitude", shape = "fraction_name") +
-        geom_point(size=5, alpha=0.7) +
-        # xlim(-90,90) +
-        scale_color_gradient2(high = "darkblue", mid= "white", low = "darkred") +
-        
-      phyloseq::plot_ordination(ps_selected(), ps_ordinate,
-                                  type="taxa",
-                                  color="supergroup") +
-        geom_point(size=5, alpha=0.7) +
-        scale_color_viridis_d() +
-
-        patchwork::plot_layout(ncol = 1)
-      
-    },  height = 1600, width = 1000, res = 96)
+  includeMarkdown("readme/phyloseq.md"),
+  checkboxGroupInput("alpha_method", "Diversity Measure", inline = TRUE,  
+                     choices = c("Chao1", "Shannon", "Simpson", "Fisher"), 
+                     selected = c("Chao1", "Shannon")),
+  radioButtons("alpha_x", "X axis", inline = TRUE,
+               choices = c("latitude", "depth_level", "depth", "fraction_name","DNA_RNA", "temperature"),
+               selected = c("latitude")),
   )
 })
+
+output$graph_ps_alpha <- renderUI({
+  
+  req(ps_selected())
+  req(input$alpha_method)
+  req(input$alpha_x)
+  
+  ps_alpha(ps= ps_selected(), measures=input$alpha_method,
+           x = input$alpha_x,
+           color="depth", shape = "fraction_name")
+})
+
+
+# Beta UI -----------------------------------------------------------------
+
+output$ui_ps_beta <- renderUI({
+  tagList(
+    
+    includeMarkdown("readme/phyloseq.md"),
+    
+    fluidRow(
+      column(5, radioButtons("beta_method", "Ordination method", inline = TRUE,
+                              choices = c("NMDS", "CCA", "RDA", "MDS", "PCoA"),
+                              selected = c("NMDS"))),
+      column(4, radioButtons("beta_color_samples", "Color varies with:", inline = TRUE,
+                             choices = c("latitude", "depth", "temperature"),
+                             selected = c("latitude"))),
+      
+      ),
+    fluidRow(
+      column(5, radioButtons("beta_distance", "Ordination distance", inline = TRUE,
+                             choiceNames = c("Bray-Curtis", "Gower", "Jensen-Shannon Divergence", "Jaccard"),
+                             choiceValues = c("bray", "gower", "jsd", "jaccard"),
+                             selected = c("bray"))),
+      column(4, radioButtons("beta_shape_samples", "Shape varies with:", inline = TRUE,
+                             choices = c("fraction_name", "depth_level","DNA_RNA"),
+                             selected = c("fraction_name")))
+    ),
+
+  )
+})
+
+ps_ordinate <- reactive({
+  req(ps_selected())
+  phyloseq::ordinate(ps_selected(), method = input$beta_method, distance = input$beta_distance, maxit=5)
+})
+
+output$graph_ps_beta <- renderUI({
+  req(ps_ordinate(), input$beta_color_samples, input$beta_shape_samples)
+  ps_beta(ps_selected(), ps_ordinate(), 
+          color_samples=input$beta_color_samples, shape_samples = input$beta_shape_samples,
+          color_taxa = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
+})  
+
+
+
+# Bar plots ---------------------------------------------------------------
+
+ps_barplot <- function(ps, variable, taxo_level) {
+  ps <- merge_samples(ps, variable) 
+  ps <- transform_sample_counts(ps, function(x) 100 * x/sum(x))
+  
+  plot_bar(ps, variable, fill = taxo_level) + 
+    geom_bar(aes(color=!!as.symbol(variable), fill=!!as.symbol(variable)), stat="identity", position="stack")
+  coord_flip() + 
+    ylab("Percentage of Sequences")
+
+  }
+
+output$ui_ps_barplot <- renderUI({
+  tagList(
+    
+    includeMarkdown("readme/phyloseq.md"),
+    
+    fluidRow(
+      column(4, radioButtons("barplot_variable", "Variable to use for barplots:", inline = TRUE,
+                             choices = c("fraction_name", "depth_level","DNA_RNA"),
+                             selected = c("depth_level")))
+    ),
+  )
+})
+
+output$graph_ps_barplot <- renderUI({
+  req(ps_ordinate(), input$barplot_variable)
+  ps_barplot(ps_selected(), 
+          variable = input$barplot_variable,
+          taxo_level = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
+})
+

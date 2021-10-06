@@ -1,4 +1,20 @@
 
+# Validate sample selection -----------------------------------------------
+
+iv_samples <- shinyvalidate::InputValidator$new()
+
+iv_samples$add_rule("DNA_RNA", shinyvalidate::sv_required(message = "Choose at least one DNA or RNA"))
+iv_samples$add_rule("substrate", shinyvalidate::sv_required(message = "Choose at least one substrate"))
+iv_samples$add_rule("fraction_name", shinyvalidate::sv_required(message = "Choose at least one fraction"))
+iv_samples$add_rule("depth_level", shinyvalidate::sv_required(message = "Choose at least one depth level"))
+iv_samples$add_rule("datasets_selected_id", shinyvalidate::sv_required(message = "Choose at least one dataset"))
+
+iv_samples$enable()
+
+
+# Create table of datasets -------------------------------------------------
+
+
 table_datasets <- reactive ({
   DT::datatable(asv_set$datasets %>% 
     select(dataset_id, dataset_name, region, paper_reference) %>%
@@ -27,16 +43,55 @@ output$table_datasets <- DT::renderDT(table_datasets())
 #     }
 # })
 
+
+
+# Update Sample Checkboxes With the values possible for the datasets selected ---
+
+update_checkbox <- function(variable, datasets_id) {
+  values <- asv_set$samples %>% 
+    filter(dataset_id %in% datasets_id) %>% 
+    pull(!!as.symbol(variable)) %>% 
+    unique()
+  
+  updateCheckboxGroupInput(inputId = variable, 
+                           choices = values,
+                           selected = values,
+                           inline = TRUE)
+}
+
+observeEvent(input$datasets_selected_id,{
+  update_checkbox("DNA_RNA", input$datasets_selected_id)
+  update_checkbox("substrate", input$datasets_selected_id)
+  update_checkbox("fraction_name", input$datasets_selected_id)
+  update_checkbox("depth_level", input$datasets_selected_id)
+  
+  
+})
+
+
+# Update the datasets df -------------------------------------------------------
+
 datasets_selected <- reactive({
+  req(iv_samples$is_valid())
   asv_set$datasets %>%
     filter(dataset_id %in% input$datasets_selected_id) 
   })
 
-# Select samples based on different parameters and datasets
+# Display datasets selected
+
+
+output$datasets_selected_id = renderText(input$datasets_selected_id)
+
+
+# Select samples based on different parameters and datasets --------------------
 
 samples_selected <- reactive({
+  
+  # First check some samples are chosen
+  req(iv_samples$is_valid())
+  
   asv_set$samples %>%
-    filter(gene_region %in% input$gene_region,
+    filter( #gene_region %in% input$gene_region,
            DNA_RNA %in% input$DNA_RNA,
            depth_level %in% input$depth_level,
            fraction_name %in% input$fraction_name,
@@ -44,9 +99,11 @@ samples_selected <- reactive({
            dataset_id %in% input$datasets_selected_id
     ) })
 
-# Filter asv_set$df for samples selected
+# Filter asv_set$df for samples selected ---------------------------------------
+# -- This contains only 3 columns (file_code, asv_code, n_reads)
 
 df_selected_taxa_all <- reactive({
+  req(samples_selected())
   asv_set$df %>%
     filter(file_code %in% samples_selected()$file_code)
 })
@@ -54,44 +111,26 @@ df_selected_taxa_all <- reactive({
 # Filter asv_set$df for taxa selected AND merge with taxonomy
 # Mutate asv_code to keep only 8 characters 
 
+
+# Then filter for the taxon selected and joind with fasta taxonomy--------------
+# -- This contains only columns (file_code, asv_code, n_reads, taxonomy)
+
 df_selected_taxa_one <- reactive({
+  req(samples_selected())
   df_selected_taxa_all() %>%
     inner_join(select(fasta_selected_taxa_one(), any_of(global$taxo_levels))) %>% 
-    mutate(asv_code = str_sub(asv_code, 1,8))
+    mutate(asv_code = str_sub(asv_code, 1,8)) 
 })
+
+
+
+# Filter dasta df by taxon selected ---------------------------------------
+
 
 fasta_selected_taxa_one <- reactive({
   asv_set$fasta %>% 
     filter(!!as.symbol(taxo()$level)  %in% taxo()$name )
 })
 
-# To display datasets selected
-output$datasets_selected_id = renderText(input$datasets_selected_id)
 
 
-# Downlaod files (zip)
-# See:  https://stackoverflow.com/questions/43916535/download-multiple-csv-files-with-one-button-downloadhandler-with-r-shiny
-
-output$download_datasets <- downloadHandler(
-  
-  filename = function() {str_c("metapr2_datasets_", taxo()$name, "_", Sys.Date(), ".zip")},
-  
-  content = function(path) {
-    
-    tmpdir <- tempdir()
-    file_datasets <- str_c(tmpdir, "/datasets.xlsx")
-    file_samples <- str_c(tmpdir, "/samples.xlsx")
-    file_asv <- str_c(tmpdir, "/asv.xlsx")
-    file_asv_reads <- str_c(tmpdir, "/asv_reads.xlsx")
-    file_asv_map <- str_c(tmpdir, "/asv_map.xlsx")
-    files = c(file_datasets, file_samples, file_asv, file_asv_reads, file_asv_map)
-    
-    rio::export(datasets_selected(), file=file_datasets)
-    rio::export(samples_selected(), file=file_samples)
-    rio::export(fasta_selected_taxa_one(), file=file_asv)
-    rio::export(df_selected_taxa_one(), file=file_asv_reads)
-    rio::export(df_map(), file=file_asv_map)
-    
-    system2("zip", args=(paste("--junk-paths", path,files,sep=" "))) # remove the paths of the files
-    }
-)   

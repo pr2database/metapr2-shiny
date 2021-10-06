@@ -5,14 +5,14 @@ metapr2App <- function() {
 
 ui <- fluidPage(
   
-  # Script to close the windows after some inactivity
+  # Script to close the windows after some inactivity - ACTIVARE for web application
+  # tags$script(inactivity),  
   
-  tags$script(inactivity),  
+  # 2021-10-05 - Do not use ShinyFeedback (replaced by shinyvalidate)
+  # shinyFeedback::useShinyFeedback(),
   
-  # include shinyFeedback
 
-  shinyFeedback::useShinyFeedback(),
-  
+
   # To include the favicon.ico
   tags$head(tags$link(rel="shortcut icon", href="www/favicon.ico")),
   
@@ -32,12 +32,20 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  # Stop the application of the session is closed (after 10 min) - Only for web application
+  # Stop the application of the session is closed (after 10 min) - ACTIVATE  for web application
   # session$onSessionEnded(stopApp)
-
+  
+  
+  # Validate the sample selection
+  # See: https://rstudio.github.io/shinyvalidate/articles/shinyvalidate.html
+  
   # Datasets - Reformat the datasets and creates output for download  
   
   source("R/server/server_datasets.R", local = TRUE)
+  
+  # Panel - Download
+  
+  source("R/server/server_download.R", local = TRUE)
   
   # Panel - Treemap
   
@@ -47,13 +55,18 @@ server <- function(input, output, session) {
   
   source("R/server/server_map.R", local = TRUE)
   
+  # Panels - Barplot
+  
+  # source("R/server/server_barplot.R", local = TRUE)
+  
+  
   # Panels - Alpha and beta diversity
   
   source("R/server/server_phyloseq.R", local = TRUE)
   
   # Panel - Matching ASV
   
-  source("R/server/server_match.R", local = TRUE)
+  source("R/server/server_query.R", local = TRUE)
   
   
   # Utils - Dynamic taxonomy boxes

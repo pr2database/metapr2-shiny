@@ -25,7 +25,7 @@ Imports:
     rio,
     shiny,
     shinycssloaders,
-    shinyFeedback,
+    shinyvalidate,
     shinyWidgets,
     stringr,
     tidyr,

@@ -1,3 +1,5 @@
+#### Selected damples, datasets and taxa
+
 Five files are provided.  They can be linked by key fields.  They only contain the datasets, sample type and taxa selected.
 
 <style>
@@ -17,7 +19,7 @@ Five files are provided.  They can be linked by key fields.  They only contain t
 file | content | key fields
 --- | --- | ---
 datasets.xlsx | Information on the different datasets selected including reference and GenBank id | dataset_id
-samples.xlxs | List of samples selected with medadata | file_code
+samples.xlsx | List of samples selected with medadata | file_code
 asv.xlsx | ASV selected with taxonomy and sequence | asv_code
 asv_reads.xlsx | Number of reads for each ASV and each sample (long form) | asv_code, file_code
 asv_map.xlsx | Summary file used to draw the map
