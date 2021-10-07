@@ -31,6 +31,10 @@ MetaPR2 is a database of published 18S rRNA metabarcodes. This R package launche
 
 #### Step 1 - Install the R package from GitHub
 
+If you are running Windows install Rtools
+
+[https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/)
+
 Run the following line from R studio
 
 ```{r}
