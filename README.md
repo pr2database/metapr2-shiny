@@ -8,8 +8,6 @@
 [![DOI](https://zenodo.org/badge/191439796.svg)](https://zenodo.org/badge/latestdoi/191439796)
 <!-- badges: end -->
 
-------------------------------------------------------------------------
-
 An [interactive database](https://app.metapr2.org/) of eukaryotic
 metabarcodes compiled from the literature.
 
@@ -21,19 +19,69 @@ by mapping, searching and downloading the barcodes.
 
 ### How run the metaPR2 shiny server
 
-#### Step 1 - Install the R package from GitHub
+#### Step 1 - Download the R package from GitHub
+
+<https://github.com/vaulot/metapr2-shiny/archive/refs/heads/main.zip>
+
+#### Step 2 - Install package on your computer
+
+-   Unpack Zip file
+
+-   Launch shiny\_metapr2.Rproj
+
+-   (Skip this step) If you are running Windows install Rtools
+
+    -   <https://cran.r-project.org/bin/windows/Rtools/>
+
+#### Step 3 - Install the following libraries
+
+``` r
+### Shiny
+install.packages("shiny" ) 
+install.packages("shinyvalidate" ) # For validation of input (easier to use than shinyFeedback)
+install.packages("shinycssloaders" ) # For the spinning wheel
+install.packages("shinyWidgets" ) # for Extra widgets - https://dreamrs.github.io/shinyWidgets/index.html
+install.packages("markdown" ) # To display text boxes in md
+install.packages("DT" ) # For table display
+
+### Tidyverse
+install.packages("dplyr" )
+install.packages("tidyr" )
+install.packages("stringr" )
+install.packages("forcats" )
+
+### graphics
+install.packages("ggplot2" )
+install.packages("viridis" )
+install.packages("patchwork" )
+install.packages("treemapify" )
+
+### maps
+install.packages("leaflet" )
+install.packages("leaflet.minicharts" ) # To do nice pie charts
+
+### Misc
+install.packages("rio" )
+
+
+### Bioinformatics
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Biostrings")
+BiocManager::install("phyloseq")
+```
+
+#### Step 4 - Launch the metaPR2 shiny server
 
 Run the following line from R studio
 
 ``` r
-install.packages(devtools)
-devtools::install_github("vaulot/metapr2-shiny")
-```
+install.packages("devtools")
 
-### Step 2 - Launch the metaPR2 shiny server
+devtools::load_all(".")
 
-``` r
-library(metapr2)
 metapr2App()
 ```
 
@@ -42,8 +90,16 @@ metapr2App()
 -   **About**: Basic information on the metapr2 database
 -   **Datasets**: List of datasets used.
 -   **Map**: Maps of relative abundance. Taxonomic level can be chosen
-    as well as sample types (RNA/DNA, substrate, depth layer…)
--   **Search**: Search metabarcode similar to your sequence
+    as well as sample types (RNA/DNA, substrate, depth layer…).
+-   **Treemap**: Create treemap graphs for samples and taxon selected
+-   **Query**: Enter a sequence and search for metabarcode that are
+    similar to your sequence using BLAST like search.
+
+### Data processing
+
+-   Total read number per sample has been normalized to 100 with 3
+    decimals so that the value displayed in the different panels
+    correspond to % of total eukaryotic reads.
 
 ### Errors
 

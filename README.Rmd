@@ -29,27 +29,74 @@ MetaPR2 is a database of published 18S rRNA metabarcodes. This R package launche
 
 ### How run the metaPR2 shiny server
 
-#### Step 1 - Install the R package from GitHub
+#### Step 1 - Download the R package from GitHub
 
-If you are running Windows install Rtools
+[https://github.com/vaulot/metapr2-shiny/archive/refs/heads/main.zip](https://github.com/vaulot/metapr2-shiny/archive/refs/heads/main.zip)
 
-[https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/)
+#### Step 2 - Install package on your computer
 
-Run the following line from R studio
+* Unpack Zip file
+
+* Launch shiny_metapr2.Rproj
+
+* (Skip this step) If you are running Windows install Rtools 
+
+  * [https://cran.r-project.org/bin/windows/Rtools/](https://cran.r-project.org/bin/windows/Rtools/)
+
+#### Step 3 - Install the following libraries
 
 ```{r}
-# Allow installation form github
-install.packages("devtools")
 
-devtools::install_github("vaulot/metapr2-shiny")
+### Shiny
+install.packages("shiny" ) 
+install.packages("shinyvalidate" ) # For validation of input (easier to use than shinyFeedback)
+install.packages("shinycssloaders" ) # For the spinning wheel
+install.packages("shinyWidgets" ) # for Extra widgets - https://dreamrs.github.io/shinyWidgets/index.html
+install.packages("markdown" ) # To display text boxes in md
+install.packages("DT" ) # For table display
+
+### Tidyverse
+install.packages("dplyr" )
+install.packages("tidyr" )
+install.packages("stringr" )
+install.packages("forcats" )
+
+### graphics
+install.packages("ggplot2" )
+install.packages("viridis" )
+install.packages("patchwork" )
+install.packages("treemapify" )
+
+### maps
+install.packages("leaflet" )
+install.packages("leaflet.minicharts" ) # To do nice pie charts
+
+### Misc
+install.packages("rio" )
+
+
+### Bioinformatics
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Biostrings")
+BiocManager::install("phyloseq")
+
 ```
 
 
-#### Step 2 - Launch the metaPR2 shiny server
+#### Step 4 - Launch the metaPR2 shiny server
+
+Run the following line from R studio
 
 
-```{r example}
-library(metapr2)
+```{r start}
+
+install.packages("devtools")
+
+devtools::load_all(".")
+
 metapr2App()
 
 ```
