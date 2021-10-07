@@ -1,3 +1,4 @@
+#' @export
 
 metapr2App <- function() {
 

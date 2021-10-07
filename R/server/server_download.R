@@ -21,7 +21,7 @@ output$download_datasets <- downloadHandler(
     rio::export(datasets_selected(), file=file_datasets)
     rio::export(samples_selected(), file=file_samples)
     rio::export(fasta_selected_taxa_one(), file=file_asv)
-    rio::export(df_selected_taxa_one(), file=file_asv_reads)
+    rio::export(df_selected(), file=file_asv_reads)
     rio::export(df_map(), file=file_asv_map)
     
     system2("zip", args=(paste("--junk-paths", path,files,sep=" "))) # remove the paths of the files

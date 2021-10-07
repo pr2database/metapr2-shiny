@@ -25,7 +25,8 @@
 # See: https://stackoverflow.com/questions/61276679/favicon-not-displaying-in-shiny
 
 .onAttach <- function(libname, pkgname) {
-      shiny::addResourcePath('www',system.file('www', package = 'metapr2'))
+      # shiny::addResourcePath('www',system.file('www', package = 'metapr2'))
+      shiny::addResourcePath('www','www')
 }
 
 # Javascript function for timer -----------------------------------------------------

@@ -109,6 +109,7 @@ samples_selected <- reactive({
            dataset_id %in% input$datasets_selected_id
     ) })
 
+# To use in the future, the full dataset
 df_selected <- reactive({
   # First check some samples are chosen
   req(iv_samples$is_valid())
