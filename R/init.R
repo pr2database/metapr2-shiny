@@ -26,7 +26,7 @@
 
 # The file should be in "inst/www" - See https://r-pkgs.org/inst.html
 
-# .onLoad <- function(libname, pkgname) {
+# .onAttach <- function(libname, pkgname) {
 #       shiny::addResourcePath('www',system.file('www', package = 'metapr2'))
 # }
 
