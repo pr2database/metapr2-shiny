@@ -24,9 +24,10 @@
 # Add the inst/www as a path called www. Images are then loaded as "img(src='www/metapr2_logo.png', width="80")"
 # See: https://stackoverflow.com/questions/61276679/favicon-not-displaying-in-shiny
 
-.onAttach <- function(libname, pkgname) {
+# The file should be in "inst/www" - See https://r-pkgs.org/inst.html
+
+.onLoad <- function(libname, pkgname) {
       shiny::addResourcePath('www',system.file('www', package = 'metapr2'))
-      # shiny::addResourcePath('www','www')
 }
 
 # Javascript function for timer -----------------------------------------------------
