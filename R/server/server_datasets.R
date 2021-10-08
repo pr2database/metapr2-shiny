@@ -21,7 +21,7 @@ table_datasets <- reactive ({
     mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)),
     rownames = FALSE
   ) %>% DT::formatStyle("selected",  target = 'row',
-                        backgroundColor = DT::styleEqual(c(TRUE, FALSE), c('white', 'gainsboro'))
+                        backgroundColor = DT::styleEqual(c(FALSE, TRUE), c('white', 'lightcyan'))
                         )
   })
 
