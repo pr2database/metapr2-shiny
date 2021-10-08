@@ -93,26 +93,27 @@ Run the following line from R studio
 
 ```{r start}
 
-install.packages("devtools")
+install.packages("pkgload")
 
-devtools::load_all(".")
+pkgload::load_all(".")
 
 metapr2App()
 
 ```
 
-### Panels
+#### Stop the Shiny application
 
-* **About**: Basic information on the metapr2 database
-* **Datasets**: List of datasets used.
-* **Map**: Maps of relative abundance. Taxonomic level can be chosen as well as sample types (RNA/DNA, substrate, depth layer...).
-* **Treemap**: Create treemap graphs for samples and taxon selected
-* **Query**: Enter a sequence and search for metabarcode that are similar to your sequence using BLAST like search.
+* Close the browser window
 
-### Data processing
+OR
+
+* Hit the stop button at the top right of the bottom left window
 
 
-* Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads.
+#### In case Shiny application crashes
+
+* Hit the stop button at the top right of the bottom left window
+* Relaunch `metapr2App()`
 
 ### Errors
 

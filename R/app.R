@@ -15,11 +15,14 @@ ui <- fluidPage(
 
 
   # To include the favicon.ico
-  tags$head(tags$link(rel="shortcut icon", href="www/favicon.ico")),
+  tags$head(tags$link(rel="shortcut icon", href="img/favicon.ico")),
+  # tags$head(tags$link(rel="shortcut icon", href=system.file("img", 'favicon.ico', package = "metapr2"))),
+  
   
   # Title
   title = "MetaPR2",
-  titlePanel(div(img(src='www/metapr2_logo.png', width="80"),"The MetaPR2 database")),
+  titlePanel(div(img(src='img/metapr2_logo.png', width="80"),"The MetaPR2 database")),
+  # titlePanel(div(img(src=system.file("img", 'metapr2_logo.png', package = "metapr2"), width="80"),"The MetaPR2 database")),
   
   
   # --- Side bar layout
@@ -34,7 +37,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   # Stop the application of the session is closed (after 10 min) - ACTIVATE  for web application
-  # session$onSessionEnded(stopApp)
+  session$onSessionEnded(stopApp)
   
   
   # Validate the sample selection

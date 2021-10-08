@@ -48,7 +48,9 @@ output$download_phyloseq <- downloadHandler(
 
 output$ui_download <- renderUI({
   tagList(
-    includeMarkdown("readme/download.md"),
+    # includeMarkdown("readme/download.md"),
+    includeMarkdown(system.file("readme", 'download.md', package = "metapr2")),
+    
     p(),
     downloadButton('download_datasets', 'Download selected data as xlsx'),
     p(),

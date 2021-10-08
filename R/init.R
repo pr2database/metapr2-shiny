@@ -21,13 +21,13 @@
 #' @import leaflet
 #' @import patchwork
 
-# Add the inst/www as a path called www. Images are then loaded as "img(src='www/metapr2_logo.png', width="80")"
+# Add the inst/img as a path called img. Images are then loaded as "img(src='img/metapr2_logo.png', width="80")"
 # See: https://stackoverflow.com/questions/61276679/favicon-not-displaying-in-shiny
 
-# The file should be in "inst/www" - See https://r-pkgs.org/inst.html
+# The file should be in "inst/img" - See https://r-pkgs.org/inst.html
 
 .onAttach <- function(libname, pkgname) {
-      shiny::addResourcePath('www',system.file('www', package = 'metapr2'))
+      shiny::addResourcePath('img',system.file('img', package = 'metapr2'))
 }
 
 # Javascript function for timer -----------------------------------------------------

@@ -19,7 +19,7 @@ ps_selected <- reactive({
 output$ui_ps_alpha <- renderUI({
   tagList(
   
-  includeMarkdown("readme/phyloseq.md"),
+  includeMarkdown(system.file("readme", 'phyloseq.md', package = "metapr2")),
   checkboxGroupInput("alpha_method", "Diversity Measure", inline = TRUE,  
                      choices = c("Chao1", "Shannon", "Simpson", "Fisher"), 
                      selected = c("Chao1", "Shannon")),
@@ -46,8 +46,7 @@ output$graph_ps_alpha <- renderUI({
 output$ui_ps_beta <- renderUI({
   tagList(
     
-    includeMarkdown("readme/phyloseq.md"),
-    
+    includeMarkdown(system.file("readme", 'phyloseq.md', package = "metapr2")),    
     fluidRow(
       column(5, radioButtons("beta_method", "Ordination method", inline = TRUE,
                               choices = c("NMDS", "CCA", "RDA", "MDS", "PCoA"),

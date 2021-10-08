@@ -50,7 +50,7 @@ output$taxo_selected <- renderText({stringr::str_c("Taxo level: <b>", taxo()$lev
 
 output$ui_map <- renderUI({
     tagList(
-      includeMarkdown("readme/map.md"),
+      includeMarkdown(system.file("readme", 'map.md', package = "metapr2")),
       p(),
       htmlOutput("sample_number"),
       htmlOutput("taxo_selected"),
