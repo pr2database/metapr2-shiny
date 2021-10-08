@@ -17,11 +17,11 @@ iv_samples$enable()
 
 table_datasets <- reactive ({
   DT::datatable(asv_set$datasets %>% 
-    select(dataset_id, dataset_name, region, paper_reference) %>%
+    select(dataset_id, dataset_name, region, paper_reference, sample_number, asv_number, n_reads_mean) %>%
     mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)),
     rownames = FALSE
   ) %>% DT::formatStyle("selected",  target = 'row',
-                        backgroundColor = DT::styleEqual(c(FALSE, TRUE), c('white', 'yellow'))
+                        backgroundColor = DT::styleEqual(c(TRUE, FALSE), c('white', 'gainsboro'))
                         )
   })
 

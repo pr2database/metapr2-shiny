@@ -50,4 +50,8 @@ panel | content
 
 * All datasets were processed with cutapdapt and the dada2 R package.
 
+* Assignement was done with dada2 assignTaxa using PR2 4.12 as reference
+
+* ASVs with less 100 reads total and with bootstrap value at the supergroup level < 90 were removed.
+
 * Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads.
