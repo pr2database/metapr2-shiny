@@ -1,6 +1,21 @@
 
 barplot <- function(df, variable, taxo_level) {
   
+  # For depth only use the first 250 m
+  
+    if (variable == "depth") {
+      df <- df %>% 
+        filter(depth <=250)
+    }  
+  # Discretize the data
+  
+    df <- df %>%
+      mutate(latitude =  cut_width(latitude, width=10, boundary=0),
+             temperature =  cut_width(temperature, width=5, boundary=0),
+             depth =  cut_width(depth, width=25, boundary=0)) 
+
+
+  
   gg <- df %>% 
     select(!!as.symbol(taxo_level), !!as.symbol(variable), n_reads) %>% 
     group_by(!!as.symbol(taxo_level), !!as.symbol(variable)) %>%
@@ -23,7 +38,7 @@ output$ui_barplot <- renderUI({
     
     fluidRow(
       column(4, radioButtons("barplot_variable", "Variable to use for barplots:", inline = TRUE,
-                             choices = c("fraction_name", "depth_level","DNA_RNA"),
+                             choices = c("fraction_name", "depth_level", "depth","DNA_RNA", "latitude", "temperature"),
                              selected = c("depth_level")))
     ),
   )
