@@ -14,16 +14,15 @@ barplot <- function(df, variable, taxo_level) {
              temperature =  cut_width(temperature, width=5, boundary=0),
              depth =  cut_width(depth, width=25, boundary=0)) 
 
-
   
   gg <- df %>% 
-    select(!!as.symbol(taxo_level), !!as.symbol(variable), n_reads) %>% 
-    group_by(!!as.symbol(taxo_level), !!as.symbol(variable)) %>%
+    select(any_of(c(taxo_level, variable)), n_reads) %>% 
+    group_by(across(any_of(c(taxo_level, variable)))) %>%
     summarize(n_reads = sum(n_reads)) %>%
-    group_by(!!as.symbol(variable)) %>% 
+    group_by(across(any_of(variable))) %>% 
     mutate(n_reads = n_reads/sum(n_reads)*100) %>% 
-    ggplot() + 
-    geom_col(aes(y=!!as.symbol(variable), x=n_reads, fill=!!as.symbol(taxo_level))) +
+    ggplot() +
+    geom_col(aes(y=.data[[variable]], x=n_reads, fill=.data[[taxo_level]])) +
     scale_fill_viridis_d() +
     xlab("% of reads") + ylab("") +
     theme_bw()
