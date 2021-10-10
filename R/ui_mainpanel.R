@@ -22,8 +22,9 @@
              uiOutput('ui_map'),
     ),    
     tabPanel("Barplot",
-             uiOutput('ui_barplot'),
-             shinycssloaders::withSpinner(uiOutput('graph_barplot'))
+             # uiOutput('ui_barplot'),
+             # shinycssloaders::withSpinner(uiOutput('graph_barplot'))
+             barplotUI("barplot") 
     ),
     
     tabPanel("Alpha diversity",
