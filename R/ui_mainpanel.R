@@ -28,12 +28,14 @@
     ),
     
     tabPanel("Alpha diversity",
-             uiOutput('ui_ps_alpha'),
-             shinycssloaders::withSpinner(uiOutput('graph_ps_alpha'))
+             # uiOutput('ui_ps_alpha'),
+             # shinycssloaders::withSpinner(uiOutput('graph_ps_alpha'))
+             phyloseq_alpha_UI("phyloseq")
     ),
     tabPanel("Beta diversity",
-             uiOutput('ui_ps_beta'),
-             shinycssloaders::withSpinner(uiOutput('graph_ps_beta'))
+             # uiOutput('ui_ps_beta'),
+             # shinycssloaders::withSpinner(uiOutput('graph_ps_beta'))
+             phyloseq_beta_UI("phyloseq")
     ),
     
     tabPanel("Query",

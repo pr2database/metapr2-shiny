@@ -67,7 +67,8 @@ server <- function(input, output, session) {
   
   # Panels - Alpha and beta diversity
   
-  source("R/server/server_phyloseq.R", local = TRUE)
+  # source("R/server/server_phyloseq.R", local = TRUE)
+  phyloseqServer("phyloseq", ps_selected(), taxo())
   
   # Panel - Matching ASV
   

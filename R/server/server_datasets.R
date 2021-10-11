@@ -156,5 +156,18 @@ fasta_selected_taxa_one <- reactive({
     filter(!!as.symbol(taxo()$level)  %in% taxo()$name )
 })
 
+# Filter phyloseq by samples and taxon selected ---------------------------------------
 
-
+ps_selected <- reactive({ 
+  
+  req(iv_samples$is_valid())
+  
+  print("filtering PS")
+  
+  ps_select (ps = asv_set$ps, 
+             DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
+             fraction_name = input$fraction_name, substrate = input$substrate, 
+             datasets_selected_id = input$datasets_selected_id,
+             ps_reads_min = input$ps_reads_min, 
+             taxo_level = taxo()$level, taxo_name = taxo()$name)
+})
