@@ -45,8 +45,8 @@ mapServer <- function(id, df_selected_taxa_one, samples_selected, taxo) {
                                                        "</b>, without taxon: <b>",n_samples_without_taxa(),"</b>",
                                                        sep=" ")})
     
-    output$taxo_selected <- renderText({stringr::str_c("Taxo level: <b>", taxo$level, 
-                                                       "</b>- Taxon name: <b>", taxo$name,"</b>", sep=" ")})
+    output$taxo_selected <- renderText({stringr::str_c("Taxo level: <b>", taxo()$level, 
+                                                       "</b>- Taxon name: <b>", taxo()$name,"</b>", sep=" ")})
     
     
     # Create the map ----------------------------------------------------------

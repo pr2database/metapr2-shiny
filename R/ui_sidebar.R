@@ -62,31 +62,23 @@ sidebar <- function() {sidebarPanel(width = 3,
                checkboxGroupInput("fraction_name", "Fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),
                checkboxGroupInput("depth_level", "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
                
-               # actionButton("button_map_update", "Draw map"),
-             #   
-             # ),
-             # 
-             # # --- Dynamic boxes for taxonomy - See https://mastering-shiny.org/action-dynamic.html
-             # conditionalPanel(
-             #   'input.panel %in% c("Treemap", "Alpha diversity", "Beta diversity", "Map","Download")"', 
-               
-               h3("Select Taxa"),
-
-               selectInput("supergroup", "Supergroup",
-                           choices = c("All", unique(global$pr2_taxo$supergroup))),
-               selectInput("division", "Division",
-                           choices = "All"),
-               selectInput("class", "Class",
-                           choices = "All"),
-               selectInput("order", "Order",
-                           choices = "All"),
-               selectInput("family", "Family",
-                           choices = "All"),
-               selectInput("genus", "Genus",
-                           choices = "All"),
-               selectInput("species", "Species",
-                           choices = "All")
-             # taxoUI("taxo")
+               # h3("Select Taxa"),
+               # 
+               # selectInput("supergroup", "Supergroup",
+               #             choices = c("All", unique(global$pr2_taxo$supergroup))),
+               # selectInput("division", "Division",
+               #             choices = "All"),
+               # selectInput("class", "Class",
+               #             choices = "All"),
+               # selectInput("order", "Order",
+               #             choices = "All"),
+               # selectInput("family", "Family",
+               #             choices = "All"),
+               # selectInput("genus", "Genus",
+               #             choices = "All"),
+               # selectInput("species", "Species",
+               #             choices = "All")
+             taxoUI("taxo")
                
              )
              

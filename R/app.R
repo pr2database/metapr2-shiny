@@ -81,8 +81,8 @@ server <- function(input, output, session) {
   
   # Utils - Dynamic taxonomy boxes
   
-  source("R/server/server_taxonomy_dynamic_boxes.R", local = TRUE)
-  # taxo <- taxoServer("taxo")
+  # source("R/server/server_taxonomy_dynamic_boxes.R", local = TRUE)
+  taxo <- taxoServer("taxo")
   
 }
 

@@ -1,3 +1,58 @@
+# =================================
+# Small function to return the taxo level and taxon name 
+# =================================
+
+taxo_selected <- function(supergroup, division, class, order, family, genus, species= "All"){
+  
+  # Debug
+  # browser()  
+  
+  # If the lowest level is "All" then it is the one selected then goes up one level
+  if ( !(species %in% c("All", "")) ) {
+    taxo_level = "species"
+    taxo_name = species
+  } else {
+    if(!(genus %in% c("All", "")) ) {
+      taxo_level = "genus"
+      taxo_name = genus
+    } else {
+      if(!(family %in% c("All", "")) ) {
+        taxo_level = "family"
+        taxo_name = family
+      } else {
+        if(!(order %in% c("All", "")) ) {
+          taxo_level = "order"
+          taxo_name = order
+        } else {
+          if(!(class %in% c("All", "")) ) {
+            taxo_level = "class"
+            taxo_name = class
+          } else {
+            if(!(division %in% c("All", "")) ) {
+              taxo_level = "division"
+              taxo_name = division
+            } else {
+              if(!(supergroup %in% c("All", "")) ) {
+                taxo_level = "supergroup"
+                taxo_name = supergroup
+              } else {
+                taxo_level = "kingdom"
+                taxo_name = "Eukaryota" 
+              }
+            }
+          }
+        }
+      }  
+    }  
+  } 
+  
+  # Debug
+  # browser()
+  
+  return( list(level = taxo_level, name = taxo_name))      
+}
+
+
 # UI ----------------------------------------------------------------------
 
 taxoUI <- function(id) {
@@ -65,7 +120,8 @@ taxoServer <- function(id) {
     })
     
     observeEvent(division_list(), {
-      updateSelectInput(inputId = ns("division"), choices = c("All", division_list()))
+      # Do not use ns() here for the InputId
+      updateSelectInput(inputId = "division", choices = c("All", division_list()))  
     })
     
     # --- Class
@@ -77,7 +133,7 @@ taxoServer <- function(id) {
     })
     
     observeEvent(class_list(), {
-      updateSelectInput(inputId = ns("class"), choices = c("All", class_list()))
+      updateSelectInput(inputId = "class", choices = c("All", class_list()))
     })
     
     # --- Orders
@@ -89,7 +145,7 @@ taxoServer <- function(id) {
     })
     
     observeEvent(order_list(), {
-      updateSelectInput(inputId = ns("order"), choices = c("All", order_list()))
+      updateSelectInput(inputId = "order", choices = c("All", order_list()))
     })
     
     # --- Families
@@ -101,7 +157,7 @@ taxoServer <- function(id) {
     })
     
     observeEvent(family_list(), {
-      updateSelectInput(inputId = ns("family"), choices = c("All", family_list()))
+      updateSelectInput(inputId = "family", choices = c("All", family_list()))
     })
     
     # --- Genera
@@ -113,7 +169,7 @@ taxoServer <- function(id) {
     })
     
     observeEvent(genus_list(), {
-      updateSelectInput(inputId = ns("genus"), choices = c("All", genus_list()))
+      updateSelectInput(inputId = "genus", choices = c("All", genus_list()))
     })
     
     # --- Species
@@ -125,9 +181,10 @@ taxoServer <- function(id) {
     })
     
     observeEvent(species_list(), {
-      updateSelectInput(inputId = ns("species"), choices = c("All", species_list()))
+      updateSelectInput(inputId = "species", choices = c("All", species_list()))
     })
     
+    # Use taxo and not taxo(), ie return the function and not its value...
     return(taxo)
     
   })
