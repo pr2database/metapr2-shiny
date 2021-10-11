@@ -32,6 +32,9 @@ barplot <- function(df, variable, taxo_level) {
 }
 
 
+# UI ----------------------------------------------------------------------
+
+
 barplotUI <- function(id) {
   ns <- NS(id)
   tagList(
@@ -40,6 +43,9 @@ barplotUI <- function(id) {
   )
 }
 
+
+
+# Server ------------------------------------------------------------------
 
 
 barplotServer <- function(id, df, taxo) {
@@ -59,13 +65,13 @@ barplotServer <- function(id, df, taxo) {
     })
 
     output$graph_barplot <- renderUI({
-      req(df, taxo, input$barplot_variable)
+      req(df(), taxo(), input$barplot_variable)
       # req(input$barplot_variable)
       tagList(
         renderPlot({
-          barplot(df,
+          barplot(df(),
                  variable = input$barplot_variable,
-                 taxo_level = global$taxo_levels[which(global$taxo_levels == taxo$level) + 1])
+                 taxo_level = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
                  # taxo_level = "supergroup") # For testing
         }, height = 800, width=1000)
       )

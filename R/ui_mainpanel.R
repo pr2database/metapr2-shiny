@@ -9,17 +9,20 @@
              DT::DTOutput('table_datasets')
     ),
     tabPanel("Download",
-             uiOutput('ui_download')
+             # uiOutput('ui_download')
+             downloadUI("download")
              
     ),
     tabPanel("Treemap",
              # htmlOutput("taxo_selected"),
-             p("Number of reads have been normalized (not rarefield) to 100 with 3 decimals."), 
-             shinycssloaders::withSpinner(uiOutput('treemap'))
+             # p("Number of reads have been normalized (not rarefield) to 100 with 3 decimals."), 
+             # shinycssloaders::withSpinner(uiOutput('treemap'))
+             treemapUI("treemap")
     ),
     
     tabPanel("Map",
-             uiOutput('ui_map'),
+             # uiOutput('ui_map'),
+             mapUI("map")
     ),    
     tabPanel("Barplot",
              # uiOutput('ui_barplot'),
@@ -39,8 +42,9 @@
     ),
     
     tabPanel("Query",
-             uiOutput('ui_query'),
-             shinycssloaders::withSpinner(uiOutput('ui_query_results'))
+             # uiOutput('ui_query'),
+             # shinycssloaders::withSpinner(uiOutput('ui_query_results'))
+             queryUI("query")
     ),
     
     tabPanel("Debug",

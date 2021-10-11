@@ -71,7 +71,7 @@ sidebar <- function() {sidebarPanel(width = 3,
              #   'input.panel %in% c("Treemap", "Alpha diversity", "Beta diversity", "Map","Download")"', 
                
                h3("Select Taxa"),
-               
+
                selectInput("supergroup", "Supergroup",
                            choices = c("All", unique(global$pr2_taxo$supergroup))),
                selectInput("division", "Division",
@@ -86,6 +86,7 @@ sidebar <- function() {sidebarPanel(width = 3,
                            choices = "All"),
                selectInput("species", "Species",
                            choices = "All")
+             # taxoUI("taxo")
                
              )
              

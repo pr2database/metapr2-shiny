@@ -22,7 +22,6 @@ datasets.xlsx | Information on the different datasets selected including referen
 samples.xlsx | List of samples selected with medadata | file_code
 asv.xlsx | ASV selected with taxonomy and sequence | asv_code
 asv_reads.xlsx | Number of reads for each ASV and each sample (long form) | asv_code, file_code
-asv_map.xlsx | Summary file used to draw the map
 
 </div>
 

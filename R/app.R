@@ -49,35 +49,40 @@ server <- function(input, output, session) {
   
   # Panel - Download
   
-  source("R/server/server_download.R", local = TRUE)
+  # source("R/server/server_download.R", local = TRUE)
+  downloadServer("download", datasets_selected, samples_selected, fasta_selected_taxa_one, df_selected, taxo)
   
   # Panel - Treemap
   
-  source("R/server/server_treemap.R", local = TRUE)
+  # source("R/server/server_treemap.R", local = TRUE)
+  treemapServer("treemap", df_selected_taxa_one, taxo)
   
   # Panel - Leaflet map
   
-  source("R/server/server_map.R", local = TRUE)
+  # source("R/server/server_map.R", local = TRUE)
+  mapServer("map", df_selected_taxa_one, samples_selected, taxo)
   
   # Panels - Barplot
   
   # source("R/server/server_barplot.R", local = TRUE)
-  barplotServer("barplot", df_selected(), taxo())
+  barplotServer("barplot", df_selected, taxo)
   
   
   # Panels - Alpha and beta diversity
   
   # source("R/server/server_phyloseq.R", local = TRUE)
-  phyloseqServer("phyloseq", ps_selected(), taxo())
+  phyloseqServer("phyloseq", ps_selected, taxo)
   
   # Panel - Matching ASV
   
-  source("R/server/server_query.R", local = TRUE)
+  # source("R/server/server_query.R", local = TRUE)
+  queryServer("query")
   
   
   # Utils - Dynamic taxonomy boxes
   
   source("R/server/server_taxonomy_dynamic_boxes.R", local = TRUE)
+  # taxo <- taxoServer("taxo")
   
 }
 

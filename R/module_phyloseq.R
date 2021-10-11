@@ -45,9 +45,9 @@ phyloseqServer <- function(id, ps_selected, taxo) {
     
     output$graph_ps_alpha <- renderUI({
       
-      req(ps_selected, input$alpha_method, input$alpha_x)
+      req(ps_selected(), input$alpha_method, input$alpha_x)
       
-      ps_alpha(ps= ps_selected, 
+      ps_alpha(ps= ps_selected(), 
                measures=input$alpha_method,
                x = input$alpha_x,
                color="depth", shape = "fraction_name")
@@ -86,15 +86,15 @@ phyloseqServer <- function(id, ps_selected, taxo) {
     })
     
     ps_ordinate <- reactive({
-      req(ps_selected, input$beta_method, input$beta_distance)
-      phyloseq::ordinate(ps_selected, method = input$beta_method, distance = input$beta_distance, maxit=5)
+      req(ps_selected(), input$beta_method, input$beta_distance)
+      phyloseq::ordinate(ps_selected(), method = input$beta_method, distance = input$beta_distance, maxit=5)
     })
     
     output$graph_ps_beta <- renderUI({
       req(ps_ordinate(), input$beta_color_samples, input$beta_shape_samples)
-      ps_beta(ps_selected, ps_ordinate(), 
+      ps_beta(ps_selected(), ps_ordinate(), 
               color_samples=input$beta_color_samples, shape_samples = input$beta_shape_samples,
-              color_taxa = global$taxo_levels[which(global$taxo_levels == taxo$level) + 1])
+              color_taxa = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
     })  
 
 

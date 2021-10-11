@@ -2,7 +2,10 @@
 # Update taxonomy selected
 # ===========================================
 
-taxo <- reactive({taxo_selected(input$supergroup, input$division, input$class, input$order, input$family, input$genus, input$species)})
+taxo <- reactive({
+  # req(input$supergroup, input$division, input$class, input$order, input$family, input$genus, input$species)
+  taxo_selected(input$supergroup, input$division, input$class, input$order, input$family, input$genus, input$species)
+  })
 # 
 # output$test1 <- renderText(taxo()$level)
 # output$test2 <- renderText(taxo()$name)
