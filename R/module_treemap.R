@@ -56,7 +56,7 @@ treemapUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-treemapServer <- function(id, df_selected_taxa_one, taxo) {
+treemapServer <- function(id, df_selected, taxo) {
   # stopifnot(is.reactive(taxo))
   
   moduleServer(id, function(input, output, session) {
@@ -64,11 +64,11 @@ treemapServer <- function(id, df_selected_taxa_one, taxo) {
     ns <- NS(id)
 
     output$treemap <- renderUI({
-      req(df_selected_taxa_one(), taxo())
+      req(df_selected(), taxo())
       tagList(
         p(""),
         renderPlot({
-          treemap(df_selected_taxa_one(), taxo_level = taxo()$level)
+          treemap(df_selected(), taxo_level = taxo()$level)
         },  height = 800, width = 800, res = 96)
       )  
     })  

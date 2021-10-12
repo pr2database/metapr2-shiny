@@ -1,6 +1,15 @@
 #' @export
 
 metapr2App <- function() {
+  
+# Build the whole dataset ---------------------------------------------------------
+
+df_full <- asv_set$df %>% 
+  left_join(asv_set$samples) %>% 
+  left_join(select(asv_set$fasta, asv_code, kingdom:species)) %>% 
+  filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
+  mutate(depth_level = forcats::fct_relevel(depth_level, 
+                                            levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))  
 
 # User interface ----------------------------------------------------------
 
@@ -49,18 +58,16 @@ server <- function(input, output, session) {
   
   # Panel - Download
   
-  # source("R/server/server_download.R", local = TRUE)
-  downloadServer("download", datasets_selected, samples_selected, fasta_selected_taxa_one, df_selected, taxo)
+  downloadServer("download", datasets_selected, samples_selected, df_selected, taxo)
   
   # Panel - Treemap
   
-  # source("R/server/server_treemap.R", local = TRUE)
-  treemapServer("treemap", df_selected_taxa_one, taxo)
+  treemapServer("treemap", df_selected, taxo)
   
   # Panel - Leaflet map
   
   # source("R/server/server_map.R", local = TRUE)
-  mapServer("map", df_selected_taxa_one, samples_selected, taxo)
+  mapServer("map", df_selected, samples_selected, taxo)
   
   # Panels - Barplot
   

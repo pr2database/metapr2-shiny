@@ -13,7 +13,7 @@ mapUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-mapServer <- function(id, df_selected_taxa_one, samples_selected, taxo) {
+mapServer <- function(id, df_selected, samples_selected, taxo) {
   # stopifnot(is.reactive(taxo))
   
   moduleServer(id, function(input, output, session) {
@@ -30,8 +30,8 @@ mapServer <- function(id, df_selected_taxa_one, samples_selected, taxo) {
     # Reformat df for maps ----------------------------------------------------
     
     df_map <- reactive({
-      req(df_selected_taxa_one(), samples_selected(), taxo())
-      df_selected_taxa_one() %>%
+      req(df_selected(), samples_selected(), taxo())
+      df_selected() %>%
         reformat_df_map(samples = samples_selected(), taxo_level = taxo()$level, taxo_name = taxo()$name)
     })
     

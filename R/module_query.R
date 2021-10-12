@@ -86,8 +86,7 @@ queryServer <- function(id) {
         p("Matching ASVs"),
         p(),
         DT::renderDT(asv_filtered() %>% 
-                    mutate(sequence = gsub("(.{80})","\\1\n",sequence),
-                              asv_code = str_c(str_sub(asv_code, 1, 8),"...")),
+                    mutate(sequence = gsub("(.{80})","\\1\n",sequence)),
                      rownames = FALSE,
                      options = list(pageLength = 20,
                                     autoWidth = TRUE,

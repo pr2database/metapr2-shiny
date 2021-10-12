@@ -80,6 +80,7 @@ install.packages("rio" )
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
+BiocManager::install("Biobase")
 BiocManager::install("Biostrings")
 BiocManager::install("phyloseq")
 

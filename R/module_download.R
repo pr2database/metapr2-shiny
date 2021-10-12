@@ -12,7 +12,7 @@ downloadUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-downloadServer <- function(id, datasets_selected, samples_selected, fasta_selected_taxa_one, df_selected, taxo) {
+downloadServer <- function(id, datasets_selected, samples_selected, df_selected, taxo) {
   # stopifnot(is.reactive(taxo))
   
   moduleServer(id, function(input, output, session) {
@@ -22,6 +22,12 @@ downloadServer <- function(id, datasets_selected, samples_selected, fasta_select
   # Download files (zip) ----------------------------------------------------
   # 
   # See:  https://stackoverflow.com/questions/43916535/download-multiple-csv-files-with-one-button-downloadhandler-with-r-shiny
+    
+    fasta_selected <- reactive({
+      req(df_selected())
+      asv_set$fasta %>% 
+        filter(asv_code %in% df_selected()$asv_code)
+    })
   
   
   output$download_datasets <- downloadHandler(
@@ -39,7 +45,7 @@ downloadServer <- function(id, datasets_selected, samples_selected, fasta_select
       
       rio::export(datasets_selected(), file=file_datasets)
       rio::export(samples_selected(), file=file_samples)
-      rio::export(fasta_selected_taxa_one(), file=file_asv)
+      rio::export(fasta_selected(), file=file_asv)
       rio::export(df_selected(), file=file_asv_reads)
       
       system2("zip", args=(paste("--junk-paths", path,files,sep=" "))) # remove the paths of the files
