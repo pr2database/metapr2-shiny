@@ -9,41 +9,28 @@
              DT::DTOutput('table_datasets')
     ),
     tabPanel("Download",
-             # uiOutput('ui_download')
              downloadUI("download")
              
     ),
     tabPanel("Treemap",
-             # htmlOutput("taxo_selected"),
-             # p("Number of reads have been normalized (not rarefield) to 100 with 3 decimals."), 
-             # shinycssloaders::withSpinner(uiOutput('treemap'))
              treemapUI("treemap")
     ),
     
     tabPanel("Map",
-             # uiOutput('ui_map'),
              mapUI("map")
     ),    
     tabPanel("Barplot",
-             # uiOutput('ui_barplot'),
-             # shinycssloaders::withSpinner(uiOutput('graph_barplot'))
              barplotUI("barplot") 
     ),
     
     tabPanel("Alpha diversity",
-             # uiOutput('ui_ps_alpha'),
-             # shinycssloaders::withSpinner(uiOutput('graph_ps_alpha'))
              phyloseq_alpha_UI("phyloseq")
     ),
     tabPanel("Beta diversity",
-             # uiOutput('ui_ps_beta'),
-             # shinycssloaders::withSpinner(uiOutput('graph_ps_beta'))
              phyloseq_beta_UI("phyloseq")
     ),
     
     tabPanel("Query",
-             # uiOutput('ui_query'),
-             # shinycssloaders::withSpinner(uiOutput('ui_query_results'))
              queryUI("query")
     ),
     
