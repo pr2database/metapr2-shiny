@@ -19,7 +19,7 @@ queryUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-queryServer <- function(id) {
+queryServer <- function(id, fasta_selected) {
   # stopifnot(is.reactive(taxo))
   
   moduleServer(id, function(input, output, session) {
@@ -36,10 +36,10 @@ queryServer <- function(id) {
       
       iv_query$enable()
       
-      req(iv_query$is_valid())
+      req(iv_query$is_valid(), fasta_selected())
     
       # match_asv(top_n(asv_set$fasta, 2000), input$query) # For testing using only 2000 asv
-      match_asv(asv_set$fasta, input$query)
+      match_asv(fasta_selected(), input$query)
       })
     
     # Filter the ASV based on % ID
@@ -60,8 +60,8 @@ queryServer <- function(id) {
     output$ui_query <- renderUI({
       tagList(
     
-        h4("BLAST-like searchfor  metabarcode similar to existing sequence."),
-        p("Aligns query sequence to all metabarcodes and return those above a fixed threshold"),
+        h4("BLAST-like search for  metabarcodes similar to query sequence."),
+        p("Aligns query sequence to selected metabarcodes and return those above a fixed threshold"),
         p(),
         
         sliderInput(ns("pct_id_min"), label ="% identity min", min = 95.0, max = 100.0, 

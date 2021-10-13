@@ -1,3 +1,49 @@
+# UI ----------------------------------------------------------------------
+
+dataset_reads_min <- function(id) {
+  ns <- NS(id)
+  tagList(
+    numericInput(
+      ns("reads_min"),
+      "Minimum number of total reads per ASV",
+      100,
+      min = 100,
+      max = 10000,
+      step = NA,
+      width = NULL
+    )
+  )
+}
+
+
+dataset_UI <- function(id) {
+  ns <- NS(id)
+  tagList(
+    uiOutput(ns('ui_ps_alpha')),
+    shinycssloaders::withSpinner(uiOutput(ns('graph_ps_alpha')))
+  )
+}
+
+samples_UI <- function(id) {
+  ns <- NS(id)
+  tagList(
+    uiOutput(ns('ui_ps_beta')),
+    shinycssloaders::withSpinner(uiOutput(ns('graph_ps_beta')))
+  )
+}
+
+
+# Server ------------------------------------------------------------------
+
+
+datasetServer <- function(id, ps_selected, taxo) {
+  # stopifnot(is.reactive(df))
+  
+  moduleServer(id, function(input, output, session) {
+    
+    ns <- NS(id)
+
+
 
 # Validate sample selection -----------------------------------------------
 
@@ -8,8 +54,6 @@ iv_samples$add_rule("substrate", shinyvalidate::sv_required(message = "Choose at
 iv_samples$add_rule("fraction_name", shinyvalidate::sv_required(message = "Choose at least one fraction"))
 iv_samples$add_rule("depth_level", shinyvalidate::sv_required(message = "Choose at least one depth level"))
 iv_samples$add_rule("datasets_selected_id", shinyvalidate::sv_required(message = "Choose at least one dataset"))
-iv_samples$add_rule("reads_min", shinyvalidate::sv_required(message = "Must be at least 100"))
-iv_samples$add_rule("reads_min", ~ if (. < 100 ) "Must be at least 100")
 
 iv_samples$enable()
 
@@ -99,17 +143,9 @@ df_selected <- reactive({
       fraction_name %in% input$fraction_name,
       substrate %in% input$substrate,
       dataset_id %in% input$datasets_selected_id,
-      !!as.symbol(taxo()$level) %in% taxo()$name, 
-      sum_reads_asv >= input$reads_min
+      !!as.symbol(taxo()$level) %in% taxo()$name
     ) })
 
-# Only keep the ASVs that are in df_slected ---------------
-
-fasta_selected <- reactive({
-  req(df_selected())
-  asv_set$fasta %>%
-    filter(asv_code %in% df_selected()$asv_code
-    ) })
 
 
 # Filter phyloseq by samples and taxon selected ---------------------------------------
@@ -124,6 +160,10 @@ ps_selected <- reactive({
              DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
              fraction_name = input$fraction_name, substrate = input$substrate, 
              datasets_selected_id = input$datasets_selected_id,
-             ps_reads_min = input$reads_min, 
+             ps_reads_min = input$ps_reads_min, 
              taxo_level = taxo()$level, taxo_name = taxo()$name)
 })
+
+  })
+  
+}  

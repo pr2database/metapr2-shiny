@@ -5,3 +5,6 @@
 manifest.json
 rsconnect/
 Rproj.user
+data_raw/
+sandbox/
+data/sets_*

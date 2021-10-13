@@ -6,7 +6,7 @@ metapr2App <- function() {
 
 df_full <- asv_set$df %>% 
   left_join(asv_set$samples) %>% 
-  left_join(select(asv_set$fasta, asv_code, kingdom:species)) %>% 
+  left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>% 
   filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
   mutate(depth_level = forcats::fct_relevel(depth_level, 
                                             levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))  
@@ -83,7 +83,7 @@ server <- function(input, output, session) {
   # Panel - Matching ASV
   
   # source("R/server/server_query.R", local = TRUE)
-  queryServer("query")
+  queryServer("query", fasta_selected)
   
   
   # Utils - Dynamic taxonomy boxes

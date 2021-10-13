@@ -1,18 +1,18 @@
 # --- Side bar Panel
 sidebar <- function() {sidebarPanel(width = 3,
-                  conditionalPanel(
-                    condition = 'input.panel == "Alpha diversity" ||
-                                 input.panel == "Beta diversity"' ,
-                    numericInput(
-                      "ps_reads_min",
-                      "Minimum number of total reads per ASV",
-                      100,
-                      min = 1,
-                      max = 10000,
-                      step = NA,
-                      width = NULL
-                      )
-                    ),
+                  # conditionalPanel(
+                  #   condition = 'input.panel == "Alpha diversity" ||
+                  #                input.panel == "Beta diversity"' ,
+                  #   numericInput(
+                  #     "ps_reads_min",
+                  #     "Minimum number of total reads per ASV",
+                  #     100,
+                  #     min = 100,
+                  #     max = 10000,
+                  #     step = NA,
+                  #     width = NULL
+                  #     )
+                  #   ),
                         
                   conditionalPanel(
                     condition ='input.panel == "Datasets"',
@@ -32,17 +32,17 @@ sidebar <- function() {sidebarPanel(width = 3,
                 )
                  ),
              
-              conditionalPanel(
-                condition = 'input.panel == "Datasets" ||
-                 input.panel == "Treemap" ||
-                 input.panel == "Barplot" ||
-                 input.panel == "Alpha diversity" ||
-                 input.panel == "Beta diversity" ||
-                 input.panel == "Map" ||
-                 input.panel == "Download"',
-                strong("Datasets selected:"),
-                textOutput("datasets_selected_id")
-                ), 
+              # conditionalPanel(
+              #   condition = 'input.panel == "Datasets" ||
+              #    input.panel == "Treemap" ||
+              #    input.panel == "Barplot" ||
+              #    input.panel == "Alpha diversity" ||
+              #    input.panel == "Beta diversity" ||
+              #    input.panel == "Map" ||
+              #    input.panel == "Download"',
+              #   strong("Datasets selected:"),
+              #   textOutput("datasets_selected_id")
+              #   ), 
               
               
               
@@ -52,7 +52,11 @@ sidebar <- function() {sidebarPanel(width = 3,
                  input.panel == "Alpha diversity" ||
                  input.panel == "Beta diversity" ||
                  input.panel == "Map" ||
+                 input.panel == "Query" ||
                  input.panel == "Download"',
+               
+               strong("Datasets selected:"),
+               textOutput("datasets_selected_id"),
                
                h3("Select Samples"),
                
@@ -61,6 +65,16 @@ sidebar <- function() {sidebarPanel(width = 3,
                checkboxGroupInput("substrate", "Substrates", inline = TRUE,  choices = global$substrates, selected = global$substrates),
                checkboxGroupInput("fraction_name", "Fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),
                checkboxGroupInput("depth_level", "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
+               
+               numericInput(
+                 "reads_min",
+                 "Minimum number of reads per ASV",
+                 1000,
+                 min = 100,
+                 max = 10000,
+                 step = NA,
+                 width = NULL
+               ),
                
                taxoUI("taxo")
                
