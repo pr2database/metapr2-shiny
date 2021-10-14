@@ -7,6 +7,8 @@ ps_select <- function(ps, DNA_RNA, depth_level, fraction_name, substrate, datase
                       ps_reads_min, 
                       taxo_level, taxo_name) {
   
+# This function returns an error message ("character") if no samples selected and an "S4" object if selection is OK
+  
   # if((length(DNA_RNA) == 0)) {
   #   validate("No DNA_RNA selected. Will use the whole dataset.")
   #   return(ps)
@@ -20,28 +22,28 @@ ps_select <- function(ps, DNA_RNA, depth_level, fraction_name, substrate, datase
     (phyloseq::get_variable(ps, "dataset_id") %in% datasets_selected_id)
   
   # Check some samples are left...
-  if(length(keepSamples[keepSamples]) > 1 ) {  
+  if(sum(keepSamples[keepSamples]) > 1 ) {  
     ps1 <- phyloseq::prune_samples(keepSamples, ps) %>%  
       # Need to remove the taxa that do not have minimum number of reads
       phyloseq::filter_taxa(function(x) sum(x) >= ps_reads_min, prune = TRUE)
   }
   else {
-    validate("No samples selected. Will use the whole dataset.")
-    ps1 <- ps
+    # validate("No samples selected. Will use the whole dataset.")
+    return("No sample selected")
   }
   
   TT = as(phyloseq::tax_table(ps1), "matrix")
   keepTaxa = TT[, taxo_level] %in% taxo_name
   
-  if(length(keepTaxa) > 1){
+  if(sum(keepTaxa) > 1){
     ps1 <- phyloseq::prune_taxa(keepTaxa, ps1) 
     # Need to remove the samples that do not have the taxon
     ps1 <- phyloseq::prune_samples(phyloseq::sample_sums(ps1)>0, ps1)
   } else {
-    validate("One or Zero taxon left - Will use the whole dataset.")
-    ps1
+    # validate("One or Zero taxon left - Will use all taxa.")
+    return("No taxa selected")
   }
-  
+
   return(ps1)
  
 }

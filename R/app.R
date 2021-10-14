@@ -9,7 +9,14 @@ df_full <- asv_set$df %>%
   left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>% 
   filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
   mutate(depth_level = forcats::fct_relevel(depth_level, 
-                                            levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))  
+                                            levels = c("bathypelagic", "mesopelagic", "euphotic", "surface"))) 
+
+messages <- list()
+messages$no_data = tags$div(
+                      tags$h4(tags$b("No data for this taxon in selected samples:")),
+                      # tags$br(),
+                      tags$span(style="color:red","You may want to change minimum number of reads or select more samples")
+                      )
 
 # User interface ----------------------------------------------------------
 
@@ -58,11 +65,11 @@ server <- function(input, output, session) {
 
   # Panel - Download
   
-    downloadServer("download", r$datasets_selected, r$samples_selected, r$df_selected, taxo)
+    downloadServer("download", r$datasets_selected, r$samples_selected, r$df_selected, taxo, messages)
   
   # Panel - Treemap
   
-    treemapServer("treemap", r$df_selected, taxo)
+    treemapServer("treemap", r$df_selected, taxo, messages)
   
   # Panel - Leaflet map
   
@@ -70,12 +77,12 @@ server <- function(input, output, session) {
   
   # Panels - Barplot
   
-    barplotServer("barplot", r$df_selected, taxo)
+    barplotServer("barplot", r$df_selected, taxo, messages)
   
   
   # Panels - Alpha and beta diversity
   
-    phyloseqServer("phyloseq", r$ps_selected, taxo)
+    phyloseqServer("phyloseq", r$ps_selected, taxo, messages)
   
   # Panel - Matching ASV
   

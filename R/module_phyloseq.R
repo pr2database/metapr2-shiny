@@ -21,7 +21,7 @@ phyloseq_beta_UI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-phyloseqServer <- function(id, ps_selected, taxo) {
+phyloseqServer <- function(id, ps_selected, taxo, messages) {
   # stopifnot(is.reactive(df))
   
   moduleServer(id, function(input, output, session) {
@@ -47,10 +47,15 @@ phyloseqServer <- function(id, ps_selected, taxo) {
       
       req(ps_selected(), input$alpha_method, input$alpha_x)
       
-      ps_alpha(ps= ps_selected(), 
-               measures=input$alpha_method,
-               x = input$alpha_x,
-               color="depth", shape = "fraction_name")
+      if (typeof(ps_selected())== "S4"){
+      
+          ps_alpha(ps= ps_selected(), 
+                   measures=input$alpha_method,
+                   x = input$alpha_x,
+                   color="depth", shape = "fraction_name")
+      } else {
+        messages$no_data
+      }
     })
     
     
@@ -59,43 +64,55 @@ phyloseqServer <- function(id, ps_selected, taxo) {
     
     # Beta UI -----------------------------------------------------------------
     
-    output$ui_ps_beta <- renderUI({
-      tagList(
+        output$ui_ps_beta <- renderUI({
+          tagList(
+            
+            includeMarkdown(system.file("readme", 'phyloseq.md', package = "metapr2")),    
+            fluidRow(
+              column(5, radioButtons(ns("beta_method"), "Ordination method", inline = TRUE,
+                                      choices = c("NMDS", "CCA", "RDA", "MDS", "PCoA"),
+                                      selected = c("NMDS"))),
+              column(4, radioButtons(ns("beta_color_samples"), "Color varies with:", inline = TRUE,
+                                     choices = c("latitude", "depth", "temperature"),
+                                     selected = c("latitude"))),
+              
+              ),
+            fluidRow(
+              column(5, radioButtons(ns("beta_distance"), "Ordination distance", inline = TRUE,
+                                     choiceNames = c("Bray-Curtis", "Gower", "Jensen-Shannon Divergence", "Jaccard"),
+                                     choiceValues = c("bray", "gower", "jsd", "jaccard"),
+                                     selected = c("bray"))),
+              column(4, radioButtons(ns("beta_shape_samples"), "Shape varies with:", inline = TRUE,
+                                     choices = c("fraction_name", "depth_level","DNA_RNA"),
+                                     selected = c("fraction_name")))
+            ),
         
-        includeMarkdown(system.file("readme", 'phyloseq.md', package = "metapr2")),    
-        fluidRow(
-          column(5, radioButtons(ns("beta_method"), "Ordination method", inline = TRUE,
-                                  choices = c("NMDS", "CCA", "RDA", "MDS", "PCoA"),
-                                  selected = c("NMDS"))),
-          column(4, radioButtons(ns("beta_color_samples"), "Color varies with:", inline = TRUE,
-                                 choices = c("latitude", "depth", "temperature"),
-                                 selected = c("latitude"))),
+          )
+        })
+    
+  
+        ps_ordinate <- reactive({
+          req(ps_selected(), input$beta_method, input$beta_distance)
+          if (typeof(ps_selected())== "S4"){
+            phyloseq::ordinate(ps_selected(), 
+                               method = input$beta_method, 
+                               distance = input$beta_distance, 
+                               maxit=5)
+            } else { "No data" }
           
-          ),
-        fluidRow(
-          column(5, radioButtons(ns("beta_distance"), "Ordination distance", inline = TRUE,
-                                 choiceNames = c("Bray-Curtis", "Gower", "Jensen-Shannon Divergence", "Jaccard"),
-                                 choiceValues = c("bray", "gower", "jsd", "jaccard"),
-                                 selected = c("bray"))),
-          column(4, radioButtons(ns("beta_shape_samples"), "Shape varies with:", inline = TRUE,
-                                 choices = c("fraction_name", "depth_level","DNA_RNA"),
-                                 selected = c("fraction_name")))
-        ),
-    
-      )
-    })
-    
-    ps_ordinate <- reactive({
-      req(ps_selected(), input$beta_method, input$beta_distance)
-      phyloseq::ordinate(ps_selected(), method = input$beta_method, distance = input$beta_distance, maxit=5)
-    })
-    
-    output$graph_ps_beta <- renderUI({
-      req(ps_ordinate(), input$beta_color_samples, input$beta_shape_samples)
-      ps_beta(ps_selected(), ps_ordinate(), 
-              color_samples=input$beta_color_samples, shape_samples = input$beta_shape_samples,
-              color_taxa = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
-    })  
+        })
+
+        output$graph_ps_beta <- renderUI({
+          req(ps_ordinate(), input$beta_color_samples, input$beta_shape_samples)
+          if (typeof(ps_selected())== "S4"){
+            ps_beta(ps_selected(), ps_ordinate(), 
+                    color_samples=input$beta_color_samples, 
+                    shape_samples = input$beta_shape_samples,
+                    color_taxa = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
+          } else {
+            messages$no_data
+          }
+        }) 
 
 
   })

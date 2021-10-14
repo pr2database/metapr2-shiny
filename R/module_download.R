@@ -12,7 +12,7 @@ downloadUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-downloadServer <- function(id, datasets_selected, samples_selected, df_selected, taxo) {
+downloadServer <- function(id, datasets_selected, samples_selected, df_selected, taxo, messages) {
   # stopifnot(is.reactive(taxo))
   
   moduleServer(id, function(input, output, session) {
@@ -74,7 +74,7 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
     tagList(
       # includeMarkdown("readme/download.md"),
       includeMarkdown(system.file("readme", 'download.md', package = "metapr2")),
-      
+      if(nrow(df_selected()) == 0) {messages$no_data},
       p(),
       downloadButton(ns('download_datasets'), 'Download selected data as xlsx'),
       p(),

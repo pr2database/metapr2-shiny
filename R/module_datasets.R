@@ -174,7 +174,8 @@ dataServer <- function(id, df_full, taxo) {
           dataset_id %in% input$datasets_selected_id,
           !!as.symbol(taxo()$level) %in% taxo()$name, 
           sum_reads_asv >= input$reads_min
-        ) })
+        ) 
+      })
     
     # Only keep the ASVs that are in df_slected ---------------
     
@@ -182,10 +183,12 @@ dataServer <- function(id, df_full, taxo) {
       req(df_selected())
       asv_set$fasta %>%
         filter(asv_code %in% df_selected()$asv_code
-        ) })
+        ) 
+      })
     
     
-    # Filter phyloseq by samples and taxon selected ---------------------------------------
+
+    # Filter phyloseq by samples and taxon selected ----------------------------
     
     ps_selected <- reactive({ 
       
@@ -193,14 +196,16 @@ dataServer <- function(id, df_full, taxo) {
       
       print("filtering PS")
       
-      ps_select (ps = asv_set$ps, 
+      ps <- ps_select (ps = asv_set$ps, 
                  DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
                  fraction_name = input$fraction_name, substrate = input$substrate, 
                  datasets_selected_id = input$datasets_selected_id,
                  ps_reads_min = input$reads_min, 
                  taxo_level = taxo()$level, taxo_name = taxo()$name)
+      return(ps)
     })
     
+   
     return(list(datasets_selected = datasets_selected,
                 samples_selected = samples_selected,
                 df_selected = df_selected,

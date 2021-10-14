@@ -56,7 +56,7 @@ treemapUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-treemapServer <- function(id, df_selected, taxo) {
+treemapServer <- function(id, df_selected, taxo, messages) {
   # stopifnot(is.reactive(taxo))
   
   moduleServer(id, function(input, output, session) {
@@ -67,9 +67,13 @@ treemapServer <- function(id, df_selected, taxo) {
       req(df_selected(), taxo())
       tagList(
         p(""),
-        renderPlot({
-          treemap(df_selected(), taxo_level = taxo()$level)
-        },  height = 800, width = 800, res = 96)
+        if(nrow(df_selected()) > 0) {
+          renderPlot({
+            treemap(df_selected(), taxo_level = taxo()$level)
+          },  height = 800, width = 800, res = 96)}
+        else {
+          messages$no_data
+        }
       )  
     })  
 

@@ -72,41 +72,43 @@ map_leaflet <- function(map, df, pct_max = 100,
                     sizes = sqrt(size_scale)*size_factor,
                     legend_title = legend_title
     )
+  
+  if(nrow(df$present) > 0) {
  
-  if (map_type == "pie"){
-   
-    map <- map  %>% 
-    leaflet.minicharts::addMinicharts(
-      lng = df$present$longitude,
-      lat = df$present$latitude,
-      type = "pie",
-      chartdata = df_taxa,
-      colorPalette = pal_pie,
-      width =  sqrt(df$present$pct/pct_max)*size_factor*1.8 ,
-      opacity = 0.5,
-      transitionTime = 0,
-      # popup = stringr::str_c(df$present$label, " - ", sprintf(df$present$pct, fmt = '%.2f'), " %"),
-      legendPosition = "bottomright"
-    ) 
-    } else  if (map_type == "dominant") {
-
-    map <- map %>%
-    addCircleMarkers(data = df$present,
-                     lat = ~ latitude,
-                     lng = ~ longitude,
-                     radius = ~ sqrt(pct/pct_max)*size_factor,
-                     popup = ~ stringr::str_c(label, " - ", sprintf(pct, fmt = '%.2f'), " %"),
-                     color = ~ pal_dominant(dominant_taxon),
-                     weight = 0,  # No line
-                     fillOpacity = 0.5, # Alpha factor
-                     labelOptions = labelOptions(textsize = "10px",
-                                                 noHide = F)) %>%
-    addLegend("bottomright",
-              title = "Dominant taxon",
-              pal = pal_dominant,
-              values = df$present$dominant_taxon,
-              opacity = 1)}
+      if (map_type == "pie"){
+       
+        map <- map  %>% 
+        leaflet.minicharts::addMinicharts(
+          lng = df$present$longitude,
+          lat = df$present$latitude,
+          type = "pie",
+          chartdata = df_taxa,
+          colorPalette = pal_pie,
+          width =  sqrt(df$present$pct/pct_max)*size_factor*1.8 ,
+          opacity = 0.5,
+          transitionTime = 0,
+          # popup = stringr::str_c(df$present$label, " - ", sprintf(df$present$pct, fmt = '%.2f'), " %"),
+          legendPosition = "bottomright"
+        ) 
+        } else  if (map_type == "dominant") {
     
+        map <- map %>%
+        addCircleMarkers(data = df$present,
+                         lat = ~ latitude,
+                         lng = ~ longitude,
+                         radius = ~ sqrt(pct/pct_max)*size_factor,
+                         popup = ~ stringr::str_c(label, " - ", sprintf(pct, fmt = '%.2f'), " %"),
+                         color = ~ pal_dominant(dominant_taxon),
+                         weight = 0,  # No line
+                         fillOpacity = 0.5, # Alpha factor
+                         labelOptions = labelOptions(textsize = "10px",
+                                                     noHide = F)) %>%
+        addLegend("bottomright",
+                  title = "Dominant taxon",
+                  pal = pal_dominant,
+                  values = df$present$dominant_taxon,
+                  opacity = 1)}
+    }    
   return(map)
 }
 
@@ -124,8 +126,8 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
   
   # The next two lines are not necessary since df is already filtered for taxonomy but leave to be more general
   
-  df <- df%>% 
-    filter(!!as.symbol(taxo_level)  %in% taxo_name) 
+  # df <- df%>% 
+  #   filter(!!as.symbol(taxo_level)  %in% taxo_name) 
   
   # Compute the level below the rank considered (e.g. species for genus)
   
@@ -141,29 +143,6 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
     ungroup() %>% 
     select(file_code, !!as.symbol(taxo_level), !!as.symbol(taxo_level_below), n_reads_1, n_reads_2) %>% 
     distinct()
-  
-
-  # samples_counts_1 <- df %>%
-  #   group_by(file_code, !!as.symbol(taxo_level)) %>%
-  #   summarise(n_reads_1 = sum(n_reads, na.rm = TRUE)) %>%
-  #   ungroup()
-
-  # samples_counts_2 <- df %>%
-  #   group_by(file_code, !!as.symbol(taxo_level_below)) %>%
-  #   summarise(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>%
-  #   ungroup()
-  
-  # taxon_list = unique(pull(samples_counts_2, !!as.symbol(taxo_level_below)))
-  
-  # df <- samples %>%             # This is necessary to include also the samples where the taxo group is absent...
-  #   select(file_code) %>% 
-  #   left_join(samples_counts_2) %>% 
-  #   tidyr::expand(file_code, !!as.symbol(taxo_level_below)) %>% 
-  #   left_join(samples_counts_1) %>% 
-  #   left_join(samples_counts_2) %>% 
-  #   mutate(n_reads_1 = tidyr::replace_na(n_reads_1, 0),
-  #          n_reads_2 = tidyr::replace_na(n_reads_2, 0)) %>% 
-  #   left_join(select(samples, file_code, latitude, longitude, label)) 
   
   df <- samples %>%             
     select(file_code) %>% 

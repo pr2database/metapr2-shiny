@@ -48,10 +48,11 @@ barplotUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-barplotServer <- function(id, df, taxo) {
+barplotServer <- function(id, df, taxo, messages) {
   # stopifnot(is.reactive(df))
   
   moduleServer(id, function(input, output, session) {
+    
 
     output$ui_barplot <- renderUI({
       tagList(
@@ -63,17 +64,25 @@ barplotServer <- function(id, df, taxo) {
         ),
       )
     })
+    
+    
 
     output$graph_barplot <- renderUI({
       req(df(), taxo(), input$barplot_variable)
+      
+
       # req(input$barplot_variable)
       tagList(
+        if(nrow(df()) > 0) {
         renderPlot({
           barplot(df(),
                  variable = input$barplot_variable,
                  taxo_level = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
                  # taxo_level = "supergroup") # For testing
-        }, height = 800, width=1000)
+        }, height = 800, width=1000) }
+        else {
+          messages$no_data
+        }
       )
     })
     })

@@ -109,7 +109,6 @@ taxoServer <- function(id) {
     # See: https://mastering-shiny.org/action-dynamic.html#freezing-reactive-inputs
     #   In this case freezeReactiveValue does not work....
     
-    
     # --- Division
     
     division_list <- reactive({
