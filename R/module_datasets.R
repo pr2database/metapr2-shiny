@@ -111,7 +111,7 @@ dataServer <- function(id, df_full, taxo) {
     update_checkbox <- function(variable, datasets_id) {
       values <- asv_set$samples %>% 
         filter(dataset_id %in% datasets_id) %>% 
-        pull(!!as.symbol(variable)) %>% 
+        pull(.data[[variable]]) %>% 
         unique()
       
       updateCheckboxGroupInput(inputId = variable, 
@@ -172,7 +172,7 @@ dataServer <- function(id, df_full, taxo) {
           fraction_name %in% input$fraction_name,
           substrate %in% input$substrate,
           dataset_id %in% input$datasets_selected_id,
-          !!as.symbol(taxo()$level) %in% taxo()$name, 
+          .data[[taxo()$level]] %in% taxo()$name, 
           sum_reads_asv >= input$reads_min
         ) 
       })

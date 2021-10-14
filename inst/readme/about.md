@@ -29,7 +29,7 @@ Choose samples and taxonomy
 
 Select | Choices 
 --- | --- 
-**Datasets** | Access through panel "Datasets".
+**Datasets** | Access through panel "Datasets". Choices are OSD, Malaspina and Tara
 **Samples** | DNA or RNA
  | Substrates (in our case only water)
  | Fraction: pico 0.2-3 µm / Total 0.2-100 or 200 µm

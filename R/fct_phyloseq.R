@@ -62,10 +62,10 @@ ps_alpha <- function(ps, measures = c("Shannon"),
     scale_color_gradient(high = "darkblue", low = "lightblue1") 
   if (x %in% c("depth_level", "fraction_name", "DNA_RNA")){
     gg <- gg +
-      geom_boxplot(aes(x= !!as.symbol(x), shape=NULL), alpha = 0)
+      geom_boxplot(aes(x= .data[[x]], shape=NULL), alpha = 0)
   } else {
     gg <- gg +
-      geom_smooth(aes(x= !!as.symbol(x), shape=NULL), method = "gam", alpha = 0)  
+      geom_smooth(aes(x= .data[[x]], shape=NULL), method = "gam", alpha = 0)  
     }
   
  tagList(

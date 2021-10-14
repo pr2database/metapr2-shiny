@@ -136,12 +136,12 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
   # Compute number for reads at taxo_level and taxo_level + 1
   
   samples_counts <- df %>%
-    group_by(file_code, !!as.symbol(taxo_level), !!as.symbol(taxo_level_below)) %>%
+    group_by(across(all_of(c("file_code", taxo_level, taxo_level_below)))) %>%
     mutate(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>%
-    ungroup(!!as.symbol(taxo_level_below)) %>%
+    ungroup(.data[[taxo_level_below]]) %>%
     mutate(n_reads_1 = sum(n_reads, na.rm = TRUE)) %>% 
     ungroup() %>% 
-    select(file_code, !!as.symbol(taxo_level), !!as.symbol(taxo_level_below), n_reads_1, n_reads_2) %>% 
+    select(all_of(c("file_code", taxo_level,taxo_level_below, "n_reads_1", "n_reads_2"))) %>% 
     distinct()
   
   df <- samples %>%             
@@ -156,7 +156,7 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
   
   present <- df %>%   
     filter(!is.na(n_reads_1)) %>%  # Next line is necessary to include also the samples where the taxo group is absent...
-    tidyr::expand(file_code, !!as.symbol(taxo_level), !!as.symbol(taxo_level_below)) %>% 
+    tidyr::expand(file_code, .data[[taxo_level]], .data[[taxo_level_below]]) %>% 
     left_join(samples_counts) %>% 
     mutate(n_reads_1 = tidyr::replace_na(n_reads_1, 0),  # This line is not necessary should there be no
            n_reads_2 = tidyr::replace_na(n_reads_2, 0)) %>% 
@@ -172,11 +172,11 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
     arrange(file_code, desc(n_reads_2)) %>%
     group_by(file_code) %>%
     dplyr::slice(1) %>%
-    mutate(dominant_taxon = !!as.symbol(taxo_level_below)) %>%
+    mutate(dominant_taxon = .data[[taxo_level_below]]) %>%
     select(file_code, dominant_taxon)
   
   present <- left_join(present, dominant_taxon) %>% 
-    tidyr::pivot_wider(names_from = !!as.symbol(taxo_level_below),
+    tidyr::pivot_wider(names_from = .data[[taxo_level_below]],
                 values_from = n_reads_2,
                 values_fill = 0) %>% 
     select(-n_reads_1)

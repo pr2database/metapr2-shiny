@@ -16,8 +16,12 @@ treemap <- function(df, taxo_level) {
   }
   
   # Group
+  # df <- df %>%
+  #   count(!!as.symbol(taxo_level_1), !!as.symbol(taxo_level_2), wt=n_reads) %>% 
+  #   ungroup()
+  
   df <- df %>%
-    count(!!as.symbol(taxo_level_1), !!as.symbol(taxo_level_2), wt=n_reads) %>% 
+    count(across(all_of(c(taxo_level_1, taxo_level_2))), wt=n_reads) %>% 
     ungroup()
   
   
@@ -27,9 +31,9 @@ treemap <- function(df, taxo_level) {
   #   treemapify::geom_treemap()
   
   ggplot(df, aes(area = n, 
-                 fill= !!as.symbol(taxo_level_1), 
-                 subgroup = !!as.symbol(taxo_level_1), 
-                 label = !!as.symbol(taxo_level_2))) +
+                 fill = .data[[taxo_level_1]],
+                 subgroup = .data[[taxo_level_1]], 
+                 label = .data[[taxo_level_2]])) +
     treemapify::geom_treemap() +
     treemapify::geom_treemap_text(colour = "white", place = "centre", grow = FALSE) +
     treemapify::geom_treemap_subgroup_border() +
