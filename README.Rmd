@@ -1,5 +1,8 @@
 ---
-output: github_document
+output: 
+  github_document: default
+  pdf_document: default
+  html_document: default
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,9 +19,13 @@ knitr::opts_chunk$set(
 
 ## Shiny server for the metaPR2 database
 
+```{r, eval=FALSE, echo=FALSE}
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/191439796.svg)](https://zenodo.org/badge/latestdoi/191439796)
 <!-- badges: end -->
+```
+
+
 
 
 An [interactive database](https://app.metapr2.org/) of eukaryotic metabarcodes compiled from the literature. 
@@ -29,9 +36,12 @@ MetaPR2 is a database of published 18S rRNA metabarcodes. This R package launche
 
 ### How run the metaPR2 shiny server
 
-#### Step 1 - Download the R package from GitHub
+#### Step 1 - Download the R package
 
+```{r, eval=FALSE, echo=FALSE}
 [https://github.com/vaulot/metapr2-shiny/archive/refs/heads/main.zip](https://github.com/vaulot/metapr2-shiny/archive/refs/heads/main.zip)
+```
+[metapr2-shiny](https://daniel-vaulot.fr/html/course-microbes-2021/metapr2-shiny-main.zip)
 
 #### Step 2 - Install package on your computer
 
@@ -45,7 +55,7 @@ MetaPR2 is a database of published 18S rRNA metabarcodes. This R package launche
 
 #### Step 3 - Install the following libraries
 
-```{r}
+```{r, eval=FALSE}
 
 ### Shiny
 install.packages("shiny" ) 
@@ -92,7 +102,7 @@ BiocManager::install("phyloseq")
 Run the following line from R studio
 
 
-```{r start}
+```{r eval=FALSE}
 
 install.packages("pkgload")
 
@@ -116,6 +126,7 @@ OR
 * Hit the stop button at the top right of the bottom left window
 * Relaunch `metapr2App()`
 
+```{r eval=FALSE, echo=FALSE}
 ### Errors
 
 Please report errors in the [Issues page of the metaPR2 primer database](https://xxx).
@@ -141,3 +152,6 @@ Vaulot, D. et al. (2021). [metaPR2 : An interactive 18S rRNA metabarcode datab
 
 1.0.0 - 2021-xx-xx
 * Initial version
+```
+
+

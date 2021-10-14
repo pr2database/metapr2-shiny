@@ -3,11 +3,6 @@
 
 ## Shiny server for the metaPR2 database
 
-<!-- badges: start -->
-
-[![DOI](https://zenodo.org/badge/191439796.svg)](https://zenodo.org/badge/latestdoi/191439796)
-<!-- badges: end -->
-
 An [interactive database](https://app.metapr2.org/) of eukaryotic
 metabarcodes compiled from the literature.
 
@@ -19,9 +14,9 @@ by mapping, searching and downloading the barcodes.
 
 ### How run the metaPR2 shiny server
 
-#### Step 1 - Download the R package from GitHub
+#### Step 1 - Download the R package
 
-<https://github.com/vaulot/metapr2-shiny/archive/refs/heads/main.zip>
+[metapr2-shiny](https://daniel-vaulot.fr/html/course-microbes-2021/metapr2-shiny-main.zip)
 
 #### Step 2 - Install package on your computer
 
@@ -69,6 +64,7 @@ install.packages("rio" )
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
+BiocManager::install("Biobase")
 BiocManager::install("Biostrings")
 BiocManager::install("phyloseq")
 ```
@@ -97,31 +93,3 @@ OR
 
 -   Hit the stop button at the top right of the bottom left window
 -   Relaunch `metapr2App()`
-
-### Errors
-
-Please report errors in the [Issues page of the metaPR2 primer
-database](https://xxx).
-
-### Citation
-
-Vaulot, D. et al. (2021). [metaPR2 : An interactive 18S rRNA metabarcode
-database](). Unpublished
-
-### Resources
-
--   Website: <https://app.metapr2.org/>
--   Docker: <https://hub.docker.com/repository/docker/vaulot/metapr2>
--   Source code: <https://github.com/pr2database/metapr2>
-
-### Maintainer
-
--   Daniel Vaulot: <vaulot@gmail.com>
-
-### Contributors
-
--   
-
-### Versions
-
-1.0.0 - 2021-xx-xx \* Initial version
