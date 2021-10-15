@@ -58,8 +58,9 @@ barplotServer <- function(id, df, taxo, messages) {
       tagList(
         
         fluidRow(
-          column(4, radioButtons(NS(id, "barplot_variable"), "Variable to use for barplots:", inline = TRUE,
-                                 choices = c("fraction_name", "depth_level", "depth","DNA_RNA", "latitude", "temperature"),
+          column(9, radioButtons(NS(id, "barplot_variable"), "Variable to use for barplots:", inline = TRUE,
+                                 choices = c("fraction_name", "substrate", "depth_level", 
+                                             "depth","DNA_RNA", "latitude", "temperature"),
                                  selected = c("depth_level")))
         ),
       )

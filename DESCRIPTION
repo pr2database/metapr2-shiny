@@ -14,6 +14,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
+    Biostrings,
     dplyr,
     DT,
     forcats,
@@ -22,6 +23,7 @@ Imports:
     leaflet.minicharts,
     markdown,
     patchwork,
+    phyloseq,
     pkgload,
     rio,
     shiny,

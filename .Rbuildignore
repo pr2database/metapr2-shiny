@@ -1,7 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
-dev_history.R
+dev_history\.R
 ^dev$
 $run_dev.*
 ^LICENSE\.md$
@@ -9,4 +9,8 @@ $run_dev.*
 ^CODE_OF_CONDUCT\.md$
 ^Dockerfile$
 ^\.dockerignore$
-app.R
+^app\.R$
+^sandbox$
+^archives$
+^readme_Shiny\.md$
+^data\sets*
