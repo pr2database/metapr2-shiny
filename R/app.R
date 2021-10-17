@@ -23,12 +23,8 @@ messages$no_data = tags$div(
 ui <- fluidPage(
   
   # Script to close the windows after some inactivity - ACTIVARE for web application
-  # tags$script(inactivity),  
+  tags$script(inactivity),  
   
-  # 2021-10-05 - Do not use ShinyFeedback (replaced by shinyvalidate)
-  # shinyFeedback::useShinyFeedback(),
-  
-
 
   # To include the favicon.ico
   tags$head(tags$link(rel="shortcut icon", href="img/favicon.ico")),
