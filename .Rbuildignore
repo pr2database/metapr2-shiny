@@ -10,7 +10,10 @@ $run_dev.*
 ^Dockerfile$
 ^\.dockerignore$
 ^app\.R$
+^install_packages\.R$
 ^sandbox$
 ^archives$
 ^readme_Shiny\.md$
-^data\sets*
+^readme_docker\.md$
+^shiny-customized\.config$
+^data/sets*

@@ -1,11 +1,24 @@
+*.html
+
+# R proj files
+.*.Rproj
 .RData
 .Rhistory
+.Rproj.user
+
+# git
 .git
 .gitignore
-manifest.json
-rsconnect/
-Rproj.user
-data_raw/
-sandbox/
+
+# Rmd files
+README.Rmd
+
+# directories
+archives
+data-raw
 data/sets_*
-*.html
+sandbox
+
+# Readme files
+readme_Shiny.md
+readme_docker.md

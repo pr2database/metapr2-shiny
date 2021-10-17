@@ -4,12 +4,12 @@ metapr2App <- function() {
   
 # Build the whole dataset ---------------------------------------------------------
 
-df_full <- asv_set$df %>% 
-  left_join(asv_set$samples) %>% 
-  left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>% 
+df_full <- asv_set$df %>%
+  left_join(asv_set$samples) %>%
+  left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
   filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
-  mutate(depth_level = forcats::fct_relevel(depth_level, 
-                                            levels = c("bathypelagic", "mesopelagic", "euphotic", "surface"))) 
+  mutate(depth_level = forcats::fct_relevel(depth_level,
+                                            levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
 
 messages <- list()
 messages$no_data = tags$div(
@@ -33,8 +33,8 @@ ui <- fluidPage(
   # To include the favicon.ico
   tags$head(tags$link(rel="shortcut icon", href="img/favicon.ico")),
   # tags$head(tags$link(rel="shortcut icon", href=system.file("img", 'favicon.ico', package = "metapr2"))),
-  
-  
+
+
   # Title
   title = "MetaPR2",
   titlePanel(div(img(src='img/metapr2_logo.png', width="80"),"The MetaPR2 database")),
