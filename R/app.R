@@ -4,6 +4,10 @@ metapr2App <- function() {
   
 # Build the whole dataset ---------------------------------------------------------
 
+# Remove warnings
+  
+options(warn=-1)
+
 df_full <- asv_set$df %>%
   left_join(asv_set$samples) %>%
   left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
