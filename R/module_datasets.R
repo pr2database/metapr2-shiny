@@ -18,20 +18,41 @@ data_reads_min_UI <- function(id) {
 
 data_datasets_UI <- function(id) {
   ns <- NS(id)
+  
+  choices = asv_set$datasets$dataset_id
+  names(choices) = asv_set$datasets$dataset_code
+  
   tagList(
-    shinyWidgets::multiInput(
+    # shinyWidgets::multiInput(
+    #   inputId = ns("datasets_selected_id"),
+    #   label = h3("Select datasets"),
+    #   # choices = asv_set$datasets$dataset_id,
+    #   choiceNames = str_c(str_replace(asv_set$datasets$dataset_code, "_V4", ""), sep=" - "),
+    #   choiceValues = asv_set$datasets$dataset_id,
+    #   selected = asv_set$datasets$dataset_id,
+    #   options= list(
+    #     enable_search = TRUE,
+    #     search_placeholder ="Search...",
+    #     non_selected_header = "Available",
+    #     selected_header = "Selected",
+    #     actionsBox = TRUE)
+    # )
+    
+    # See options: https://dreamrs.github.io/shinyWidgets/reference/pickerOptions.html
+    
+    shinyWidgets::pickerInput(
       inputId = ns("datasets_selected_id"),
       label = h3("Select datasets"),
-      # choices = asv_set$datasets$dataset_id,
-      choiceNames = str_c(str_replace(asv_set$datasets$dataset_code, "_V4", ""), sep=" - "),
-      choiceValues = asv_set$datasets$dataset_id,
+      choices = choices,
       selected = asv_set$datasets$dataset_id,
-      options= list(
-        enable_search = TRUE,
-        search_placeholder ="Search...",
-        non_selected_header = "Available",
-        selected_header = "Selected ")
+      multiple = TRUE,
+      options= shinyWidgets::pickerOptions(
+        actionsBox = TRUE,
+        selectedTextFormat = "count > 1",
+        liveSearch = TRUE
+      )
     )
+    
   )
 }
 
@@ -46,12 +67,12 @@ data_datasets_table_UI <- function(id) {
 data_samples_UI <- function(id) {
   ns <- NS(id)
   tagList(
-    strong("Datasets selected:"),
-    textOutput(ns("datasets_selected_id")),
+    # strong("Datasets selected:"),
+    # textOutput(ns("datasets_selected_id")),
     
     h3("Select Samples"),
     
-    # checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = global$gene_regions),
+    checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = "V4"),
     checkboxGroupInput(ns("DNA_RNA"), "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
     checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = global$substrates),
     checkboxGroupInput(ns("fraction_name"), "Fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),
@@ -76,6 +97,7 @@ dataServer <- function(id, df_full, taxo) {
     
     iv_samples <- shinyvalidate::InputValidator$new()
     
+    iv_samples$add_rule("gene_region", shinyvalidate::sv_required(message = "Choose at least one gene region"))
     iv_samples$add_rule("DNA_RNA", shinyvalidate::sv_required(message = "Choose at least one DNA or RNA"))
     iv_samples$add_rule("substrate", shinyvalidate::sv_required(message = "Choose at least one substrate"))
     iv_samples$add_rule("fraction_name", shinyvalidate::sv_required(message = "Choose at least one fraction"))
@@ -121,6 +143,7 @@ dataServer <- function(id, df_full, taxo) {
     }
     
     observeEvent(input$datasets_selected_id,{
+      update_checkbox("gene_region", input$datasets_selected_id)
       update_checkbox("DNA_RNA", input$datasets_selected_id)
       update_checkbox("substrate", input$datasets_selected_id)
       update_checkbox("fraction_name", input$datasets_selected_id)
@@ -151,7 +174,7 @@ dataServer <- function(id, df_full, taxo) {
       req(iv_samples$is_valid())
       
       asv_set$samples %>%
-        filter( #gene_region %in% input$gene_region,
+        filter(gene_region %in% input$gene_region,
                DNA_RNA %in% input$DNA_RNA,
                depth_level %in% input$depth_level,
                fraction_name %in% input$fraction_name,
@@ -166,7 +189,7 @@ dataServer <- function(id, df_full, taxo) {
       req(iv_samples$is_valid())
       
       df_full %>%
-        filter( #gene_region %in% input$gene_region,
+        filter(gene_region %in% input$gene_region,
           DNA_RNA %in% input$DNA_RNA,
           depth_level %in% input$depth_level,
           fraction_name %in% input$fraction_name,
@@ -197,6 +220,7 @@ dataServer <- function(id, df_full, taxo) {
       print("filtering PS")
       
       ps <- ps_select (ps = asv_set$ps, 
+                 gene_region = input$gene_region,
                  DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
                  fraction_name = input$fraction_name, substrate = input$substrate, 
                  datasets_selected_id = input$datasets_selected_id,

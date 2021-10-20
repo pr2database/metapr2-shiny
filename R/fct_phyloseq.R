@@ -3,7 +3,7 @@
 # - Cannot the function select_samples because it is based on the base function select which is limited 
 
 
-ps_select <- function(ps, DNA_RNA, depth_level, fraction_name, substrate, datasets_selected_id,
+ps_select <- function(ps, gene_region, DNA_RNA, depth_level, fraction_name, substrate, datasets_selected_id,
                       ps_reads_min, 
                       taxo_level, taxo_name) {
   
@@ -15,6 +15,7 @@ ps_select <- function(ps, DNA_RNA, depth_level, fraction_name, substrate, datase
   # }
 
   keepSamples = 
+    (phyloseq::get_variable(ps, "gene_region") %in% gene_region ) &
     (phyloseq::get_variable(ps, "DNA_RNA") %in% DNA_RNA ) & 
     (phyloseq::get_variable(ps, "depth_level") %in% depth_level) & 
     (phyloseq::get_variable(ps, "fraction_name") %in% fraction_name)& 

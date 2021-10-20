@@ -77,7 +77,7 @@ panel | content
 
 * All datasets were processed with cutapdapt to remove primers and the dada2 R package to compute ASVs.
 
-* Assignment was done with dada2 assignTaxa using the 18S PR2 4.12 as reference
+* Assignment was done with dada2 assignTaxa using the 18S PR2 4.14.0 as reference
 
 * ASVs with less 100 reads total and with bootstrap value at the supergroup level < 90 were not considered.
 
