@@ -13,7 +13,6 @@ $run_dev.*
 ^install_packages\.R$
 ^sandbox$
 ^archives$
-^readme_Shiny\.md$
-^readme_docker\.md$
+^readme_*
 ^shiny-customized\.config$
 ^data/sets*

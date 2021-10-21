@@ -36,7 +36,7 @@
 #   * Will close windows after x msec 60000 -> 1 min 600000 -> 10 min
 
 inactivity <- "function idleTimer() {
-  var t = setTimeout(logout, 600000);
+  var t = setTimeout(logout, 1800000);
   window.onmousemove = resetTimer; // catches mouse movements
   window.onmousedown = resetTimer; // catches mouse movements
   window.onclick = resetTimer;     // catches mouse clicks
