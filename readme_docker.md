@@ -51,8 +51,27 @@ Test locally
 
 ## Push to Cloud run
 
+THIS IS MUCH FASTER FOR TESTING - Push image to Google Registry 
 
-Utilize Google Builds to build image on the cloud
+After just do "Modifier et Deployer la Nouvelle Revision"
+
+Will need to change if new tag
+
+```
+gcloud auth login
+
+gcloud auth configure-docker
+
+docker tag metapr2 asia.gcr.io/tactile-bolt-247111/metapr2:v0.1.0
+
+docker push asia.gcr.io/tactile-bolt-247111/metapr2:v0.1.0
+```
+
+Effectuer ensuite un mappage de domaine sur:
+
+http://app.pr2-primers.org
+
+Utilize Google Builds to build image on the cloud - Long
 
 ```
 gcloud auth login
@@ -70,26 +89,10 @@ Deploy to Google Cloud Run (Need only first time)
 gcloud run deploy --image asia.gcr.io/tactile-bolt-247111/metapr2 --platform managed --max-instances 1
 ```
 
-Effectuer ensuite un mappage de domaine sur:
-
-http://app.pr2-primers.org
 
 
-THIS IS MUCH FASTER FOR TESTING - Push image to Google Registry 
 
-After just do "Modifier et Deployer la Nouvelle Revision"
 
-Will need to change if new tag
-
-```
-gcloud auth login
-
-gcloud auth configure-docker
-
-docker tag metapr2 asia.gcr.io/tactile-bolt-247111/metapr2:v0.1.0
-
-docker push asia.gcr.io/tactile-bolt-247111/metapr2:v0.1.0
-```
 
 
 ## Push container to Docker repository

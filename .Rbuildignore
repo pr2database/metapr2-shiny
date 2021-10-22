@@ -10,7 +10,7 @@ $run_dev.*
 ^Dockerfile$
 ^\.dockerignore$
 ^app\.R$
-^install_packages\.R$
+^install_packages*
 ^sandbox$
 ^archives$
 ^readme_*

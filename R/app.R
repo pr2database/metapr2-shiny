@@ -8,12 +8,12 @@ metapr2App <- function() {
   
 options(warn=-1)
 
-df_full <- asv_set$df %>%
-  left_join(asv_set$samples) %>%
-  left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
-  filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
-  mutate(depth_level = forcats::fct_relevel(depth_level,
-                                            levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
+# df_full <- asv_set$df %>%
+#   left_join(asv_set$samples) %>%
+#   left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
+#   filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
+#   mutate(depth_level = forcats::fct_relevel(depth_level,
+#                                             levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
 
 messages <- list()
 messages$no_data = tags$div(
@@ -61,7 +61,8 @@ server <- function(input, output, session) {
   
   # Datasets - Reformat the datasets and creates output for download  
   
-    r <- dataServer("data", df_full, taxo)
+    # r <- dataServer("data", df_full, taxo)
+    r <- dataServer("data", taxo)
 
   # Panel - Download
   
@@ -82,7 +83,7 @@ server <- function(input, output, session) {
   
   # Panels - Alpha and beta diversity
   
-    phyloseqServer("phyloseq", r$ps_selected, taxo, messages)
+   phyloseqServer("phyloseq", r$ps_selected, taxo, messages)
   
   # Panel - Matching ASV
   

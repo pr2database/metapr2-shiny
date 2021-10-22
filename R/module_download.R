@@ -80,14 +80,18 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
       p(),
       hr(),
       p(),
-      h4("Phyloseq file - All data"),
-      renderPrint(print(asv_set$ps)),
-      h5("Taxonomic ranks"),
-      renderPrint(phyloseq::rank_names(asv_set$ps)),
-      h5("Variables"),
-      renderPrint(phyloseq::sample_variables(asv_set$ps)),
-      downloadButton(ns('download_phyloseq'), 'Download all data as phyloseq file (rds)'),
-      p()
+      if (global$phyloseq_use) {
+        tagList(
+            h4("Phyloseq file - All data"),
+            renderPrint(print(asv_set$ps)),
+            h5("Taxonomic ranks"),
+            renderPrint(phyloseq::rank_names(asv_set$ps)),
+            h5("Variables"),
+            renderPrint(phyloseq::sample_variables(asv_set$ps)),
+            downloadButton(ns('download_phyloseq'), 'Download all data as phyloseq file (rds)'),
+            p()
+        )
+      }
     )
     })
 

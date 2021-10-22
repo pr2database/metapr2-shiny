@@ -3,6 +3,12 @@
 
 phyloseq_alpha_UI <- function(id) {
   ns <- NS(id)
+  
+  if(!global$phyloseq_use) {
+    return(
+      tagList(h4("Too many datasets - Alpha diversity implemented later")))
+  }
+    
   tagList(
     uiOutput(ns('ui_ps_alpha')),
     shinycssloaders::withSpinner(uiOutput(ns('graph_ps_alpha')))
@@ -11,6 +17,12 @@ phyloseq_alpha_UI <- function(id) {
 
 phyloseq_beta_UI <- function(id) {
   ns <- NS(id)
+  
+  if(!global$phyloseq_use) {
+    return(
+      tagList(h4("Too many datasets - Beta diversity implemented later")))
+  }
+  
   tagList(
     uiOutput(ns('ui_ps_beta')),
     shinycssloaders::withSpinner(uiOutput(ns('graph_ps_beta')))
@@ -65,6 +77,7 @@ phyloseqServer <- function(id, ps_selected, taxo, messages) {
     # Beta UI -----------------------------------------------------------------
     
         output$ui_ps_beta <- renderUI({
+          
           tagList(
             
             includeMarkdown(system.file("readme", 'phyloseq.md', package = "metapr2")),    

@@ -7,8 +7,8 @@ sudo su - -c "R -e \"install.packages('DT', repos='https://cran.rstudio.com/')\"
 
 
 ### Tidyverse
-sudo su - -c "R -e \"install.packages('dplyr" )
-sudo su - -c "R -e \"install.packages('tidyr" )
+
+
 sudo su - -c "R -e \"install.packages('stringr', repos='https://cran.rstudio.com/')\""
 sudo su - -c "R -e \"install.packages('forcats', repos='https://cran.rstudio.com/')\""
 
@@ -39,5 +39,3 @@ sudo su - -c "R -e \"BiocManager::install('Biostrings')\""
 ### Phyloseq
 
 sudo su - -c "R -e \"BiocManager::install('phyloseq')\""
-
-sudo su - -c "R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\""

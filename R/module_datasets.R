@@ -75,7 +75,7 @@ data_samples_UI <- function(id) {
     checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = "V4"),
     checkboxGroupInput(ns("DNA_RNA"), "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
     checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = global$substrates),
-    checkboxGroupInput(ns("fraction_name"), "Fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),
+    checkboxGroupInput(ns("fraction_name"), "Size fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),
     checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
   )
 }
@@ -84,12 +84,15 @@ data_samples_UI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-dataServer <- function(id, df_full, taxo) {
+dataServer <- function(id, taxo) {
+# dataServer <- function(id, df_full, taxo) {
   # stopifnot(is.reactive(df))
   
   moduleServer(id, function(input, output, session) {
     
     ns <- NS(id)
+    
+    options(warn=-1)
 
 
 
@@ -181,60 +184,83 @@ dataServer <- function(id, df_full, taxo) {
                substrate %in% input$substrate,
                dataset_id %in% input$datasets_selected_id
         ) })
-    
-    # The full data frame filtered by samples, datasets and taxonomy ---------------
-    
-    df_selected <- reactive({
-      # First check some samples are chosen
-      req(iv_samples$is_valid())
-      
-      df_full %>%
-        filter(gene_region %in% input$gene_region,
-          DNA_RNA %in% input$DNA_RNA,
-          depth_level %in% input$depth_level,
-          fraction_name %in% input$fraction_name,
-          substrate %in% input$substrate,
-          dataset_id %in% input$datasets_selected_id,
-          .data[[taxo()$level]] %in% taxo()$name, 
-          sum_reads_asv >= input$reads_min
-        ) 
-      })
-    
     # Only keep the ASVs that are in df_slected ---------------
     
     fasta_selected <- reactive({
-      req(df_selected())
+      req(taxo(), input$reads_min)
       asv_set$fasta %>%
-        filter(asv_code %in% df_selected()$asv_code
+        filter(.data[[taxo()$level]] %in% taxo()$name,
+                sum_reads_asv >= input$reads_min
         ) 
       })
+    
+    # The full data frame filtered by samples, datasets and taxonomy ---------------
+    
+    # df_selected <- reactive({
+    #   # First check some samples are chosen
+    #   req(iv_samples$is_valid())
+    #   
+    #   df_full %>%
+    #     filter(gene_region %in% input$gene_region,
+    #       DNA_RNA %in% input$DNA_RNA,
+    #       depth_level %in% input$depth_level,
+    #       fraction_name %in% input$fraction_name,
+    #       substrate %in% input$substrate,
+    #       dataset_id %in% input$datasets_selected_id,
+    #       .data[[taxo()$level]] %in% taxo()$name, 
+    #       sum_reads_asv >= input$reads_min
+    #     ) 
+    #   })
+    
+    df_selected <- reactive({
+      # First check some samples are chosen
+      req(iv_samples$is_valid(), samples_selected(), fasta_selected ())
+      
+      asv_set$df %>%
+        filter(file_code %in% samples_selected()$file_code,
+               asv_code %in% fasta_selected()$asv_code) %>% 
+        left_join(asv_set$samples) %>% 
+        left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
+        filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
+        mutate(depth_level = forcats::fct_relevel(depth_level,
+                                                  levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
+    })
+    
     
     
 
     # Filter phyloseq by samples and taxon selected ----------------------------
     
-    ps_selected <- reactive({ 
-      
-      req(iv_samples$is_valid())
-      
-      print("filtering PS")
-      
-      ps <- ps_select (ps = asv_set$ps, 
-                 gene_region = input$gene_region,
-                 DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
-                 fraction_name = input$fraction_name, substrate = input$substrate, 
-                 datasets_selected_id = input$datasets_selected_id,
-                 ps_reads_min = input$reads_min, 
-                 taxo_level = taxo()$level, taxo_name = taxo()$name)
-      return(ps)
-    })
+    if (global$phyloseq_use){
     
-   
+        ps_selected <- reactive({ 
+          
+          req(iv_samples$is_valid())
+          
+          print("filtering PS")
+          
+          ps <- ps_select (ps = asv_set$ps, 
+                     gene_region = input$gene_region,
+                     DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
+                     fraction_name = input$fraction_name, substrate = input$substrate, 
+                     datasets_selected_id = input$datasets_selected_id,
+                     ps_reads_min = input$reads_min, 
+                     taxo_level = taxo()$level, taxo_name = taxo()$name)
+          return(ps)
+        })
+        
+       
+        return(list(datasets_selected = datasets_selected,
+                    samples_selected = samples_selected,
+                    df_selected = df_selected,
+                    fasta_selected = fasta_selected,
+                    ps_selected = ps_selected))
+    }
+    
     return(list(datasets_selected = datasets_selected,
                 samples_selected = samples_selected,
                 df_selected = df_selected,
-                fasta_selected = fasta_selected,
-                ps_selected = ps_selected))
+                fasta_selected = fasta_selected))
 
   })
   
