@@ -3,6 +3,12 @@
 metapr2App <- function() {
   
 # Build the whole dataset ---------------------------------------------------------
+  
+# Function for computing object sizes
+
+  # obj_size <- function(x) {
+  #   cat("Object:",deparse(substitute(x)), "- size: ", round(pryr::object_size(x)/10**6, 2), " Mb \n")
+  # }
 
 # Remove warnings
   
@@ -21,6 +27,7 @@ messages$no_data = tags$div(
                       # tags$br(),
                       tags$span(style="color:red","You may want to change minimum number of reads or select more samples")
                       )
+
 
 # User interface ----------------------------------------------------------
 
@@ -93,6 +100,9 @@ server <- function(input, output, session) {
   # Utils - Dynamic taxonomy boxes
   
     taxo <- taxoServer("taxo")
+    
+    # cat("Server: ")
+    # print(pryr::mem_used())
   
 }
 

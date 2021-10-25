@@ -27,6 +27,9 @@ barplot <- function(df, variable, taxo_level) {
     xlab("% of reads") + ylab("") +
     theme_bw()
   
+  # cat("Barplot: ")
+  # print(pryr::mem_used())
+  
   return(gg)
   
 }

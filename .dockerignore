@@ -16,9 +16,11 @@ README.Rmd
 # directories
 archives
 data-raw
-data/sets_*
+data-rda
 sandbox
 
 # Readme files
 readme_Shiny.md
 readme_docker.md
+install_packages.R
+README.md

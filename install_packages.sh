@@ -24,7 +24,8 @@ sudo su - -c "R -e \"install.packages('leaflet.minicharts', repos='https://cran.
 
 ### Misc
 sudo su - -c "R -e \"install.packages('rio', repos='https://cran.rstudio.com/')\""
-
+sudo su - -c "R -e \"install.packages('qs', repos='https://cran.rstudio.com/')\""
+sudo su - -c "R -e \"install.packages('plyr', repos='https://cran.rstudio.com/')\""
 
 # To load package
 

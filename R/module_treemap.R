@@ -4,7 +4,7 @@
 
 treemap <- function(df, taxo_level) {
   
-  taxo_level_number = which(global$taxo_levels == taxo_level)
+    taxo_level_number = which(global$taxo_levels == taxo_level)
   
   # Do not go beyond ASV level (taxo_level_number = 9)
   if(taxo_level_number < 8 ){
@@ -30,7 +30,7 @@ treemap <- function(df, taxo_level) {
   # ggplot(df, aes(area = n, fill = {{level2}}, subgroup = {{level1}}, label = {{level2}})) +
   #   treemapify::geom_treemap()
   
-  ggplot(df, aes(area = n, 
+  g <- ggplot(df, aes(area = n, 
                  fill = .data[[taxo_level_1]],
                  subgroup = .data[[taxo_level_1]], 
                  label = .data[[taxo_level_2]])) +
@@ -43,6 +43,11 @@ treemap <- function(df, taxo_level) {
     theme_bw() +
     scale_color_brewer() +
     guides(fill = FALSE)
+  
+  # cat("Treemap: ")
+  # print(pryr::mem_used())
+  
+  return(g)
   
 }
 # UI ----------------------------------------------------------------------

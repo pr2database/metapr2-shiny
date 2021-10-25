@@ -47,6 +47,25 @@ RUN install2.r --error --skipinstalled \
 RUN R -e "BiocManager::install('Biostrings',ask=F)"
 RUN R -e "BiocManager::install('phyloseq',ask=F)"
 
+RUN install2.r --error --skipinstalled \
+    pryr qs
+
+# Install vsearch
+# https://github.com/FredHutch/docker-vsearch/blob/master/Dockerfile
+
+# Install prerequisites
+# RUN apt-get install -y build-essential wget unzip python2.7 python-dev python-pip bats zlib1g-dev bzip2
+
+# Add files
+RUN mkdir /usr/vsearch
+
+# Get the binary from the latest release
+RUN cd /usr/vsearch && \
+	wget https://github.com/torognes/vsearch/releases/download/v2.18.0/vsearch-2.18.0-linux-x86_64.tar.gz && \
+	tar xzvf vsearch-2.18.0-linux-x86_64.tar.gz && \
+	cd vsearch-2.18.0-linux-x86_64 && \
+	ln -s /usr/vsearch/vsearch-2.18.0-linux-x86_64/bin/vsearch /usr/local/bin
+
 # copy necessary files
 
 WORKDIR /srv/shiny-server
@@ -55,11 +74,11 @@ COPY DESCRIPTION ./
 COPY NAMESPACE ./
 COPY .Rbuildignore ./
 
-COPY README.md ./
+# COPY README.md ./
 COPY *.R ./
 
 COPY /R ./R
-COPY /data  ./data
+# COPY /data-qs  ./data-qs
 COPY /inst  ./inst
 
 # For testing

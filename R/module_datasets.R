@@ -216,12 +216,19 @@ dataServer <- function(id, taxo) {
       # First check some samples are chosen
       req(iv_samples$is_valid(), samples_selected(), fasta_selected ())
       
+      cols_to_remove <- c("reads_corrected_total" , "reads_corrected_photo" , 
+                          "country" , "oceanic_region" , "cruise" , "station_id" , 
+                          "bottom_depth" , "site_name" , 
+                          "sum_reads_asv" , 
+                          "Chla" , "NO3" , "NH4" , "PO4" , "Si")
+      
       asv_set$df %>%
         filter(file_code %in% samples_selected()$file_code,
                asv_code %in% fasta_selected()$asv_code) %>% 
         left_join(asv_set$samples) %>% 
         left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
-        filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
+        filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked) %>% 
+        select(-any_of(cols_to_remove)) %>% 
         mutate(depth_level = forcats::fct_relevel(depth_level,
                                                   levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
     })

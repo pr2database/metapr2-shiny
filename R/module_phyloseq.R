@@ -106,6 +106,10 @@ phyloseqServer <- function(id, ps_selected, taxo, messages) {
   
         ps_ordinate <- reactive({
           req(ps_selected(), input$beta_method, input$beta_distance)
+          
+          # cat("PS ordinate: ")
+          # print(pryr::mem_used())
+          
           if (typeof(ps_selected())== "S4"){
             phyloseq::ordinate(ps_selected(), 
                                method = input$beta_method, 

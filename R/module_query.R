@@ -92,7 +92,7 @@ queryServer <- function(id, fasta_selected) {
                                     autoWidth = TRUE,
                                     scrollX=TRUE,
                                     columnDefs = list(list(width = '10%', targets = c(1)),
-                                                      list(width = '20%', targets = c(9:12)))
+                                                      list(width = '20%', targets = c(9:11)))
                                     )
                       )
     

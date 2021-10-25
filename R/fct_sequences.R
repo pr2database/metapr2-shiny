@@ -26,12 +26,15 @@ match_asv <- function(fasta.df, query){
   asv_align <- Biostrings::pairwiseAlignment(pattern = pattern, subject = query, type = "global-local")
 
   scores <- data.frame(score=Biostrings::score(asv_align), pid = Biostrings::pid(asv_align) )
-
-  bind_cols(fasta.df, scores) %>%
+  
+  df <- bind_cols(fasta.df, scores) %>%
     arrange(desc(pid)) %>%
     mutate(pid = round(pid, 2)) %>%  # Only 2 decimals
-    select(asv_code, pid, kingdom:species, sequence,
-           asv_remark, sum_reads_asv)
+    select(asv_code, pid, kingdom:species, sequence, sum_reads_asv)
+  
+  print(df)
+  
+  return(df)
 }
 
 

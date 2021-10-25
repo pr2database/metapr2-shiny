@@ -25,6 +25,8 @@ Imports:
     patchwork,
     phyloseq,
     pkgload,
+    pryr,
+    qs,
     rio,
     shiny,
     shinycssloaders,

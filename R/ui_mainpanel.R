@@ -8,10 +8,6 @@
     tabPanel("Datasets",
              data_datasets_table_UI("data")
     ),
-    tabPanel("Download",
-             downloadUI("download")
-
-    ),
     tabPanel("Treemap",
              treemapUI("treemap")
     ),
@@ -30,6 +26,10 @@
 
     tabPanel("Query",
              queryUI("query")
+    ),
+    tabPanel("Download",
+             downloadUI("download")
+             
     )
     
     # tabPanel("Debug",

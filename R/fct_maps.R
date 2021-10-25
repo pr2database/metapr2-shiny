@@ -108,7 +108,11 @@ map_leaflet <- function(map, df, pct_max = 100,
                   pal = pal_dominant,
                   values = df$present$dominant_taxon,
                   opacity = 1)}
-    }    
+  }  
+  
+  # cat("Map: ")
+  # print(pryr::mem_used())
+  
   return(map)
 }
 
