@@ -78,7 +78,7 @@ COPY .Rbuildignore ./
 COPY *.R ./
 
 COPY /R ./R
-# COPY /data-qs  ./data-qs
+COPY /data-qs  ./data-qs
 COPY /inst  ./inst
 
 # For testing
