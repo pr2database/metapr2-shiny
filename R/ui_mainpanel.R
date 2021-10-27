@@ -29,13 +29,13 @@
     ),
     tabPanel("Download",
              downloadUI("download")
-             
+
     )
-    
+
     # tabPanel("Debug",
-    #          # textOutput("test1"),
-    #          # textOutput("ps")
-    #          # dataTableOutput("test3")
+    #          textOutput("test1"),
+    #          textOutput("test2"),
+    #          DT::dataTableOutput("test3")
     #          # dataTableOutput("test4")
     # )
   )

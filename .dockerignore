@@ -24,3 +24,7 @@ readme_Shiny.md
 readme_docker.md
 install_packages.R
 README.md
+
+# Shell files
+readme_docker.sh
+install_packages.sh

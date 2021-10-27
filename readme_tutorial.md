@@ -1,6 +1,5 @@
 # Going through the Shiny application
 
-* RECORD
 
 * Wait each time for the graph to refresh
 * Restart if crash

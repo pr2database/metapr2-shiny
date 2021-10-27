@@ -1,5 +1,5 @@
 # Base image https://hub.docker.com/u/rocker/
-FROM rocker/shiny 
+FROM rocker/shiny:4.1.0 
 
 RUN apt-get update && apt-get install -y \
     --no-install-recommends \
@@ -78,7 +78,6 @@ COPY .Rbuildignore ./
 COPY *.R ./
 
 COPY /R ./R
-COPY /data-qs  ./data-qs
 COPY /inst  ./inst
 
 # For testing

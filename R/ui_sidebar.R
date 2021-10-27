@@ -20,7 +20,6 @@ sidebar <- function() {sidebarPanel(width = 3,
                data_samples_UI("data"),
                data_reads_min_UI("data"),
                taxoUI("taxo")
-               
              )
              
              

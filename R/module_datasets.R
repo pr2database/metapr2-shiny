@@ -21,6 +21,7 @@ data_datasets_UI <- function(id) {
   
   choices = asv_set$datasets$dataset_id
   names(choices) = asv_set$datasets$dataset_code
+  choices <- choices[order(names(choices))]
   
   tagList(
     # shinyWidgets::multiInput(
@@ -59,8 +60,8 @@ data_datasets_UI <- function(id) {
 data_datasets_table_UI <- function(id) {
   ns <- NS(id)
   tagList(
-      # h4("Select and deselect datasets by clicking on the corresponding row."), 
-      DT::DTOutput(ns('datasets_table'))
+    # h4("Select and deselect datasets by clicking on the corresponding row."), 
+    DT::DTOutput(ns('datasets_table'))
   )
 }
 
@@ -74,9 +75,10 @@ data_samples_UI <- function(id) {
     
     checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = "V4"),
     checkboxGroupInput(ns("DNA_RNA"), "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
+    checkboxGroupInput(ns("ecosystem"), "Ecosystems", inline = TRUE,  choices = global$ecosystems, selected = global$ecosystems),
     checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = global$substrates),
     checkboxGroupInput(ns("fraction_name"), "Size fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),
-    checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
+    checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = global$depth_levels),
   )
 }
 
@@ -85,7 +87,7 @@ data_samples_UI <- function(id) {
 
 
 dataServer <- function(id, taxo) {
-# dataServer <- function(id, df_full, taxo) {
+  # dataServer <- function(id, df_full, taxo) {
   # stopifnot(is.reactive(df))
   
   moduleServer(id, function(input, output, session) {
@@ -93,15 +95,16 @@ dataServer <- function(id, taxo) {
     ns <- NS(id)
     
     options(warn=-1)
-
-
-
+    
+    
+    
     # Validate sample selection -----------------------------------------------
     
     iv_samples <- shinyvalidate::InputValidator$new()
     
     iv_samples$add_rule("gene_region", shinyvalidate::sv_required(message = "Choose at least one gene region"))
     iv_samples$add_rule("DNA_RNA", shinyvalidate::sv_required(message = "Choose at least one DNA or RNA"))
+    iv_samples$add_rule("ecosystem", shinyvalidate::sv_required(message = "Choose at least one ecosystem"))
     iv_samples$add_rule("substrate", shinyvalidate::sv_required(message = "Choose at least one substrate"))
     iv_samples$add_rule("fraction_name", shinyvalidate::sv_required(message = "Choose at least one fraction"))
     iv_samples$add_rule("depth_level", shinyvalidate::sv_required(message = "Choose at least one depth level"))
@@ -117,13 +120,14 @@ dataServer <- function(id, taxo) {
     
     datasets_table <- reactive ({
       DT::datatable(asv_set$datasets %>% 
-        select(dataset_id, dataset_name, region, paper_reference, sample_number, asv_number, n_reads_mean) %>%
-        mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)),
-        rownames = FALSE
+                      select(dataset_id, dataset_name, region, paper_reference, sample_number, asv_number, n_reads_mean) %>%
+                      mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>% 
+                      arrange(dataset_name) ,
+                    rownames = FALSE
       ) %>% DT::formatStyle("selected",  target = 'row',
                             backgroundColor = DT::styleEqual(c(FALSE, TRUE), c('white', 'lightcyan'))
-                            )
-      })
+      )
+    })
     
     # See:
     # Column width: https://stackoverflow.com/questions/25205410/r-shiny-set-datatable-column-width
@@ -136,8 +140,9 @@ dataServer <- function(id, taxo) {
     update_checkbox <- function(variable, datasets_id) {
       values <- asv_set$samples %>% 
         filter(dataset_id %in% datasets_id) %>% 
+        arrange(.data[[variable]]) %>% 
         pull(.data[[variable]]) %>% 
-        unique()
+        unique() 
       
       updateCheckboxGroupInput(inputId = variable, 
                                choices = values,
@@ -148,6 +153,7 @@ dataServer <- function(id, taxo) {
     observeEvent(input$datasets_selected_id,{
       update_checkbox("gene_region", input$datasets_selected_id)
       update_checkbox("DNA_RNA", input$datasets_selected_id)
+      update_checkbox("ecosystem", input$datasets_selected_id)
       update_checkbox("substrate", input$datasets_selected_id)
       update_checkbox("fraction_name", input$datasets_selected_id)
       update_checkbox("depth_level", input$datasets_selected_id)
@@ -162,7 +168,7 @@ dataServer <- function(id, taxo) {
       req(iv_samples$is_valid())
       asv_set$datasets %>%
         filter(dataset_id %in% input$datasets_selected_id) 
-      })
+    })
     
     # Display datasets selected
     
@@ -179,6 +185,7 @@ dataServer <- function(id, taxo) {
       asv_set$samples %>%
         filter(gene_region %in% input$gene_region,
                DNA_RNA %in% input$DNA_RNA,
+               ecosystem %in% input$ecosystem,
                depth_level %in% input$depth_level,
                fraction_name %in% input$fraction_name,
                substrate %in% input$substrate,
@@ -190,9 +197,9 @@ dataServer <- function(id, taxo) {
       req(taxo(), input$reads_min)
       asv_set$fasta %>%
         filter(.data[[taxo()$level]] %in% taxo()$name,
-                sum_reads_asv >= input$reads_min
+               sum_reads_asv >= input$reads_min
         ) 
-      })
+    })
     
     # The full data frame filtered by samples, datasets and taxonomy ---------------
     
@@ -228,47 +235,48 @@ dataServer <- function(id, taxo) {
         left_join(asv_set$samples) %>% 
         left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
         filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked) %>% 
-        select(-any_of(cols_to_remove)) %>% 
-        mutate(depth_level = forcats::fct_relevel(depth_level,
-                                                  levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
+        select(-any_of(cols_to_remove))
     })
     
     
     
-
+    
     # Filter phyloseq by samples and taxon selected ----------------------------
     
     if (global$phyloseq_use){
-    
-        ps_selected <- reactive({ 
-          
-          req(iv_samples$is_valid())
-          
-          print("filtering PS")
-          
-          ps <- ps_select (ps = asv_set$ps, 
-                     gene_region = input$gene_region,
-                     DNA_RNA = input$DNA_RNA, depth_level = input$depth_level, 
-                     fraction_name = input$fraction_name, substrate = input$substrate, 
-                     datasets_selected_id = input$datasets_selected_id,
-                     ps_reads_min = input$reads_min, 
-                     taxo_level = taxo()$level, taxo_name = taxo()$name)
-          return(ps)
-        })
+      
+      ps_selected <- reactive({ 
         
-       
-        return(list(datasets_selected = datasets_selected,
-                    samples_selected = samples_selected,
-                    df_selected = df_selected,
-                    fasta_selected = fasta_selected,
-                    ps_selected = ps_selected))
+        req(iv_samples$is_valid())
+        
+        print("filtering PS")
+        
+        ps <- ps_select (ps = asv_set$ps, 
+                         gene_region = input$gene_region,
+                         DNA_RNA = input$DNA_RNA, 
+                         ecosystem = input$ecosystem,
+                         depth_level = input$depth_level, 
+                         fraction_name = input$fraction_name, 
+                         substrate = input$substrate, 
+                         datasets_selected_id = input$datasets_selected_id,
+                         ps_reads_min = input$reads_min, 
+                         taxo_level = taxo()$level, taxo_name = taxo()$name)
+        return(ps)
+      })
+      
+      
+      return(list(datasets_selected = datasets_selected,
+                  samples_selected = samples_selected,
+                  df_selected = df_selected,
+                  fasta_selected = fasta_selected,
+                  ps_selected = ps_selected))
     }
     
     return(list(datasets_selected = datasets_selected,
                 samples_selected = samples_selected,
                 df_selected = df_selected,
                 fasta_selected = fasta_selected))
-
+    
   })
   
 }  

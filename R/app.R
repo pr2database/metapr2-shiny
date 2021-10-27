@@ -14,13 +14,6 @@ metapr2App <- function() {
   
 options(warn=-1)
 
-# df_full <- asv_set$df %>%
-#   left_join(asv_set$samples) %>%
-#   left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
-#   filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked)
-#   mutate(depth_level = forcats::fct_relevel(depth_level,
-#                                             levels = c("bathypelagic", "mesopelagic", "euphotic", "surface")))
-
 messages <- list()
 messages$no_data = tags$div(
                       tags$h4(tags$b("No data for this taxon in selected samples:")),
@@ -68,41 +61,45 @@ server <- function(input, output, session) {
   
   # Datasets - Reformat the datasets and creates output for download  
   
-    # r <- dataServer("data", df_full, taxo)
     r <- dataServer("data", taxo)
 
   # Panel - Download
-  
+
     downloadServer("download", r$datasets_selected, r$samples_selected, r$df_selected, taxo, messages)
-  
+
   # Panel - Treemap
-  
+
     treemapServer("treemap", r$df_selected, taxo, messages)
-  
+
   # Panel - Leaflet map
-  
+
     mapServer("map", r$df_selected, r$samples_selected, taxo)
-  
+
   # Panels - Barplot
-  
+
     barplotServer("barplot", r$df_selected, taxo, messages)
-  
-  
+
+
   # Panels - Alpha and beta diversity
-  
+
    phyloseqServer("phyloseq", r$ps_selected, taxo, messages)
-  
+
   # Panel - Matching ASV
-  
+
     queryServer("query", r$fasta_selected)
-  
-  
+
+
   # Utils - Dynamic taxonomy boxes
-  
+
     taxo <- taxoServer("taxo")
-    
+
     # cat("Server: ")
     # print(pryr::mem_used())
+  
+  # Debug
+  # output$test1 <- renderText(getwd())
+  # output$test2 <- renderText(nrow(asv_set$df))
+  # output$test3 <- DT::renderDT(asv_set$df)
   
 }
 
