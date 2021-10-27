@@ -1,12 +1,3 @@
-
-# Deploying to Shiny server -----------------------------------------------
-
-# When deploying on ShinyApps this before at the console type at the console the following line
-#        options(repos = BiocManager::repositories())
-# See : https://aarthiramakrishnan.com/2018/01/09/deploying-shiny-apps-using-bioconductor.html
-# To deploy app: rsconnect::deployApp("~/projects/shiny/app1", appName = "myapp", appTitle = "My Application")
-
-
 # Libraries ---------------------------------------------------------------
 
 #' @import shiny
@@ -33,7 +24,7 @@
 # Javascript function for timer -----------------------------------------------------
 
 #  See: https://stackoverflow.com/questions/35306295/how-to-stop-running-shiny-app-by-closing-the-browser-window
-#   * Will close windows after x msec 60000 -> 1 min 600000 -> 10 min
+#   * Will close windows after x msec 60000 -> 1 min 600 000 -> 10 min
 
 inactivity <- "function idleTimer() {
   var t = setTimeout(logout, 1800000);
@@ -49,7 +40,7 @@ inactivity <- "function idleTimer() {
 
   function resetTimer() {
     clearTimeout(t);
-    t = setTimeout(logout, 600000);  // time is in milliseconds (1000 is 1 second)
+    t = setTimeout(logout, 1800000);  // time is in milliseconds (1000 is 1 second)
   }
 }
 idleTimer();"
@@ -57,9 +48,9 @@ idleTimer();"
 
 # Data set type -----------------------------------------------------------
 
-set_type = "public"
+# set_type = "public"
 # set_type = "basic"
-# set_type = "all"
+set_type = "all"
 
 # Read the data -----------------------------------------------------------
 
@@ -139,4 +130,20 @@ global$fraction_names <- update_order("fraction_name")
 global$substrates <- update_order("substrate")
 global$ecosystems <- update_order("ecosystem")
 
+
+# Authentification (move to data_initialize later) ------------------------
+
+global$credentials <- data.frame(
+  user = c("basic", "public", "private"), # mandatory
+  admin = c(FALSE, FALSE, FALSE),
+  password = c(scrypt::hashPassword("12345"), scrypt::hashPassword("12345"), scrypt::hashPassword("meta2021")),
+  is_hashed_password = TRUE,
+  stringsAsFactors = FALSE
+)
+
+
+# Done --------------------------------------------------------------------
+
+
 print("init.R done")
+

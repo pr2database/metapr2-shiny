@@ -33,6 +33,24 @@ ui <- fluidPage(
   # To include the favicon.ico
   tags$head(tags$link(rel="shortcut icon", href="img/favicon.ico")),
   # tags$head(tags$link(rel="shortcut icon", href=system.file("img", 'favicon.ico', package = "metapr2"))),
+  
+  shinymanager::auth_ui(
+    id = "auth",
+    # add image on top ?
+    tags_top = 
+      tags$div(
+        tags$h1("metaPR2", style = "align:center"),
+        tags$img(src = "img/metapr2_logo.png", width = 80)
+      ),
+    # add information on bottom ?
+    tags_bottom = tags$div(
+      tags$h5("users: basic, public - password: 12345"),
+      tags$h5("user: private - request password"),
+      tags$p("Questions ? Please  contact ",
+        tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")
+      )
+    )
+   ),
 
 
   # Title
@@ -54,6 +72,12 @@ server <- function(input, output, session) {
   
   # Stop the application of the session is closed (after 10 min) - ACTIVATE  for web application
   session$onSessionEnded(stopApp)
+  
+  # Authentification
+  
+  user <- callModule(module = shinymanager::auth_server,
+                     id = "auth",
+                     check_credentials = shinymanager::check_credentials(global$credentials))
   
   
   # Validate the sample selection

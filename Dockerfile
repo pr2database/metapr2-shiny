@@ -48,7 +48,7 @@ RUN R -e "BiocManager::install('Biostrings',ask=F)"
 RUN R -e "BiocManager::install('phyloseq',ask=F)"
 
 RUN install2.r --error --skipinstalled \
-    pryr qs
+    pryr qs scrypt shinymanager
 
 # Install vsearch
 # https://github.com/FredHutch/docker-vsearch/blob/master/Dockerfile

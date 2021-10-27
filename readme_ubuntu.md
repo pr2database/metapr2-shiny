@@ -21,15 +21,20 @@ sudo apt-get install gdebi-core
 wget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.17.973-amd64.deb
 sudo gdebi shiny-server-1.5.17.973-amd64.deb
 
-sudo systemctl start shiny-server
-sudo systemctl enable shiny-server
 
-# Test Shiny server at http://34.126.91.69:3838/
+# Problem because need systemd 
+# See: https://gist.github.com/djfdyuruiry/6720faa3f9fc59bfdf6284ee1f41f950
+sudo service shiny-server start
+sudo service shiny-server enable
+
+# Does not work
+
+# Test Shiny server at http://localhost:3838/
 
 # Secure the files and restart the server
 sudo chmod 755 -R /srv/shiny-server
 sudo systemctl restart shiny-server
-
+sudo service shiny-server restart 
 
 # Move the files to directory /srv/shiny-server/metapr2 using WinSCP
 
@@ -44,11 +49,9 @@ sudo chmod 777 -R /var/log/shiny-server
 
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.4.1717-amd64.deb
 sudo gdebi rstudio-server-1.4.1717-amd64.deb
+sudo rstudio-server start
 
 sudo apt-get install libcurl4-openssl-dev libssl-dev libxml2-dev
 
-sudo addgroup metapr2
-sudo adduser daniel
-# password is daniel
 
-# Start app with http://34.126.91.69:8787
+# Start app with http://localhost:8787
