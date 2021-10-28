@@ -18,43 +18,46 @@ data_reads_min_UI <- function(id) {
 
 data_datasets_UI <- function(id) {
   ns <- NS(id)
-  
-  choices = asv_set$datasets$dataset_id
-  names(choices) = asv_set$datasets$dataset_code
-  choices <- choices[order(names(choices))]
-  
   tagList(
-    # shinyWidgets::multiInput(
-    #   inputId = ns("datasets_selected_id"),
-    #   label = h3("Select datasets"),
-    #   # choices = asv_set$datasets$dataset_id,
-    #   choiceNames = str_c(str_replace(asv_set$datasets$dataset_code, "_V4", ""), sep=" - "),
-    #   choiceValues = asv_set$datasets$dataset_id,
-    #   selected = asv_set$datasets$dataset_id,
-    #   options= list(
-    #     enable_search = TRUE,
-    #     search_placeholder ="Search...",
-    #     non_selected_header = "Available",
-    #     selected_header = "Selected",
-    #     actionsBox = TRUE)
-    # )
-    
-    # See options: https://dreamrs.github.io/shinyWidgets/reference/pickerOptions.html
-    
-    shinyWidgets::pickerInput(
-      inputId = ns("datasets_selected_id"),
-      label = h3("Select datasets"),
-      choices = choices,
-      selected = asv_set$datasets$dataset_id,
-      multiple = TRUE,
-      options= shinyWidgets::pickerOptions(
-        actionsBox = TRUE,
-        selectedTextFormat = "count > 1",
-        liveSearch = TRUE
-      )
-    )
-    
+    uiOutput(ns('ui_datasets_selection'))
   )
+  
+  # choices = user_datasets()$dataset_id
+  # names(choices) = user_datasets()$dataset_code
+  # choices <- choices[order(names(choices))]
+  # 
+  # tagList(
+  #   # shinyWidgets::multiInput(
+  #   #   inputId = ns("datasets_selected_id"),
+  #   #   label = h3("Select datasets"),
+  #   #   # choices = asv_set$datasets$dataset_id,
+  #   #   choiceNames = str_c(str_replace(asv_set$datasets$dataset_code, "_V4", ""), sep=" - "),
+  #   #   choiceValues = asv_set$datasets$dataset_id,
+  #   #   selected = asv_set$datasets$dataset_id,
+  #   #   options= list(
+  #   #     enable_search = TRUE,
+  #   #     search_placeholder ="Search...",
+  #   #     non_selected_header = "Available",
+  #   #     selected_header = "Selected",
+  #   #     actionsBox = TRUE)
+  #   # )
+  #   
+  #   # See options: https://dreamrs.github.io/shinyWidgets/reference/pickerOptions.html
+  #   
+  #   shinyWidgets::pickerInput(
+  #     inputId = ns("datasets_selected_id"),
+  #     label = h3("Select datasets"),
+  #     choices = choices,
+  #     selected = user_datasets()$dataset_id,
+  #     multiple = TRUE,
+  #     options= shinyWidgets::pickerOptions(
+  #       actionsBox = TRUE,
+  #       selectedTextFormat = "count > 1",
+  #       liveSearch = TRUE
+  #     )
+  #   )
+  #   
+  # )
 }
 
 data_datasets_table_UI <- function(id) {
@@ -86,7 +89,7 @@ data_samples_UI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-dataServer <- function(id, taxo) {
+dataServer <- function(id, taxo, authentification) {
   # dataServer <- function(id, df_full, taxo) {
   # stopifnot(is.reactive(df))
   
@@ -114,12 +117,63 @@ dataServer <- function(id, taxo) {
     
     iv_samples$enable()
     
+    # Create menu for dataset selection ------------------------------------------
+    
+    output$ui_datasets_selection <- renderUI({
+      choices = user_datasets()$dataset_id
+      names(choices) = user_datasets()$dataset_code
+      choices <- choices[order(names(choices))]
+      
+      tagList(
+        # shinyWidgets::multiInput(
+        #   inputId = ns("datasets_selected_id"),
+        #   label = h3("Select datasets"),
+        #   # choices = asv_set$datasets$dataset_id,
+        #   choiceNames = str_c(str_replace(asv_set$datasets$dataset_code, "_V4", ""), sep=" - "),
+        #   choiceValues = asv_set$datasets$dataset_id,
+        #   selected = asv_set$datasets$dataset_id,
+        #   options= list(
+        #     enable_search = TRUE,
+        #     search_placeholder ="Search...",
+        #     non_selected_header = "Available",
+        #     selected_header = "Selected",
+        #     actionsBox = TRUE)
+        # )
+        
+        # See options: https://dreamrs.github.io/shinyWidgets/reference/pickerOptions.html
+        
+        shinyWidgets::pickerInput(
+          inputId = ns("datasets_selected_id"),
+          label = h3("Select datasets"),
+          choices = choices,
+          selected = user_datasets()$dataset_id,
+          multiple = TRUE,
+          options= shinyWidgets::pickerOptions(
+            actionsBox = TRUE,
+            selectedTextFormat = "count > 1",
+            liveSearch = TRUE
+          )
+        )
+        
+      )
+    })
+    
+    
+    # Filter datasets depending on user -------------------------------------------------
+    
+    user_datasets <- reactive({
+        if (authentification$user == "basic") {
+           asv_set$datasets %>%
+              filter(dataset_id %in% c(1, 34, 35, 205, 206))
+           }
+        }
+    )
+    
     
     # Create table of datasets -------------------------------------------------
     
-    
     datasets_table <- reactive ({
-      DT::datatable(asv_set$datasets %>% 
+      DT::datatable(user_datasets() %>% 
                       select(dataset_id, dataset_name, region, paper_reference, sample_number, asv_number, n_reads_mean) %>%
                       mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>% 
                       arrange(dataset_name) ,
@@ -166,7 +220,7 @@ dataServer <- function(id, taxo) {
     
     datasets_selected <- reactive({
       req(iv_samples$is_valid())
-      asv_set$datasets %>%
+      user_datasets() %>%
         filter(dataset_id %in% input$datasets_selected_id) 
     })
     

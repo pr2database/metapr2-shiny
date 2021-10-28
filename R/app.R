@@ -34,6 +34,8 @@ ui <- fluidPage(
   tags$head(tags$link(rel="shortcut icon", href="img/favicon.ico")),
   # tags$head(tags$link(rel="shortcut icon", href=system.file("img", 'favicon.ico', package = "metapr2"))),
   
+  # Authentification
+  
   shinymanager::auth_ui(
     id = "auth",
     # add image on top ?
@@ -45,8 +47,8 @@ ui <- fluidPage(
     # add information on bottom ?
     tags_bottom = tags$div(
       tags$h5("users: basic, public - password: 12345"),
-      tags$h5("user: private - request password"),
-      tags$p("Questions ? Please  contact ",
+      tags$h5("basic = 5 datasets (OSD, Tara, Malapsina), public = 51 datasets"),
+      tags$p("For other datasets, please  contact ",
         tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")
       )
     )
@@ -75,9 +77,9 @@ server <- function(input, output, session) {
   
   # Authentification
   
-  user <- callModule(module = shinymanager::auth_server,
-                     id = "auth",
-                     check_credentials = shinymanager::check_credentials(global$credentials))
+  authentification <- callModule(module = shinymanager::auth_server,
+                                 id = "auth",
+                                 check_credentials = shinymanager::check_credentials(global$credentials))
   
   
   # Validate the sample selection
@@ -85,7 +87,7 @@ server <- function(input, output, session) {
   
   # Datasets - Reformat the datasets and creates output for download  
   
-    r <- dataServer("data", taxo)
+    r <- dataServer("data", taxo, authentification)
 
   # Panel - Download
 
