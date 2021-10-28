@@ -84,7 +84,7 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
                 inputId = ns("map_type"),
                 label = "Map type",
                 choices = c("pie chart" = "pie", "dominant taxon" = "dominant"),
-                selected = "pie",
+                selected = "dominant",
                 inline = TRUE,
                 width = NULL)
             ),

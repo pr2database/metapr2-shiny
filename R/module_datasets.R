@@ -21,43 +21,6 @@ data_datasets_UI <- function(id) {
   tagList(
     uiOutput(ns('ui_datasets_selection'))
   )
-  
-  # choices = user_datasets()$dataset_id
-  # names(choices) = user_datasets()$dataset_code
-  # choices <- choices[order(names(choices))]
-  # 
-  # tagList(
-  #   # shinyWidgets::multiInput(
-  #   #   inputId = ns("datasets_selected_id"),
-  #   #   label = h3("Select datasets"),
-  #   #   # choices = asv_set$datasets$dataset_id,
-  #   #   choiceNames = str_c(str_replace(asv_set$datasets$dataset_code, "_V4", ""), sep=" - "),
-  #   #   choiceValues = asv_set$datasets$dataset_id,
-  #   #   selected = asv_set$datasets$dataset_id,
-  #   #   options= list(
-  #   #     enable_search = TRUE,
-  #   #     search_placeholder ="Search...",
-  #   #     non_selected_header = "Available",
-  #   #     selected_header = "Selected",
-  #   #     actionsBox = TRUE)
-  #   # )
-  #   
-  #   # See options: https://dreamrs.github.io/shinyWidgets/reference/pickerOptions.html
-  #   
-  #   shinyWidgets::pickerInput(
-  #     inputId = ns("datasets_selected_id"),
-  #     label = h3("Select datasets"),
-  #     choices = choices,
-  #     selected = user_datasets()$dataset_id,
-  #     multiple = TRUE,
-  #     options= shinyWidgets::pickerOptions(
-  #       actionsBox = TRUE,
-  #       selectedTextFormat = "count > 1",
-  #       liveSearch = TRUE
-  #     )
-  #   )
-  #   
-  # )
 }
 
 data_datasets_table_UI <- function(id) {
@@ -79,9 +42,9 @@ data_samples_UI <- function(id) {
     checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = "V4"),
     checkboxGroupInput(ns("DNA_RNA"), "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
     checkboxGroupInput(ns("ecosystem"), "Ecosystems", inline = TRUE,  choices = global$ecosystems, selected = global$ecosystems),
-    checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = global$substrates),
-    checkboxGroupInput(ns("fraction_name"), "Size fractions", inline = TRUE,  choices = global$fraction_names, selected = global$fraction_names),
-    checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = global$depth_levels),
+    checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = "water"),
+    checkboxGroupInput(ns("fraction_name"), "Size fractions", inline = TRUE,  choices = global$fraction_names, selected = c("pico", "total")),
+    checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
   )
 }
 
@@ -125,23 +88,7 @@ dataServer <- function(id, taxo, authentification) {
       choices <- choices[order(names(choices))]
       
       tagList(
-        # shinyWidgets::multiInput(
-        #   inputId = ns("datasets_selected_id"),
-        #   label = h3("Select datasets"),
-        #   # choices = asv_set$datasets$dataset_id,
-        #   choiceNames = str_c(str_replace(asv_set$datasets$dataset_code, "_V4", ""), sep=" - "),
-        #   choiceValues = asv_set$datasets$dataset_id,
-        #   selected = asv_set$datasets$dataset_id,
-        #   options= list(
-        #     enable_search = TRUE,
-        #     search_placeholder ="Search...",
-        #     non_selected_header = "Available",
-        #     selected_header = "Selected",
-        #     actionsBox = TRUE)
-        # )
-        
         # See options: https://dreamrs.github.io/shinyWidgets/reference/pickerOptions.html
-        
         shinyWidgets::pickerInput(
           inputId = ns("datasets_selected_id"),
           label = h3("Select datasets"),
@@ -162,12 +109,22 @@ dataServer <- function(id, taxo, authentification) {
     # Filter datasets depending on user -------------------------------------------------
     
     user_datasets <- reactive({
-        if (authentification$user == "basic") {
-           asv_set$datasets %>%
-              filter(dataset_id %in% c(1, 34, 35, 205, 206))
-           }
-        }
-    )
+      req(!is.null(authentification$user))
+      
+      if (authentification$user == "basic") {
+         return( asv_set$datasets %>%
+            filter(dataset_id %in% c(1, 34, 35, 205, 206))
+            )
+      }
+      if (authentification$user == "public") {
+        return(asv_set$datasets %>%
+          filter(metapr2_version == "1.0")
+        )
+      }
+      if (authentification$user == "private") {
+        return(asv_set$datasets)
+      }
+   })
     
     
     # Create table of datasets -------------------------------------------------
@@ -197,10 +154,16 @@ dataServer <- function(id, taxo, authentification) {
         arrange(.data[[variable]]) %>% 
         pull(.data[[variable]]) %>% 
         unique() 
+      values_selected <- values
+      if (variable == "DNA_RNA") values_selected <- "DNA"
+      if (variable == "gene_region") values_selected <- "V4"
+      if (variable == "depth_level") values_selected <- "surface"
+      if (variable == "substrate") values_selected <- "water"
+      if (variable == "fraction_name") values_selected <- c("pico", 'total')
       
       updateCheckboxGroupInput(inputId = variable, 
                                choices = values,
-                               selected = values,
+                               selected = values_selected,
                                inline = TRUE)
     }
     
