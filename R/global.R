@@ -70,22 +70,22 @@ if(is.na(credentials)){
 
 # Read global ----------------------------------------------------------
 
-# global  <- tryCatch(
-#   {
-#     qs::qread(system.file("data-qs", 'global.qs', package = "metapr2"))
-#   },
-#   error=function(cond) {
-#     message("Cannot use system.file")
-#     return(NA)
-#   }
-# )
-# 
-# ## Using the explicit way
-# 
-# if(is.na(global)){
+global  <- tryCatch(
+  {
+    qs::qread(system.file("data-qs", 'global.qs', package = "metapr2"))
+  },
+  error=function(cond) {
+    message("Cannot use system.file")
+    return(NA)
+  }
+)
+
+## Using the explicit way
+
+if(is.na(global)){
   global <- qs::qread("inst/data-qs/global.qs")
-#   print("Using full path")
-# }
+  print("Using full path")
+}
 
 
 # Change factors to character ----------------------------------------------------

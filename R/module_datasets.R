@@ -152,36 +152,38 @@ dataServer <- function(id, taxo, authentification) {
       # req(user_datasets()) 
       req(!is.null(authentification$user))
       
-      asv_set <<-list()
-      
-      # # Reading the data - Using the normal way ----------------------------------
-      # asv_set_full  <- tryCatch(
-      #   {
-      #     qs::qread(system.file("data-qs",  'asv_set.qs', package = "metapr2"))
-      #   },
-      #   error=function(cond) {
-      #     message("Cannot use system.file")
-      #     return(NA)
-      #   }
-      # )
-      # 
-      # # Reading the data - Using the explicit way ------------------------------
-      # 
-      # if(is.na(asv_set_full)){
-      #   asv_set_full <- qs::qread("inst/data-qs/asv_set.qs")
-      #   print("Using full path")
-      # }
-      
-      # asv_set_full <- qs::qread("inst/data-qs/asv_set.qs")
+      # asv_set <<-list()
       
       # Filtering the datasets depending on "user"
       
       if (authentification$user == "") {
-        asv_set <<- qs::qread("inst/data-qs/asv_set.qs")
+         dir_asv_set <<- "data-qs"
       }
       if (authentification$user == "private") {
-        asv_set <<- qs::qread("inst/data-qs-private/asv_set.qs")
+         dir_asv_set <<- "data-qs-private"
       }
+      
+      
+      # Reading the data - Using the normal way ----------------------------------
+      asv_set  <<- tryCatch(
+        {
+          qs::qread(system.file(dir_asv_set,  'asv_set.qs', package = "metapr2"))
+        },
+        error=function(cond) {
+          message("Cannot use system.file")
+          return(NA)
+        }
+      )
+
+      # Reading the data - Using the explicit way ------------------------------
+
+      if(is.na(asv_set)){
+        asv_set <<- qs::qread(str_c("inst/", dir_asv_set, "/asv_set.qs"))
+        print("Using full path")
+      }
+      
+      # asv_set_full <- qs::qread("inst/data-qs/asv_set.qs")
+      
       
       # Filtering samples, df and fasta depending on use -----------------------
       
