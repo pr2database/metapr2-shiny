@@ -17,11 +17,17 @@
     tabPanel("Barplot",
              barplotUI("barplot")
     ),
-    tabPanel("Alpha diversity",
-             phyloseq_alpha_UI("phyloseq")
-    ),
-    tabPanel("Beta diversity",
-             phyloseq_beta_UI("phyloseq")
+    tabPanel("Diversity",
+        phyloseq_UI("phyloseq"),
+        tabsetPanel(
+        id = 'sub_panel' ,
+        tabPanel("Alpha diversity",
+                 phyloseq_alpha_UI("phyloseq")
+        ),
+        tabPanel("Beta diversity",
+                 phyloseq_beta_UI("phyloseq")
+        )
+        )
     ),
 
     tabPanel("Query",

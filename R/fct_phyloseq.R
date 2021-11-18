@@ -56,19 +56,32 @@ ps_select <- function(ps, gene_region, DNA_RNA, ecosystem, depth_level, fraction
 ps_alpha <- function(ps, measures = c("Shannon"), 
                      x="latitude" , color="depth", shape="fraction_name") {
   
+  variable_discrete <- c("depth_level", "fraction_name", "DNA_RNA", "ecosystem", "substrate")
+  
   gg <-phyloseq::plot_richness(ps, 
                           x = x, color = color, shape = shape, 
-                          measures=measures) +
-    geom_point(size=5, alpha=0.85) +
+                          measures=measures)  +
     # xlim(xmin,xmax) +
-    scale_color_gradient(high = "darkblue", low = "lightblue1") 
-  if (x %in% c("depth_level", "fraction_name", "DNA_RNA")){
+    # Next line remove samples with diversity = 0 (single species)
+    scale_y_continuous(limits = c(0.01, NA))
+  if (x %in% variable_discrete){
     gg <- gg +
-      geom_boxplot(aes(x= .data[[x]], shape=NULL), alpha = 0)
+      geom_boxplot(aes(x= .data[[x]], shape=NULL), alpha = 0) +
+      geom_jitter(size=2, alpha=0.85)
   } else {
     gg <- gg +
-      geom_smooth(aes(x= .data[[x]], shape=NULL), method = "gam", alpha = 0)  
-    }
+      geom_smooth(aes(x= .data[[x]], shape=NULL), method = "gam", alpha = 0) +
+      geom_point(size=2, alpha=0.85) 
+  }
+  
+  if (color %in% variable_discrete){
+    gg <- gg +
+      scale_color_viridis_d() 
+  } else {
+    gg <- gg +
+      # scale_color_gradient(high = "darkblue", low = "lightblue1") +
+      scale_color_viridis_c(option = "turbo")   
+  }
   
  tagList(
   p(""),
@@ -77,6 +90,8 @@ ps_alpha <- function(ps, measures = c("Shannon"),
 
   renderPlot(gg,  height = 600, width = 1200, res = 96)
 )
+ 
+ # gg # To test graphics
   
 }
 
@@ -116,5 +131,56 @@ tagList(
   },  height = 1600, width = 1000, res = 96),
   renderPrint(print(ps_ordinate))
 )
+
+}
+
+# Create phyloseq file ----------------------------------------------------------
+
+make_phyloseq <- function(samples, df, fasta){
+  
+# samples = 1000, 192 Mb
+# samples = 2000, 822 Mb
+  
+cols_to_include <- c("latitude", "ecosystem", "substrate", 
+                     "depth_level", "depth", "fraction_name", 
+                     "DNA_RNA", "temperature", "salinity")
+
+# 1. samples table : row names are labeled by file_code
+samples_df <- samples %>%
+  select(file_code, any_of(cols_to_include)) %>%
+  tibble::column_to_rownames(var = "file_code")
+
+
+# 2. otu table :
+otu <- df %>%
+  select(asv_code, file_code, n_reads) %>%
+  tidyr::pivot_wider(names_from=file_code,
+              values_from = n_reads,
+              values_fill=list(n_reads=0),
+              values_fn = mean) %>%
+  tibble::column_to_rownames(var = "asv_code")
+
+# 3. Taxonomy table
+
+tax <-  fasta %>%
+  select(asv_code, kingdom:species) %>%
+  distinct(asv_code, .keep_all = TRUE) %>%
+  tibble::column_to_rownames(var = "asv_code")
+
+## Create and save to phyloseq object
+
+# Transform into matrixes
+otu_mat <- as.matrix(otu)
+tax_mat <- as.matrix(tax)
+
+# Transform to phyloseq object and save to Rdata file
+OTU = phyloseq::otu_table(otu_mat, taxa_are_rows = TRUE)
+TAX = phyloseq::tax_table(tax_mat)
+samples = phyloseq::sample_data(samples_df)
+
+
+cat("Make phyloseq done \n")
+
+ps <- phyloseq::phyloseq(OTU, TAX, samples)
 
 }

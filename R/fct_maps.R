@@ -133,57 +133,73 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
   # df <- df%>% 
   #   filter(!!as.symbol(taxo_level)  %in% taxo_name) 
   
-  # Compute the level below the rank considered (e.g. species for genus)
+  # Compute the level below the rank considered (e.g. species for genus) 
   
-  taxo_level_below = global$taxo_levels[which(global$taxo_levels == taxo_level) + 1]
+  if(taxo_level != "asv_code"){
   
-  # Compute number for reads at taxo_level and taxo_level + 1
-  
-  samples_counts <- df %>%
-    group_by(across(all_of(c("file_code", taxo_level, taxo_level_below)))) %>%
-    mutate(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>%
-    ungroup(.data[[taxo_level_below]]) %>%
-    mutate(n_reads_1 = sum(n_reads, na.rm = TRUE)) %>% 
-    ungroup() %>% 
-    select(all_of(c("file_code", taxo_level,taxo_level_below, "n_reads_1", "n_reads_2"))) %>% 
-    distinct()
-  
-  df <- samples %>%             
-    select(file_code) %>% 
-    left_join(samples_counts)
-  
-  absent <- df %>%
-    filter(is.na(n_reads_1))%>% 
-    left_join(select(samples, file_code, latitude, longitude, label)) %>% 
-    select(file_code, latitude, longitude, label) %>% 
-    distinct()
-  
-  present <- df %>%   
-    filter(!is.na(n_reads_1)) %>%  # Next line is necessary to include also the samples where the taxo group is absent...
-    tidyr::expand(file_code, .data[[taxo_level]], .data[[taxo_level_below]]) %>% 
-    left_join(samples_counts) %>% 
-    mutate(n_reads_1 = tidyr::replace_na(n_reads_1, 0),  # This line is not necessary should there be no
-           n_reads_2 = tidyr::replace_na(n_reads_2, 0)) %>% 
-    filter(n_reads_1 != 0) %>% 
-    left_join(select(samples, file_code, latitude, longitude, label)) %>% 
-    distinct() %>% 
-    mutate(pct = (n_reads_1/global$n_reads_tot_normalized)*100)
-  
-# Debug
-# browser()
-  
-  dominant_taxon <- present %>%
-    arrange(file_code, desc(n_reads_2)) %>%
-    group_by(file_code) %>%
-    dplyr::slice(1) %>%
-    mutate(dominant_taxon = .data[[taxo_level_below]]) %>%
-    select(file_code, dominant_taxon)
-  
-  present <- left_join(present, dominant_taxon) %>% 
-    tidyr::pivot_wider(names_from = .data[[taxo_level_below]],
-                values_from = n_reads_2,
-                values_fill = 0) %>% 
-    select(-n_reads_1)
+       taxo_level_below = global$taxo_levels[which(global$taxo_levels == taxo_level) + 1]
+      
+      # Compute number for reads at taxo_level and taxo_level + 1
+      
+        samples_counts <- df %>%
+          group_by(across(all_of(c("file_code", taxo_level, taxo_level_below)))) %>%
+          mutate(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>%
+          ungroup(.data[[taxo_level_below]]) %>%
+          mutate(n_reads_1 = sum(n_reads_pct, na.rm = TRUE)) %>% 
+          ungroup() %>% 
+          select(all_of(c("file_code", taxo_level,taxo_level_below, "n_reads_1", "n_reads_2"))) %>% 
+          distinct()
+    
+      df <- samples %>%             
+        select(file_code) %>% 
+        left_join(samples_counts)
+      
+      absent <- df %>%
+        filter(is.na(n_reads_1))%>% 
+        left_join(select(samples, file_code, latitude, longitude, label)) %>% 
+        select(file_code, latitude, longitude, label) %>% 
+        distinct()
+      
+      present <- df %>%   
+        filter(!is.na(n_reads_1)) %>%  # Next line is necessary to include also the samples where the taxo group is absent...
+        tidyr::expand(file_code, .data[[taxo_level]], .data[[taxo_level_below]]) %>% 
+        left_join(samples_counts) %>% 
+        mutate(n_reads_1 = tidyr::replace_na(n_reads_1, 0),  # This line is not necessary should there be no
+               n_reads_2 = tidyr::replace_na(n_reads_2, 0)) %>% 
+        filter(n_reads_1 != 0) %>% 
+        left_join(select(samples, file_code, latitude, longitude, label)) %>% 
+        distinct() %>% 
+        mutate(pct = (n_reads_1/global$n_reads_tot_normalized)*100)
+      
+    # Debug
+    # browser()
+      
+      dominant_taxon <- present %>%
+        arrange(file_code, desc(n_reads_2)) %>%
+        group_by(file_code) %>%
+        dplyr::slice(1) %>%
+        mutate(dominant_taxon = .data[[taxo_level_below]]) %>%
+        select(file_code, dominant_taxon)
+      
+      present <- left_join(present, dominant_taxon) %>% 
+        tidyr::pivot_wider(names_from = .data[[taxo_level_below]],
+                    values_from = n_reads_2,
+                    values_fill = 0) %>% 
+        select(-n_reads_1)
+      
+  } else {
+    absent <-samples %>%
+      filter(!(file_code %in% df$file_code))%>% 
+      select(file_code, latitude, longitude, label) %>%  
+      distinct()
+    
+    present <- df %>%   
+      filter(!is.na(n_reads_pct))  %>% 
+      select(asv_code, file_code, latitude, longitude, label, n_reads_pct) %>% 
+      mutate(pct = (n_reads_pct/global$n_reads_tot_normalized)*100) %>% 
+      rename(dominant_taxon = asv_code)
+    
+  }
   
   return(list(present=present, absent = absent))
   

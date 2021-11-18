@@ -45,32 +45,15 @@ inactivity <- "function idleTimer() {
 }
 idleTimer();"
 
+# Declare asv_set ------------------------------------------------------------
 
-# Data set type -----------------------------------------------------------
+asv_set <- list()
 
-# set_type = "public"
-# set_type = "basic"
-set_type = "all"
+# Read credentials ----------------------------------------------------------
 
-# Read the data -----------------------------------------------------------
-
-
-# sub_dir = stringr::str_c("sets_", set_type)
-
-## Using the normal way
-asv_set  <- tryCatch(
+credentials  <- tryCatch(
   {
-    qs::qread(system.file("data-qs",  'asv_set.qs', package = "metapr2"))
-  },
-  error=function(cond) {
-    message("Cannot use system.file")
-    return(NA)
-  }
-)
-
-global  <- tryCatch(
-  {
-    qs::qread(system.file("data-qs", 'global.qs', package = "metapr2"))
+    qs::qread(system.file("data-qs", 'credentials.qs', package = "metapr2"))
   },
   error=function(cond) {
     message("Cannot use system.file")
@@ -80,11 +63,37 @@ global  <- tryCatch(
 
 ## Using the explicit way
 
-if(is.na(asv_set)){
-  asv_set <- qs::qread(stringr::str_c("inst/data-qs/asv_set.qs"))
-  global <- qs::qread(stringr::str_c("inst/data-qs/global.qs"))
+if(is.na(credentials)){
+  credentials <- qs::qread("inst/data-qs/credentials.qs")
   print("Using full path")
 }
+
+# Read global ----------------------------------------------------------
+
+# global  <- tryCatch(
+#   {
+#     qs::qread(system.file("data-qs", 'global.qs', package = "metapr2"))
+#   },
+#   error=function(cond) {
+#     message("Cannot use system.file")
+#     return(NA)
+#   }
+# )
+# 
+# ## Using the explicit way
+# 
+# if(is.na(global)){
+  global <- qs::qread("inst/data-qs/global.qs")
+#   print("Using full path")
+# }
+
+
+# Change factors to character ----------------------------------------------------
+
+global$ecosystems = as.character(global$ecosystems)
+global$substrates = as.character(global$substrates)
+global$fraction_names = as.character(global$fraction_names)
+global$depth_levels = as.character(global$depth_levels)
 
 
 # Done --------------------------------------------------------------------

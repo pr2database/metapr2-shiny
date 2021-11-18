@@ -1,8 +1,17 @@
+# Options for picker-----------------------------------------------------------------
+
+options_picker <- shinyWidgets::pickerOptions(
+  actionsBox = TRUE,
+  selectedTextFormat = "count > 10",
+  liveSearch = TRUE
+)
+
 # UI ----------------------------------------------------------------------
 
 data_reads_min_UI <- function(id) {
   ns <- NS(id)
   tagList(
+    h3("Select ASVs"),
     numericInput(
       ns("reads_min"),
       "Minimum number of total reads per ASV",
@@ -31,6 +40,7 @@ data_datasets_table_UI <- function(id) {
   )
 }
 
+
 data_samples_UI <- function(id) {
   ns <- NS(id)
   tagList(
@@ -39,14 +49,22 @@ data_samples_UI <- function(id) {
     
     h3("Select Samples"),
     
-    checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = "V4"),
-    checkboxGroupInput(ns("DNA_RNA"), "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
-    checkboxGroupInput(ns("ecosystem"), "Ecosystems", inline = TRUE,  choices = global$ecosystems, selected = global$ecosystems),
-    checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = "water"),
-    checkboxGroupInput(ns("fraction_name"), "Size fractions", inline = TRUE,  choices = global$fraction_names, selected = c("pico", "total")),
-    checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
+    # checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = "V4"),
+    # checkboxGroupInput(ns("DNA_RNA"), "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
+    # checkboxGroupInput(ns("ecosystem"), "Ecosystems", inline = TRUE,  choices = global$ecosystems, selected = global$ecosystems),
+    # checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = "water"),
+    # checkboxGroupInput(ns("fraction_name"), "Size fractions", inline = TRUE,  choices = global$fraction_names, selected = c("pico", "total")),
+    # checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
+    shinyWidgets::pickerInput(ns("gene_region"), "Gene regions", choices = global$gene_regions, selected = "V4", multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("DNA_RNA"), "DNA or RNA", choices = global$DNA_RNAs, selected = "DNA", multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("ecosystem"), "Ecosystems", choices = global$ecosystems, selected = global$ecosystems, multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("substrate"), "Substrates", choices = global$substrates, selected = "water", multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("fraction_name"), "Size fractions", choices = global$fraction_names, selected = c("pico", "total"), multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("depth_level"), "Depth levels", choices = global$depth_levels, selected = "surface", multiple = TRUE, options= options_picker),
+    
   )
 }
+
 
 
 # Server ------------------------------------------------------------------
@@ -83,8 +101,9 @@ dataServer <- function(id, taxo, authentification) {
     # Create menu for dataset selection ------------------------------------------
     
     output$ui_datasets_selection <- renderUI({
-      choices = user_datasets()$dataset_id
-      names(choices) = user_datasets()$dataset_code
+      req(!is.null(authentification$user))
+      choices = asv_set$datasets$dataset_id
+      names(choices) = asv_set$datasets$dataset_code
       choices <- choices[order(names(choices))]
       
       tagList(
@@ -93,7 +112,7 @@ dataServer <- function(id, taxo, authentification) {
           inputId = ns("datasets_selected_id"),
           label = h3("Select datasets"),
           choices = choices,
-          selected = user_datasets()$dataset_id,
+          selected = asv_set$datasets$dataset_id,
           multiple = TRUE,
           options= shinyWidgets::pickerOptions(
             actionsBox = TRUE,
@@ -106,31 +125,86 @@ dataServer <- function(id, taxo, authentification) {
     })
     
     
-    # Filter datasets depending on user -------------------------------------------------
+    # Read and filter datasets depending on user ---- THIS IS DONE ONLY AT START --------------
     
-    user_datasets <- reactive({
+   #  user_datasets <- reactive({
+   #    req(!is.null(authentification$user))
+   #    
+   #    if (authentification$user == "basic") {
+   #       return( asv_set$datasets %>%
+   #          filter(dataset_id %in% c(1, 34, 35, 205, 206))
+   #          )
+   #    }
+   #    if (authentification$user == "public") {
+   #      return(asv_set$datasets %>%
+   #        filter(metapr2_version == "1.0")
+   #      )
+   #    }
+   #    if (authentification$user == "private") {
+   #      return(asv_set$datasets)
+   #    }
+   # })
+    
+    # Use observe to filter the different components of asv_set
+    # Need to use <<- so that values are global
+    
+    observe({ 
+      # req(user_datasets()) 
       req(!is.null(authentification$user))
       
-      if (authentification$user == "basic") {
-         return( asv_set$datasets %>%
-            filter(dataset_id %in% c(1, 34, 35, 205, 206))
-            )
-      }
-      if (authentification$user == "public") {
-        return(asv_set$datasets %>%
-          filter(metapr2_version == "1.0")
-        )
+      asv_set <<-list()
+      
+      # # Reading the data - Using the normal way ----------------------------------
+      # asv_set_full  <- tryCatch(
+      #   {
+      #     qs::qread(system.file("data-qs",  'asv_set.qs', package = "metapr2"))
+      #   },
+      #   error=function(cond) {
+      #     message("Cannot use system.file")
+      #     return(NA)
+      #   }
+      # )
+      # 
+      # # Reading the data - Using the explicit way ------------------------------
+      # 
+      # if(is.na(asv_set_full)){
+      #   asv_set_full <- qs::qread("inst/data-qs/asv_set.qs")
+      #   print("Using full path")
+      # }
+      
+      # asv_set_full <- qs::qread("inst/data-qs/asv_set.qs")
+      
+      # Filtering the datasets depending on "user"
+      
+      if (authentification$user == "") {
+        asv_set <<- qs::qread("inst/data-qs/asv_set.qs")
       }
       if (authentification$user == "private") {
-        return(asv_set$datasets)
+        asv_set <<- qs::qread("inst/data-qs-private/asv_set.qs")
       }
-   })
-    
-    
+      
+      # Filtering samples, df and fasta depending on use -----------------------
+      
+      # asv_set$samples <<- asv_set_full$samples %>% 
+      #   filter(dataset_id %in% asv_set$datasets$dataset_id)
+      # 
+      #  asv_set$df <<- asv_set_full$df %>% 
+      #    filter(file_code %in% asv_set$samples$file_code)
+      #  
+      #  asv_set$fasta  <<- asv_set_full$fasta %>% 
+      #    filter(asv_code %in% asv_set$df$asv_code) 
+       
+       cat("Data sets: ", nrow(asv_set$datasets), "\n")
+       cat("Samples: ", nrow(asv_set$samples), "\n")
+       cat("df: ",nrow(asv_set$df), "\n")
+       cat("Fasta: ",nrow(asv_set$fasta), "\n")
+       })
+
+      
     # Create table of datasets -------------------------------------------------
     
     datasets_table <- reactive ({
-      DT::datatable(user_datasets() %>% 
+      DT::datatable(asv_set$datasets %>% 
                       select(dataset_id, dataset_name, region, paper_reference, sample_number, asv_number, n_reads_mean) %>%
                       mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>% 
                       arrange(dataset_name) ,
@@ -148,12 +222,36 @@ dataServer <- function(id, taxo, authentification) {
     
     # Update Sample Checkboxes With the values possible for the datasets selected ---
     
+    update_picker <- function(variable, datasets_id) {
+      values <- asv_set$samples %>% 
+        filter(dataset_id %in% datasets_id) %>% 
+        arrange(.data[[variable]]) %>% 
+        pull(.data[[variable]]) %>% 
+        unique() %>% 
+        as.character()
+      values_selected <- values
+      # print(values)
+      if (variable == "DNA_RNA") values_selected <- "DNA"
+      if (variable == "gene_region") values_selected <- "V4"
+      if (variable == "depth_level") values_selected <- "surface"
+      if (variable == "substrate") values_selected <- "water"
+      if (variable == "fraction_name") values_selected <- c("pico", 'total')
+      
+      shinyWidgets::updatePickerInput( session = session,
+                                       inputId = variable, 
+                                       choices = values,
+                                       selected = values_selected,
+                                       options = options_picker)
+    }
+    
     update_checkbox <- function(variable, datasets_id) {
       values <- asv_set$samples %>% 
         filter(dataset_id %in% datasets_id) %>% 
         arrange(.data[[variable]]) %>% 
         pull(.data[[variable]]) %>% 
-        unique() 
+        unique() %>% 
+        as.character()
+      
       values_selected <- values
       if (variable == "DNA_RNA") values_selected <- "DNA"
       if (variable == "gene_region") values_selected <- "V4"
@@ -168,12 +266,18 @@ dataServer <- function(id, taxo, authentification) {
     }
     
     observeEvent(input$datasets_selected_id,{
-      update_checkbox("gene_region", input$datasets_selected_id)
-      update_checkbox("DNA_RNA", input$datasets_selected_id)
-      update_checkbox("ecosystem", input$datasets_selected_id)
-      update_checkbox("substrate", input$datasets_selected_id)
-      update_checkbox("fraction_name", input$datasets_selected_id)
-      update_checkbox("depth_level", input$datasets_selected_id)
+      # update_checkbox("gene_region", input$datasets_selected_id)
+      # update_checkbox("DNA_RNA", input$datasets_selected_id)
+      # update_checkbox("ecosystem", input$datasets_selected_id)
+      # update_checkbox("substrate", input$datasets_selected_id)
+      # update_checkbox("fraction_name", input$datasets_selected_id)
+      # update_checkbox("depth_level", input$datasets_selected_id)
+      update_picker("gene_region", input$datasets_selected_id)
+      update_picker("DNA_RNA", input$datasets_selected_id)
+      update_picker("ecosystem", input$datasets_selected_id)
+      update_picker("substrate", input$datasets_selected_id)
+      update_picker("fraction_name", input$datasets_selected_id)
+      update_picker("depth_level", input$datasets_selected_id)
       
       
     })
@@ -183,7 +287,7 @@ dataServer <- function(id, taxo, authentification) {
     
     datasets_selected <- reactive({
       req(iv_samples$is_valid())
-      user_datasets() %>%
+      asv_set$datasets %>%
         filter(dataset_id %in% input$datasets_selected_id) 
     })
     
@@ -260,34 +364,34 @@ dataServer <- function(id, taxo, authentification) {
     
     # Filter phyloseq by samples and taxon selected ----------------------------
     
-    if (global$phyloseq_use){
-      
-      ps_selected <- reactive({ 
-        
-        req(iv_samples$is_valid())
-        
-        print("filtering PS")
-        
-        ps <- ps_select (ps = asv_set$ps, 
-                         gene_region = input$gene_region,
-                         DNA_RNA = input$DNA_RNA, 
-                         ecosystem = input$ecosystem,
-                         depth_level = input$depth_level, 
-                         fraction_name = input$fraction_name, 
-                         substrate = input$substrate, 
-                         datasets_selected_id = input$datasets_selected_id,
-                         ps_reads_min = input$reads_min, 
-                         taxo_level = taxo()$level, taxo_name = taxo()$name)
-        return(ps)
-      })
-      
-      
-      return(list(datasets_selected = datasets_selected,
-                  samples_selected = samples_selected,
-                  df_selected = df_selected,
-                  fasta_selected = fasta_selected,
-                  ps_selected = ps_selected))
-    }
+    # if (global$phyloseq_use){
+    #   
+    #   ps_selected <- reactive({ 
+    #     
+    #     req(iv_samples$is_valid())
+    #     
+    #     print("filtering PS")
+    #     
+    #     ps <- ps_select (ps = asv_set$ps, 
+    #                      gene_region = input$gene_region,
+    #                      DNA_RNA = input$DNA_RNA, 
+    #                      ecosystem = input$ecosystem,
+    #                      depth_level = input$depth_level, 
+    #                      fraction_name = input$fraction_name, 
+    #                      substrate = input$substrate, 
+    #                      datasets_selected_id = input$datasets_selected_id,
+    #                      ps_reads_min = input$reads_min, 
+    #                      taxo_level = taxo()$level, taxo_name = taxo()$name)
+    #     return(ps)
+    #   })
+    #   
+    #   
+    #   return(list(datasets_selected = datasets_selected,
+    #               samples_selected = samples_selected,
+    #               df_selected = df_selected,
+    #               fasta_selected = fasta_selected,
+    #               ps_selected = ps_selected))
+    # }
     
     return(list(datasets_selected = datasets_selected,
                 samples_selected = samples_selected,

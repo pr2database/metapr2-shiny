@@ -7,22 +7,41 @@ barplot <- function(df, variable, taxo_level) {
       df <- df %>% 
         filter(depth <=250)
     }  
-  # Discretize the data
+  # Discretize the data (must make sure that there is more than one value)
   
-    df <- df %>%
-      mutate(latitude =  cut_width(latitude, width=10, boundary=0),
-             temperature =  cut_width(temperature, width=5, boundary=0),
-             depth =  cut_width(depth, width=25, boundary=0)) 
 
+    if (length(unique(df$depth)) > 1) {
+      df <- df %>%
+      mutate(depth =  cut_width(depth, width=25, boundary=0))
+    } else {
+      df <- df %>%
+      mutate(depth =  as.factor(depth))
+    }
   
+  if (length(unique(df$temperature)) > 1) {
+    df <- df %>%
+      mutate(temperature =  cut_width(temperature, width=25, boundary=0))
+  } else {
+    df <- df %>%
+      mutate(temperature =  as.factor(temperature))
+  }
+  
+  if (length(unique(df$latitude)) > 1) {
+    df <- df %>%
+      mutate(latitude =  cut_width(latitude, width=25, boundary=0))
+  } else {
+    df <- df %>%
+      mutate(latitude =  as.factor(latitude))
+  }
+    
   gg <- df %>% 
-    select(any_of(c(taxo_level, variable)), n_reads) %>% 
+    select(any_of(c(taxo_level, variable)), n_reads_pct) %>% 
     group_by(across(any_of(c(taxo_level, variable)))) %>%
-    summarize(n_reads = sum(n_reads)) %>%
+    summarize(n_reads_pct = sum(n_reads_pct)) %>%
     group_by(across(any_of(variable))) %>% 
-    mutate(n_reads = n_reads/sum(n_reads)*100) %>% 
+    mutate(n_reads_pct = n_reads_pct/sum(n_reads_pct)*100) %>% 
     ggplot() +
-    geom_col(aes(y=.data[[variable]], x=n_reads, fill=.data[[taxo_level]])) +
+    geom_col(aes(y=.data[[variable]], x=n_reads_pct, fill=.data[[taxo_level]])) +
     scale_fill_viridis_d() +
     xlab("% of reads") + ylab("") +
     theme_bw()
@@ -59,10 +78,11 @@ barplotServer <- function(id, df, taxo, messages) {
 
     output$ui_barplot <- renderUI({
       tagList(
-        
+        includeMarkdown(system.file("readme", 'barplot.md', package = "metapr2")),
+        p(),
         fluidRow(
           column(9, radioButtons(NS(id, "barplot_variable"), "Variable to use for barplots:", inline = TRUE,
-                                 choices = c("fraction_name", "substrate", "depth_level", 
+                                 choices = c("fraction_name", "ecosystem", "substrate", "depth_level", 
                                              "depth","DNA_RNA", "latitude", "temperature"),
                                  selected = c("depth_level")))
         ),

@@ -20,7 +20,12 @@ messages$no_data = tags$div(
                       # tags$br(),
                       tags$span(style="color:red","You may want to change minimum number of reads or select more samples")
                       )
-
+shinymanager::set_labels(
+  language = "en",
+  "Please authenticate" = "Choose datasets",
+  "Username:" = "Datasets (leave blank for public datasets):",
+  "Password:" = "Password (leave blank for public datasets):"
+)
 
 # User interface ----------------------------------------------------------
 
@@ -46,8 +51,8 @@ ui <- fluidPage(
       ),
     # add information on bottom ?
     tags_bottom = tags$div(
-      tags$h5("users: basic, public - password: 12345"),
-      tags$h5("basic = 5 datasets (OSD, Tara, Malapsina), public = 51 datasets"),
+      tags$h4("Datasets"),
+      tags$h5("41 public datasets (V4 and V9), no password needed"),
       tags$p("For other datasets, please  contact ",
         tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")
       )
@@ -79,7 +84,7 @@ server <- function(input, output, session) {
   
   authentification <- callModule(module = shinymanager::auth_server,
                                  id = "auth",
-                                 check_credentials = shinymanager::check_credentials(global$credentials))
+                                 check_credentials = shinymanager::check_credentials(credentials))
   
   
   # Validate the sample selection
@@ -108,11 +113,11 @@ server <- function(input, output, session) {
 
   # Panels - Alpha and beta diversity
 
-   phyloseqServer("phyloseq", r$ps_selected, taxo, messages)
+   phyloseqServer("phyloseq", r$samples_selected, r$df_selected, r$fasta_selected, taxo, messages)
 
   # Panel - Matching ASV
 
-    queryServer("query", r$fasta_selected)
+    queryServer("query", r$df_selected, r$samples_selected)
 
 
   # Utils - Dynamic taxonomy boxes

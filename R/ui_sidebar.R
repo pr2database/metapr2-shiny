@@ -11,16 +11,25 @@ sidebar <- function() {sidebarPanel(width = 3,
                  input.panel == "Datasets" ||
                  input.panel == "Treemap" ||
                  input.panel == "Barplot" ||
-                 input.panel == "Alpha diversity" ||
-                 input.panel == "Beta diversity" ||
+                 input.panel == "Diversity" ||
                  input.panel == "Map" ||
                  input.panel == "Query" ||
                  input.panel == "Download"',
                data_datasets_UI("data"),
-               data_samples_UI("data"),
+               data_samples_UI("data")
+             ),
+             conditionalPanel(
+               condition = '
+                 input.panel == "Datasets" ||
+                 input.panel == "Treemap" ||
+                 input.panel == "Barplot" ||
+                 input.panel == "Diversity" ||
+                 input.panel == "Map" ||
+                 input.panel == "Download"',
                data_reads_min_UI("data"),
                taxoUI("taxo")
-             )
+             ),
+             
              
              
 )

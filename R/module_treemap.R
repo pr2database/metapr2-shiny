@@ -21,7 +21,7 @@ treemap <- function(df, taxo_level) {
   #   ungroup()
   
   df <- df %>%
-    count(across(all_of(c(taxo_level_1, taxo_level_2))), wt=n_reads) %>% 
+    count(across(all_of(c(taxo_level_1, taxo_level_2))), wt=n_reads_pct) %>% 
     ungroup()
   
   
