@@ -96,7 +96,7 @@ server <- function(input, output, session) {
 
   # Panel - Download
 
-    downloadServer("download", r$datasets_selected, r$samples_selected, r$df_selected, taxo, messages)
+    downloadServer("download", r$datasets_selected, r$samples_selected, r$df_selected, r$fasta_selected, taxo, messages)
 
   # Panel - Treemap
 
@@ -117,7 +117,7 @@ server <- function(input, output, session) {
 
   # Panel - Matching ASV
 
-    queryServer("query", r$df_selected, r$samples_selected)
+    queryServer("query", r$samples_selected, r$df_all, r$fasta_all)
 
 
   # Utils - Dynamic taxonomy boxes

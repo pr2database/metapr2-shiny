@@ -45,10 +45,6 @@ inactivity <- "function idleTimer() {
 }
 idleTimer();"
 
-# Declare asv_set ------------------------------------------------------------
-
-# asv_set <- list()
-
 # Read credentials ----------------------------------------------------------
 
 credentials  <- tryCatch(

@@ -21,8 +21,7 @@ queryUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-queryServer <- function(id, df_selected, samples_selected) {
-  # stopifnot(is.reactive(taxo))
+queryServer <- function(id, samples_selected, df_all, fasta_all) {
   
   moduleServer(id, function(input, output, session) {
     
@@ -40,10 +39,10 @@ queryServer <- function(id, df_selected, samples_selected) {
       
       req(iv_query$is_valid())
     
-      cat("N rows fasta: ", nrow(asv_set$fasta))
+      cat("N rows fasta: ", nrow(fasta_all()))
       # print(head(asv_set$fasta))
       
-      blast <- blaster_asv(asv_set$fasta, input$query)
+      blast <- blaster_asv(fasta_all(), input$query)
       if(!is.null(blast)){ 
         blast <- blast %>% 
           tibble::column_to_rownames(var = "asv_code") %>% 
@@ -128,11 +127,11 @@ queryServer <- function(id, df_selected, samples_selected) {
     # Note: here we do not filter by taxonomy or number of total reads
     
     df_map <- reactive({
-      req(df_selected(), samples_selected(), asv_selected() ) 
-      asv_set$df %>%
+      req(samples_selected(), asv_selected() ) 
+      df_all() %>%
         filter(file_code %in% samples_selected()$file_code) %>% 
-        left_join(asv_set$samples) %>% 
-        left_join(select(asv_set$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
+        left_join(samples_selected()) %>% 
+        left_join(select(fasta_all(), asv_code, kingdom:species, sum_reads_asv)) %>%
         filter(asv_code == asv_selected()) %>% 
         reformat_df_map(samples = samples_selected(), taxo_level = "asv_code")
     })

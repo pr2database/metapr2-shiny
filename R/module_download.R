@@ -12,7 +12,7 @@ downloadUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-downloadServer <- function(id, datasets_selected, samples_selected, df_selected, taxo, messages) {
+downloadServer <- function(id, datasets_selected, samples_selected, df_selected, fasta_selected, taxo, messages) {
   # stopifnot(is.reactive(taxo))
   
   moduleServer(id, function(input, output, session) {
@@ -22,12 +22,6 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
   # Download files (zip) ----------------------------------------------------
   # 
   # See:  https://stackoverflow.com/questions/43916535/download-multiple-csv-files-with-one-button-downloadhandler-with-r-shiny
-    
-    fasta_selected <- reactive({
-      req(df_selected())
-      asv_set$fasta %>% 
-        filter(asv_code %in% df_selected()$asv_code)
-    })
     
     ps_selected <- reactive({
       req(n_samples_valid())
@@ -61,15 +55,6 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
     filename = function() {str_c("metapr2_phyloseq_", taxo()$name, "_", Sys.Date(), ".rds")},
     
     content = function(path) {
-      
-      # req(n_samples_valid())
-      # req(fasta_selected())
-      
-      # ps <- make_phyloseq(samples_selected(), df_selected(), fasta_selected())
-      # print(ps)
-      
-      # cat("Download ps - Mem Gb: ", pryr::mem_used()/10^9, "\n")
-      
       rio::export(ps_selected(), file=path)
     }
   ) 
@@ -97,21 +82,7 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
     }
   )
 
-  
-  # # Download phyloseq -------------------------------------------------------
-  # 
-  # 
-  # output$download_phyloseq <- downloadHandler(
-  #   
-  #   filename = function() {str_c("metapr2_phyloseq.rds")},
-  #   
-  #   content = function(file) {
-  #     
-  #     rio::export(asv_set$ps, file = file) 
-  #   }
-  # )   
-  
-  
+
   # UI ----------------------------------------------------------------------
   
   
@@ -122,32 +93,21 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
       if(nrow(df_selected()) == 0) {messages$no_data},
       p(),
       htmlOutput(ns("sample_number")),
-      p(),
-      if(n_samples_valid()) renderPrint(print(ps_selected())),
       # https://cran.r-project.org/web/packages/dipsaus/vignettes/shiny_customized_widgets.html
-      # https://github.com/rstudio/shiny/issues/1675
-      fluidRow(
-        column(3, downloadButton(ns('download_datasets_zip'), 'Download datasets, samples and ASVs (zip)', class = "btn-primary")),
-        column(4, downloadButton(ns('download_df'), 'Download ASVs abundance (tsv.gz - can be very big)', class = "btn-danger")),
-        column(4, if(n_samples_valid()) downloadButton(ns('download_phyloseq'), 'Download phyloseq file (rds)', class = "btn-primary")),
-      )
-      ,
+      # https://github.com/rstudio/shiny/issues/1675m
       p(),
+      fluidRow(
+        column(4, downloadButton(ns('download_datasets_zip'), 'Download datasets, samples and ASVs (zip)', class = "btn-primary")),
+        column(4, downloadButton(ns('download_df'), 'Download ASVs abundance (tsv.gz)', class = "btn-primary")),
+      ),
       p(),
       hr(),
       p(),
-      # if (nrow(samples_selected()<= 1000)) {
-      #   tagList(
-      #       h4("Phyloseq file (if less than 1000 samples)"),
-      #       renderPrint(print(asv_set$ps)),
-      #       h5("Taxonomic ranks"),
-      #       renderPrint(phyloseq::rank_names(asv_set$ps)),
-      #       h5("Variables"),
-      #       renderPrint(phyloseq::sample_variables(asv_set$ps)),
-      #       downloadButton(ns('download_phyloseq'), 'Download all data as phyloseq file (rds)'),
-      #       p()
-      #   )
-      # }
+      if(n_samples_valid()) renderPrint(print(ps_selected())),
+      p(),
+      if(n_samples_valid()) downloadButton(ns('download_phyloseq'), 'Download phyloseq file (rds)', class = "btn-primary"),
+      p(),
+
     )
     })
 
