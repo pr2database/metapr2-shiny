@@ -1,53 +1,124 @@
 
-barplot <- function(df, variable, taxo_level) {
+barplot <- function(df, variable, color_coding, taxo_level) {
+  
+  variable_date <- c("year", "month", "day")
+  
+  if (variable == "year") {
+    date_breaks = "1 year"
+    date_labels = "%Y"
+    date_angle = 0
+  }
+  if (variable %in%c( "month", "day")) { 
+    date_breaks = "1 month"
+    date_labels = "%Y-%m"
+    date_angle = 45
+    }
+  
+  
+  
+  if(color_coding == "taxonomy")  {
+    color_col <- taxo_level }
+  else {
+    color_col <- color_coding
+  }
+  
+  variable_to_use <- variable
+  
+  if(variable %in% variable_date) {
+    variable_to_use <- "date"
+  } 
+  
+  # https://statisticsglobe.com/aggregate-daily-data-to-month-year-intervals-in-r
+  
+  
+  
+  
+  
+  df <- df %>% 
+    select(any_of(c(color_col, variable_to_use)), n_reads_pct)
   
   # For depth only use the first 250 m
   
     if (variable == "depth") {
       df <- df %>% 
         filter(depth <=250)
+      if (length(unique(df$depth)) > 1) {
+        df <- df %>%
+        mutate(depth =  cut_width(depth, width=25, boundary=0))
+      } else {
+        df <- df %>%
+        mutate(depth =  as.factor(depth))
+      }
     }  
+
+  # floor_date: Round date-times down.
+  
+  if(variable %in% variable_date) {
+    df <- df %>%
+      filter(!is.na(date)) %>% 
+      mutate(date =  lubridate::floor_date(as.Date(date), variable))
+    variable <- "date"
+  } 
+  
   # Discretize the data (must make sure that there is more than one value)
   
 
-    if (length(unique(df$depth)) > 1) {
+  if (variable == "temperature") {
+    if (length(unique(df$temperature)) > 1) {
       df <- df %>%
-      mutate(depth =  cut_width(depth, width=25, boundary=0))
+        mutate(temperature =  fct_rev(cut_width(temperature, width=5, boundary=0)))
     } else {
       df <- df %>%
-      mutate(depth =  as.factor(depth))
+        mutate(temperature =  as.factor(temperature))
     }
-  
-  if (length(unique(df$temperature)) > 1) {
-    df <- df %>%
-      mutate(temperature =  cut_width(temperature, width=25, boundary=0))
-  } else {
-    df <- df %>%
-      mutate(temperature =  as.factor(temperature))
+  }
+
+  if (variable == "latitude") {  
+    if (length(unique(df$latitude)) > 1) {
+      df <- df %>%
+        mutate(latitude =  fct_rev(cut_width(latitude, width=20, boundary=0)))
+    } else {
+      df <- df %>%
+        mutate(latitude =  as.factor(latitude))
+    }
   }
   
-  if (length(unique(df$latitude)) > 1) {
-    df <- df %>%
-      mutate(latitude =  cut_width(latitude, width=25, boundary=0))
-  } else {
-    df <- df %>%
-      mutate(latitude =  as.factor(latitude))
-  }
-    
-  gg <- df %>% 
-    select(any_of(c(taxo_level, variable)), n_reads_pct) %>% 
-    group_by(across(any_of(c(taxo_level, variable)))) %>%
+  df <- df %>% 
+    group_by(across(any_of(c(color_col, variable_to_use)))) %>%
     summarize(n_reads_pct = sum(n_reads_pct)) %>%
-    group_by(across(any_of(variable))) %>% 
-    mutate(n_reads_pct = n_reads_pct/sum(n_reads_pct)*100) %>% 
+    group_by(across(any_of(variable_to_use))) %>% 
+    mutate(n_reads_pct = n_reads_pct/sum(n_reads_pct)*100)
+  
+  
+  # cat(variable_to_use, "\n")
+  # print(df)
+  
+  gg <- df  %>% 
     ggplot() +
-    geom_col(aes(y=.data[[variable]], x=n_reads_pct, fill=.data[[taxo_level]])) +
-    scale_fill_viridis_d() +
     xlab("% of reads") + ylab("") +
     theme_bw()
+    if(variable_to_use == "date") {
+      gg <- gg +
+        geom_col(aes (x= .data[[variable_to_use]],
+                      y=n_reads_pct, 
+                      fill=.data[[color_col]])) +
+        scale_x_date(date_breaks = date_breaks,
+                     date_labels = date_labels) + 
+        theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 0.5))
+    }
+   else {
+     gg <- gg +
+       geom_col(aes(y= fct_rev(.data[[variable_to_use]]),
+                   x=n_reads_pct, 
+                   fill=.data[[color_col]]))
+     }
   
-  # cat("Barplot: ")
-  # print(pryr::mem_used())
+  if(color_coding == "taxonomy"){ 
+    gg <- gg + scale_fill_viridis_d() 
+    }
+  if(color_coding == "ecological_function"){ 
+    gg <- gg + scale_fill_manual(values = global$ecological_function_colors)
+  }
   
   return(gg)
   
@@ -73,6 +144,8 @@ barplotUI <- function(id) {
 barplotServer <- function(id, df, taxo, messages) {
   # stopifnot(is.reactive(df))
   
+  ns <- NS(id)
+  
   moduleServer(id, function(input, output, session) {
     
 
@@ -80,11 +153,15 @@ barplotServer <- function(id, df, taxo, messages) {
       tagList(
         includeMarkdown(system.file("readme", 'barplot.md', package = "metapr2")),
         p(),
+        radioButtons(ns("color_coding"), "Colors correspond to ", inline = TRUE,
+                     choices = c("taxonomy", "ecological_function"),
+                     selected = c("taxonomy")),
+        p(),
         fluidRow(
-          column(9, radioButtons(NS(id, "barplot_variable"), "Variable to use for barplots:", inline = TRUE,
+          column(9, radioButtons(ns("barplot_variable"), "Variable to use for barplots:", inline = TRUE,
                                  choices = c("fraction_name", "ecosystem", "substrate", "depth_level", 
-                                             "depth","DNA_RNA", "latitude", "temperature"),
-                                 selected = c("depth_level")))
+                                             "depth","DNA_RNA", "latitude", "temperature", "year", "month", "day"),
+                                 selected = c("latitude")))
         ),
       )
     })
@@ -92,22 +169,26 @@ barplotServer <- function(id, df, taxo, messages) {
     
 
     output$graph_barplot <- renderUI({
-      req(df(), taxo(), input$barplot_variable)
+      req(df(), taxo(), input$barplot_variable, input$color_coding)
       
 
       # req(input$barplot_variable)
       tagList(
-        if(nrow(df()) > 0) {
-        renderPlot({
-          barplot(df(),
-                 variable = input$barplot_variable,
-                 taxo_level = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1])
-                 # taxo_level = "supergroup") # For testing
-        }, height = 800, width=1000) }
-        else {
-          messages$no_data
-        }
-      )
+            if(nrow(df()) > 0) {
+            plotly::renderPlotly({
+              plotly::ggplotly(
+                barplot(df(),
+                       variable = input$barplot_variable,
+                       color_coding = input$color_coding, 
+                       taxo_level = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1]),
+                height = 1000, width=1200
+              )
+            })}
+            # },) }
+            else {
+              messages$no_data
+            }
+            )
     })
     })
   

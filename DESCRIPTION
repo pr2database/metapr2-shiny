@@ -1,6 +1,6 @@
 Package: metapr2
-Title: Metabarcoding data display
-Version: 0.1.0
+Title: Eukaryotic 18S rRNA metabarcode database 
+Version: 1.0.0
 Authors@R: 
     person(given = "Daniel",
            family = "Vaulot",
@@ -22,10 +22,12 @@ Imports:
     ggplot2,
     leaflet,
     leaflet.minicharts,
+    lubridate,
     markdown,
     patchwork,
     phyloseq,
     pkgload,
+    plotly,
     pryr,
     qs,
     rio,

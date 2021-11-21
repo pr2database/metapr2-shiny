@@ -35,6 +35,11 @@ data_datasets_UI <- function(id) {
 data_datasets_table_UI <- function(id) {
   ns <- NS(id)
   tagList(
+    
+    h4("Quick dataset selection."),
+    checkboxGroupInput(ns("dataset_group"), "Dataset groups", inline = TRUE,  
+                       choiceNames = global$datasets$group, choiceValues = global$datasets$filter),
+    p(),
     # h4("Select and deselect datasets by clicking on the corresponding row."), 
     DT::DTOutput(ns('datasets_table'))
   )
@@ -124,55 +129,6 @@ dataServer <- function(id, taxo, authentification) {
       )
     })
     
-    
-    # Read and filter datasets depending on user ---- THIS IS DONE ONLY AT START --------------
-    
-    # Use observe to filter the different components of asv_set
-    # Need to use <<- so that values are global
-    
-    asv_set <- reactive({ 
-      # req(user_datasets()) 
-      req(!is.null(authentification$user))
-      
-      # Filtering the datasets depending on "user"
-      
-      if (authentification$user == "") {
-         dir_asv_set <- "data-qs"
-      }
-      if (authentification$user == "private") {
-         dir_asv_set <- "data-qs-private"
-      }
-      
-      
-      cat("User: ", authentification$user, "\n")
-      
-      # Reading the data - Using the normal way ----------------------------------
-      asv_set_all  <- tryCatch(
-        {
-          qs::qread(system.file(dir_asv_set,  'asv_set.qs', package = "metapr2"))
-        },
-        error=function(cond) {
-          cat("Cannot use system.file")
-          return(NA)
-        }
-      )
-
-      # Reading the data - Using the explicit way ------------------------------
-
-      if(is.na(asv_set_all)){
-        asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/asv_set.qs"))
-        cat("Using full path")
-      }
-      
-       cat("Data sets: ", nrow(asv_set_all$datasets), "\n")
-       cat("Samples: ", nrow(asv_set_all$samples), "\n")
-       cat("df: ",nrow(asv_set_all$df), "\n")
-       cat("Fasta: ",nrow(asv_set_all$fasta), "\n")
-       
-       return(asv_set_all)
-       
-       })
-
       
     # Create table of datasets -------------------------------------------------
     
@@ -192,6 +148,40 @@ dataServer <- function(id, taxo, authentification) {
     # Column width: https://stackoverflow.com/questions/25205410/r-shiny-set-datatable-column-width
     
     output$datasets_table <- DT::renderDT(datasets_table())
+    
+    
+    # Update the sets selected in case of Quick dataset selection --------------
+    
+    
+    observeEvent(input$dataset_group, {
+      req(asv_set())
+      choices = asv_set()$datasets$dataset_id
+      names(choices) = asv_set()$datasets$dataset_code
+      choices <- choices[order(names(choices))]
+      
+      filter_datasets <- str_c(input$dataset_group , collapse = " | ")
+      cat(filter_datasets, "\n")
+      
+      selected <- asv_set()$datasets %>%
+        filter(!! rlang::parse_expr(filter_datasets)) %>%
+        # filter(str_detect(dataset_groups, 'global') & str_detect(dataset_groups, 'oceanic|coastal') & gene_region == 'V4') %>% 
+        pull(dataset_id)
+      
+      shinyWidgets::updatePickerInput(
+        session = session,
+        inputId = "datasets_selected_id",
+        label = h3("Select datasets"),
+        choices = choices,
+        selected = selected,
+        options= shinyWidgets::pickerOptions(
+          actionsBox = TRUE,
+          selectedTextFormat = "count > 1",
+          liveSearch = TRUE
+        )
+      )
+    })
+    
+
     
     
     # Update Sample Checkboxes With the values possible for the datasets selected ---
@@ -258,6 +248,55 @@ dataServer <- function(id, taxo, authentification) {
     })
     
     
+    # Read and filter datasets depending on user ---- THIS IS DONE ONLY AT START --------------
+    
+    # Use observe to filter the different components of asv_set
+    # Need to use <<- so that values are global
+    
+    asv_set <- reactive({ 
+      # req(user_datasets()) 
+      req(!is.null(authentification$user))
+      
+      # Filtering the datasets depending on "user"
+      
+      if (authentification$user == "") {
+        dir_asv_set <- "data-qs"
+      }
+      if (authentification$user == "private") {
+        dir_asv_set <- "data-qs-private"
+      }
+      
+      
+      cat("User: ", authentification$user, "\n")
+      
+      # Reading the data - Using the normal way ----------------------------------
+      asv_set_all  <- tryCatch(
+        {
+          qs::qread(system.file(dir_asv_set,  'asv_set.qs', package = "metapr2"))
+        },
+        error=function(cond) {
+          cat("Cannot use system.file")
+          return(NA)
+        }
+      )
+      
+      # Reading the data - Using the explicit way ------------------------------
+      
+      if(is.na(asv_set_all)){
+        asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/asv_set.qs"))
+        cat("Using full path")
+      }
+      
+      cat("Data sets: ", nrow(asv_set_all$datasets), "\n")
+      cat("Samples: ", nrow(asv_set_all$samples), "\n")
+      cat("df: ",nrow(asv_set_all$df), "\n")
+      cat("Fasta: ",nrow(asv_set_all$fasta), "\n")
+      
+      return(asv_set_all)
+      
+    })
+    
+    
     # Update the datasets df -------------------------------------------------------
     
     datasets_selected <- reactive({
@@ -316,7 +355,7 @@ dataServer <- function(id, taxo, authentification) {
         filter(file_code %in% samples_selected()$file_code,
                asv_code %in% fasta_selected()$asv_code) %>% 
         left_join(asv_set()$samples) %>% 
-        left_join(select(asv_set()$fasta, asv_code, kingdom:species, sum_reads_asv)) %>%
+        left_join(select(asv_set()$fasta, asv_code, kingdom:species, ecological_function, sum_reads_asv)) %>%
         filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked) %>% 
         select(-any_of(cols_to_remove))
     })

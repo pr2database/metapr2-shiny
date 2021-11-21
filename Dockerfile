@@ -50,6 +50,9 @@ RUN R -e "BiocManager::install('phyloseq',ask=F)"
 RUN install2.r --error --skipinstalled \
     pryr qs scrypt shinymanager blaster
 
+RUN install2.r --error --skipinstalled \
+    plotly lubridate
+
 # Install vsearch
 # https://github.com/FredHutch/docker-vsearch/blob/master/Dockerfile
 
@@ -74,7 +77,7 @@ COPY DESCRIPTION ./
 COPY NAMESPACE ./
 COPY .Rbuildignore ./
 
-# COPY README.md ./
+COPY README.md ./
 COPY *.R ./
 
 COPY /R ./R

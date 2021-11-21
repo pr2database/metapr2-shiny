@@ -34,7 +34,8 @@ map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 2,
 # Leaflet - Function to draw a  map--------------------------------------------
 
 
-map_leaflet <- function(map, df, pct_max = 100,
+map_leaflet <- function(map, df, 
+                        pct_max = 100,
                         legend_title="% of eukaryotes",
                         map_type = "pie") {
   
@@ -55,7 +56,7 @@ map_leaflet <- function(map, df, pct_max = 100,
   
   df_taxa <- dplyr::select(df$present, -(file_code:dominant_taxon))
   
-  pal_dominant <-  colorFactor(palette = "viridis", df$present$dominant_taxon)
+  pal_dominant <-  leaflet::colorFactor(palette = "viridis", df$present$dominant_taxon)
   pal_pie = viridis::viridis(ncol(df_taxa), option = "A")
   
   map <- map  %>% 

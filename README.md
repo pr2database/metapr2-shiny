@@ -1,87 +1,63 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## Shiny server for the metaPR2 database
+# metaPR2
 
-An [interactive database](https://app.metapr2.org/) of eukaryotic
-metabarcodes compiled from the literature.
+## A database of 18S rRNA metabarcodes
 
 ### Presentation
 
-MetaPR2 is a database of published 18S rRNA metabarcodes. This R package
-launches a shiny application that allows to interact with the database
-by mapping, searching and downloading the barcodes.
+MetaPR2 is a database of published 18S rRNA metabarcodes that have been
+reprocessed and assigned using PR2.
 
-### How run the metaPR2 shiny server
+#### Data processing
 
-#### Step 1 - Download the R package
+-   Raw fastq files were downloaded from NCBI or from author web site if
+    not deposited to NCBI
 
-[metapr2-shiny](https://daniel-vaulot.fr/html/course-microbes-2021/metapr2-shiny-main.zip)
+-   All datasets were processed with cutapdapt to remove primers and the
+    dada2 R package to compute ASVs.
 
-#### Step 2 - Install package on your computer
+-   Assignment was done with dada2 assignTaxa using the 18S PR2 4.14.0
+    as reference
 
--   Unpack Zip file
+-   ASVs with less 100 reads total and with bootstrap value at the
+    supergroup level &lt; 90 were not considered.
 
--   Launch shiny\_metapr2.Rproj
+-   Total read number per sample has been normalized to 100 with 3
+    decimals so that the value displayed in the different panels
+    correspond to % of total eukaryotic reads.
 
--   (Skip this step) If you are running Windows install Rtools
+### Acessing the database
 
-    -   <https://cran.r-project.org/bin/windows/Rtools/>
+Access to the database to map, search and download the barcodes can be
+done in three different ways:
 
-#### Step 3 - Install the following libraries
+-   Using a [web interface](https://metapr2-dcx2qwgoua-as.a.run.app/).
 
-``` r
-### Shiny
-install.packages("shiny" ) 
-install.packages("shinyvalidate" ) # For validation of input (easier to use than shinyFeedback)
-install.packages("shinycssloaders" ) # For the spinning wheel
-install.packages("shinyWidgets" ) # for Extra widgets - https://dreamrs.github.io/shinyWidgets/index.html
-install.packages("markdown" ) # To display text boxes in md
-install.packages("DT" ) # For table display
+-   Download the R package and launch the shiny application.
 
-### Tidyverse
-install.packages("dplyr" )
-install.packages("tidyr" )
-install.packages("stringr" )
-install.packages("forcats" )
+-   Download and run a Docker container
 
-### graphics
-install.packages("ggplot2" )
-install.packages("viridis" )
-install.packages("patchwork" )
-install.packages("treemapify" )
+#### Web interface
 
-### maps
-install.packages("leaflet" )
-install.packages("leaflet.minicharts" ) # To do nice pie charts
+-   <https://metapr2-dcx2qwgoua-as.a.run.app/>
 
-### Misc
-install.packages("rio" )
+#### metaPR2 shiny R package
 
+*(NOT YET AVAILABLE)*
 
-### Bioinformatics
-
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("Biobase")
-BiocManager::install("Biostrings")
-BiocManager::install("phyloseq")
-```
-
-#### Step 4 - Launch the metaPR2 shiny server
-
-Run the following line from R studio
+Install the package from GitHub and launch function metapr2App()
 
 ``` r
-install.packages("pkgload")
+install.packages(devtools)
 
-pkgload::load_all(".")
+devtools::install_github("pr2database/metapr2-shiny")
 
-metapr2App()
+metapr2::metapr2App()
 ```
 
-#### Stop the Shiny application
+##### Stop the Shiny application
 
 -   Close the browser window
 
@@ -89,7 +65,42 @@ OR
 
 -   Hit the stop button at the top right of the bottom left window
 
-#### In case Shiny application crashes
+##### In case Shiny application crashes
 
 -   Hit the stop button at the top right of the bottom left window
 -   Relaunch `metapr2App()`
+
+#### The metaPR2 Docker container
+
+*(NOT YET AVAILABLE)*
+
+Will be available from Docker repository
+
+### Errors
+
+Please report errors in the [Issues page of the metaPR2 primer
+database](https://xxx).
+
+### Citation
+
+Vaulot, D. et al. (2021). metaPR2 : An interactive 18S rRNA metabarcode
+database. Unpublished
+
+### Maintainer
+
+-   Daniel Vaulot: <vaulot@gmail.com>
+
+### Contributors
+
+-   Daniel Vaulot, CNRS Roscoff, NTU-ASE Geek lab
+-   Adriana Lopes dos Santos, NTU-ASE Geek lab
+-   Clarence Sim, NTU-ASE Geek lab
+-   Denise Ong, NTU-ASE Geek lab
+-   Bryan Teo, NTU-ASE Geek lab
+-   Mahwash Jamy, Uppsala University Sweden
+-   Charlie Biwer, Uppsala University Sweden
+
+### Versions
+
+-   1.0.0 - 2021-11-19
+    -   Initial version - 41 public datasets

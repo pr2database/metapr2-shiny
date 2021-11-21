@@ -11,19 +11,22 @@
 .gitignore
 
 # Rmd files
-README.Rmd
 
 # directories
 archives
 data-raw
 data-rda
 sandbox
+readme
+tests
 
 # Readme files
 readme_Shiny.md
 readme_docker.md
+# README.Rmd
+
+# R files
 install_packages.R
-README.md
 
 # Shell files
 readme_docker.sh

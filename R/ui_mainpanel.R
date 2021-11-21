@@ -3,7 +3,8 @@
     id = 'panel' ,
     
     tabPanel("About",
-             column(8, includeMarkdown(system.file("readme", 'about.md', package = "metapr2")))),
+             # column(8, includeMarkdown(system.file("readme", 'README.md', package = "metapr2")))),
+             column(8, includeMarkdown('README.md'))),
 
     tabPanel("Datasets",
              data_datasets_table_UI("data")
@@ -36,7 +37,10 @@
     tabPanel("Download",
              downloadUI("download")
 
-    )
+    ),
+    tabPanel("Help",
+             column(8, includeMarkdown(system.file("readme", 'help.md', package = "metapr2"))))
+    
 
     # tabPanel("Debug",
     #          textOutput("test1"),

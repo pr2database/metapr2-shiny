@@ -1,10 +1,13 @@
 # --- Side bar Panel
 sidebar <- function() {sidebarPanel(width = 3,
+                                    style = "position:fixed;width:22%;",
 
                 # conditionalPanel(
                 #   condition ='input.panel == "Datasets"',
                 #   data_datasets_UI("data")
                 #  ),
+              div(img(src='img/metapr2_logo.png', width="80"), style="text-align: center;"),
+              h4("The metaPR2 database", align = "center"),
              
              conditionalPanel(
                condition = '

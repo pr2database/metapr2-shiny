@@ -39,8 +39,7 @@ queryServer <- function(id, samples_selected, df_all, fasta_all) {
       
       req(iv_query$is_valid())
     
-      cat("N rows fasta: ", nrow(fasta_all()))
-      # print(head(asv_set$fasta))
+      cat("N rows fasta: ", nrow(fasta_all()), "\n")
       
       blast <- blaster_asv(fasta_all(), input$query)
       if(!is.null(blast)){ 

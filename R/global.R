@@ -91,6 +91,21 @@ global$substrates = as.character(global$substrates)
 global$fraction_names = as.character(global$fraction_names)
 global$depth_levels = as.character(global$depth_levels)
 
+global$datasets <- tibble::tribble(
+  ~group, ~filter,
+   "marine_global_V4", "(str_detect(dataset_groups, 'global') & str_detect(dataset_groups, 'oceanic|coastal') & gene_region == 'V4')",
+   "oceanic", "str_detect(dataset_groups, 'oceanic') ",
+   "coastal", "str_detect(dataset_groups, 'coastal') ", 
+   "rivers", "str_detect(dataset_groups, 'river') ",
+   "lakes", "str_detect(dataset_groups, 'lake') ",  
+   "soils", "str_detect(dataset_groups, 'soils') ",
+  # * Transitions
+   "arctic", "str_detect(dataset_groups, 'arctic')",
+   "antarctic", "str_detect(dataset_groups, 'antarctic')",
+   "temperate", "str_detect(dataset_groups, 'temperate')",
+   "tropical", "str_detect(dataset_groups, 'tropical')",
+  "time series", "str_detect(dataset_groups, 'time series')"  
+)
 
 # Done --------------------------------------------------------------------
 

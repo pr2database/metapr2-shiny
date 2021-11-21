@@ -24,7 +24,8 @@ shinymanager::set_labels(
   language = "en",
   "Please authenticate" = "Choose datasets",
   "Username:" = "Datasets (leave blank for public datasets):",
-  "Password:" = "Password (leave blank for public datasets):"
+  "Password:" = "Password (leave blank for public datasets):",
+  "Login" = "Enter metaPR2"
 )
 
 # User interface ----------------------------------------------------------
@@ -46,7 +47,7 @@ ui <- fluidPage(
     # add image on top ?
     tags_top = 
       tags$div(
-        tags$h1("metaPR2", style = "align:center"),
+        # tags$h1("metaPR2", style = "align:center"),
         tags$img(src = "img/metapr2_logo.png", width = 80)
       ),
     # add information on bottom ?
@@ -62,8 +63,9 @@ ui <- fluidPage(
 
   # Title
   title = "MetaPR2",
-  titlePanel(div(img(src='img/metapr2_logo.png', width="80"),"The MetaPR2 database")),
+  # titlePanel(div(img(src='img/metapr2_logo.png', width="80"),"The MetaPR2 database")),
   # titlePanel(div(img(src=system.file("img", 'metapr2_logo.png', package = "metapr2"), width="80"),"The MetaPR2 database")),
+
   
   
   # --- Side bar layout
