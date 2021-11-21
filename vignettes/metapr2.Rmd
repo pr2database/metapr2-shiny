@@ -1,0 +1,58 @@
+---
+title: "Get started"
+author: "Daniel Vaulot"
+output: rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{get started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  cache = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>" 
+  # fig.path = "img/"   # Directories where image are saved
+)
+```
+
+
+The metaPR2 shiny application allowing access to the metaPR2 database is provided as a R package called **metaPR2**.  This page provides instruction to install and use the package.  
+
+# Installation
+
+Install from the GitHub web site using the devtools package
+
+```{r, eval=FALSE, echo=TRUE}
+
+install.packages(devtools)
+
+devtools::install_github("pr2database/metapr2-shiny")
+
+```
+
+# Run the Shiny application
+
+```{r eval=FALSE }
+
+metapr2::metapr2App()
+
+```
+
+
+## Stop the Shiny application
+
+* Close the browser window
+
+OR
+
+* Hit the stop button at the top right of the bottom left window
+
+
+## In case Shiny application crashes
+
+* Hit the stop button at the top right of the bottom left window
+* Relaunch `metapr2App()`

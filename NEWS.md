@@ -1,3 +1,5 @@
-# metapr2 0.0.0.9000
+# metapr2 1.0.0
 
-* Added a `NEWS.md` file to track changes to the package.
+Released: 2021-11-19
+
+* Initial release

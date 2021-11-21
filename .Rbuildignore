@@ -17,3 +17,6 @@ $run_dev.*
 ^readme_*
 ^shiny-customized\.config$
 ^data/sets*
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

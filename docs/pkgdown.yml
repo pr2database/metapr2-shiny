@@ -1,0 +1,8 @@
+pandoc: 2.11.2
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  01_barplots: 01_barplots.html
+  metapr2: metapr2.html
+last_built: 2021-11-21T09:47Z
+
