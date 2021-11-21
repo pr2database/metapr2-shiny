@@ -19,6 +19,8 @@ data-rda
 sandbox
 readme
 tests
+vignettes
+docs
 
 # Readme files
 readme_Shiny.md
