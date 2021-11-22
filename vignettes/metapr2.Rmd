@@ -43,7 +43,7 @@ metapr2::metapr2App()
 ```
 
 
-## Stop the Shiny application
+#### Stop the Shiny application
 
 * Close the browser window
 
@@ -52,7 +52,7 @@ OR
 * Hit the stop button at the top right of the bottom left window
 
 
-## In case Shiny application crashes
+#### In case Shiny application crashes
 
 * Hit the stop button at the top right of the bottom left window
 * Relaunch `metapr2App()`

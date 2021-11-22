@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 # metaPR2
 
-**version 1.0.0** : 41 datasets
+**Database version 1.0.0** : 41 datasets
 
 ## A database of 18S rRNA metabarcodes
 
@@ -82,7 +82,7 @@ Will be available from Docker repository
 
 ### Errors
 
-Please report errors in the [Issues page of the metaPR2 primer database](https://github.com/pr2database/metapr2-shiny/issues).
+Please report errors in the [Issues page of the metaPR2 database](https://github.com/pr2database/metapr2-shiny/issues).
 
 
 ### Citation

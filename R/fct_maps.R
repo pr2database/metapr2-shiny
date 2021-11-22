@@ -144,7 +144,7 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
       
         samples_counts <- df %>%
           group_by(across(all_of(c("file_code", taxo_level, taxo_level_below)))) %>%
-          mutate(n_reads_2 = sum(n_reads, na.rm = TRUE)) %>%
+          mutate(n_reads_2 = sum(n_reads_pct, na.rm = TRUE)) %>%
           ungroup(.data[[taxo_level_below]]) %>%
           mutate(n_reads_1 = sum(n_reads_pct, na.rm = TRUE)) %>% 
           ungroup() %>% 

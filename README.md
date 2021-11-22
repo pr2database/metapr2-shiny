@@ -3,6 +3,8 @@
 
 # metaPR2
 
+**Database version 1.0.0** : 41 datasets
+
 ## A database of 18S rRNA metabarcodes
 
 ### Presentation
@@ -57,19 +59,6 @@ devtools::install_github("pr2database/metapr2-shiny")
 metapr2::metapr2App()
 ```
 
-##### Stop the Shiny application
-
--   Close the browser window
-
-OR
-
--   Hit the stop button at the top right of the bottom left window
-
-##### In case Shiny application crashes
-
--   Hit the stop button at the top right of the bottom left window
--   Relaunch `metapr2App()`
-
 #### The metaPR2 Docker container
 
 *(NOT YET AVAILABLE)*
@@ -78,8 +67,8 @@ Will be available from Docker repository
 
 ### Errors
 
-Please report errors in the [Issues page of the metaPR2 primer
-database](https://xxx).
+Please report errors in the [Issues page of the metaPR2
+database](https://github.com/pr2database/metapr2-shiny/issues).
 
 ### Citation
 
@@ -99,8 +88,3 @@ database. Unpublished
 -   Bryan Teo, NTU-ASE Geek lab
 -   Mahwash Jamy, Uppsala University Sweden
 -   Charlie Biwer, Uppsala University Sweden
-
-### Versions
-
--   1.0.0 - 2021-11-19
-    -   Initial version - 41 public datasets

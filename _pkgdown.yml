@@ -1,2 +1,10 @@
-url: ~
+home:
+  title: An R package for interactive access to metaPR2 database
+  description: Map, Barplot, Diversity analysis and Query the metaPR2 database
 
+articles:
+- title: Panels
+  navbar: ~
+  contents:
+  - maps
+  - barplots
