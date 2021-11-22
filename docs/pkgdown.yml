@@ -2,8 +2,15 @@ pandoc: 2.11.2
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  barplots: barplots.html
-  maps: maps.html
   metapr2: metapr2.html
-last_built: 2021-11-22T01:56Z
+  vignette-barplots: vignette-barplots.html
+  vignette-data-processing: vignette-data-processing.html
+  vignette-datasets: vignette-datasets.html
+  vignette-diversity: vignette-diversity.html
+  vignette-download: vignette-download.html
+  vignette-maps: vignette-maps.html
+  vignette-query: vignette-query.html
+  vignette-select: vignette-select.html
+  vignette-treemaps: vignette-treemaps.html
+last_built: 2021-11-22T08:20Z
 

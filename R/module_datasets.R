@@ -132,20 +132,25 @@ dataServer <- function(id, taxo, authentification) {
       
     # Create table of datasets -------------------------------------------------
     
+    # See:
+    # Column width: https://stackoverflow.com/questions/25205410/r-shiny-set-datatable-column-width
+    # However does not real works....
+    
     datasets_table <- reactive ({
       req(asv_set())
       DT::datatable(asv_set()$datasets %>% 
                       select(dataset_id, dataset_name, region, paper_reference, sample_number, asv_number, n_reads_mean) %>%
                       mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>% 
                       arrange(dataset_name) ,
-                    rownames = FALSE
+                    rownames = FALSE ,
+                    options = list(
+                      autoWidth = FALSE,
+                      scrollX=FALSE,
+                      columnDefs = list(list(width = '10px', targets = 7)))
       ) %>% DT::formatStyle("selected",  target = 'row',
                             backgroundColor = DT::styleEqual(c(FALSE, TRUE), c('white', 'lightcyan'))
       )
     })
-    
-    # See:
-    # Column width: https://stackoverflow.com/questions/25205410/r-shiny-set-datatable-column-width
     
     output$datasets_table <- DT::renderDT(datasets_table())
     
@@ -170,7 +175,6 @@ dataServer <- function(id, taxo, authentification) {
       shinyWidgets::updatePickerInput(
         session = session,
         inputId = "datasets_selected_id",
-        label = h3("Select datasets"),
         choices = choices,
         selected = selected,
         options= shinyWidgets::pickerOptions(

@@ -1,6 +1,7 @@
-#### Selected damples, datasets and taxa
 
-The following files are provided.  They can be linked by key fields.  They only contain the selected datasets, sample type and taxa. **The asv_reads and phyloseq files can be very big** if you download all datasets and all taxa. Phyloseq files will only be created for less than 1000 samples selected.
+The following files are provided. 
+
+**The asv_reads and phyloseq files can be very big** if you download all datasets and all taxa. 
 
 <!--- https://stackoverflow.com/questions/52239087/table-in-r-markdown-is-not-printing-correctly-in-shiny-application -->
 <style>

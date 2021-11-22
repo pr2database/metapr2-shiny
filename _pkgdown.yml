@@ -3,8 +3,55 @@ home:
   description: Map, Barplot, Diversity analysis and Query the metaPR2 database
 
 articles:
+- title: Background
+  navbar: ~
+  contents:
+  - vignette-data-processing
+  
+- title: Sidebar
+  navbar: ~
+  contents:
+  - vignette-select
+
+
 - title: Panels
   navbar: ~
   contents:
-  - maps
-  - barplots
+  - vignette-datasets
+  - vignette-treemaps
+  - vignette-maps
+  - vignette-barplots
+  - vignette-diversity
+  - vignette-query
+  - vignette-download
+
+
+navbar:
+  components:
+    home: ~
+    articles:
+     text: Articles
+     menu:
+     - text: Background
+     - text: Data processing
+       href: articles/vignette-data-processing.html
+     - text: -------
+     - text: Sidebar
+     - text: Data selection
+       href: articles/vignette-select.html
+     - text: -------     
+     - text: "Panels"
+     - text: Datasets
+       href: articles/vignette-datasets.html
+     - text: Treemaps
+       href: articles/vignette-treemaps.html
+     - text: Maps
+       href: articles/vignette-maps.html
+     - text: Barplots
+       href: articles/vignette-barplots.html
+     - text: Diversity
+       href: articles/vignette-diversity.html
+     - text: Query
+       href: articles/vignette-query.html
+     - text: Download
+       href: articles/vignette-download.html

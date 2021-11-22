@@ -1,0 +1,44 @@
+---
+title: "Data processing"
+author: ""
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data processing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  cache = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  prompt=FALSE,
+  tidy=FALSE,
+  comment = "#>" 
+#  fig.path = "img/"   # Directories where image are saved
+)
+
+
+```
+
+## Pipeline
+
+* Raw fastq files were downloaded from NCBI or from author web site if not deposited to NCBI
+
+* All datasets were processed with cutapdapt (Martin et al. 2011) to remove primers and the dada2 R package (Callahan et al. 2016) to compute ASVs.
+
+* Assignment was done with dada2 assignTaxa using the 18S PR2 4.14.0 as reference
+
+* ASVs with less 100 reads total and with bootstrap value at the supergroup level < 90 were not considered.
+
+* Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads.
+
+## References
+
+* Callahan, B.J., McMurdie, P.J., Rosen, M.J., Han, A.W., Johnson, A.J.A., Holmes, S.P., 2016. DADA2: High-resolution sample inference from Illumina amplicon data. Nature Methods 13, 581–583. https://doi.org/10.1038/nmeth.3869
+
+* Martin, M., 2011. Cutadapt removes adapter sequences from high-throughput sequencing reads. EMBnet.journal 17, 10. https://doi.org/10.14806/ej.17.1.200
+
+

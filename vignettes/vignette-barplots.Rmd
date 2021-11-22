@@ -36,7 +36,7 @@ The barplot panel allow to produce barplots using a variety of metadata (Fig. 1)
   * fraction name
   * ecosystem
   * substrate
-  * depth (in m) and depth_level
+  * depth (in m) and depth_level: when depth (m) is selected, only the top 250 m are shown.
   * DNA_RNA
   * latitude
   * temperature
@@ -45,7 +45,7 @@ The barplot panel allow to produce barplots using a variety of metadata (Fig. 1)
 
 <br />
 <br />
-```{r bar-01, echo=FALSE, out.width="100%", fig.cap="Fig.1: Barplot with taxonomy. 1: Color accoding to taxonomy of ecological function. 2: Variable to use. 3: Barplot. Left: Using taxonomy Right: using ecological function"}
+```{r bar-01, echo=FALSE, out.width="100%", fig.cap="Fig. 1: Barplot with taxonomy. 1: Color accoding to taxonomy of ecological function. 2: Variable to use. 3: Barplot. Left: Using taxonomy Right: using ecological function"}
 knitr::include_graphics("img/bar_01.png")
 ```
 
@@ -53,7 +53,7 @@ knitr::include_graphics("img/bar_01.png")
 Plots are interactive and there is a menu on the upper right (Fig. 2). In particular you can isolate a specific taxonomic group by clicking on the group (Fig. 4).
 <br />
 <br />
-```{r echo=FALSE, out.width="100%", fig.cap="Fig.2: Barplot interactive. Right:  isolating a specific group."}
+```{r echo=FALSE, out.width="100%", fig.cap="Fig. 2: Barplot interactive. Right:  isolating a specific group."}
 knitr::include_graphics("img/bar_03.png")
 ```
 
@@ -69,14 +69,15 @@ To test this feature it is best to use a single dataset (e.g. Spanish Blanes fro
 
 <br />
 <br />
-```{r echo=FALSE, out.width="80%", fig.cap="Fig.3: Barplot time series with year aggregation"}
+```{r echo=FALSE, out.width="80%", fig.cap="Fig. 3: Barplot time series with year aggregation"}
 knitr::include_graphics("img/bar_05.png")
 ```
 <br />
 <br />
-```{r echo=FALSE, out.width="100%", fig.cap="Fig.4: Barplot time series with month aggregation. Right: after zooming"}
+```{r echo=FALSE, out.width="100%", fig.cap="Fig. 4: Barplot time series with month aggregation. Right: after zooming"}
 knitr::include_graphics("img/bar_06.png")
 ```
+
 
 ## References
 

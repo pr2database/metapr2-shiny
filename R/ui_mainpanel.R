@@ -37,9 +37,10 @@
     tabPanel("Download",
              downloadUI("download")
 
-    ),
-    tabPanel("Help",
-             column(8, includeMarkdown(system.file("readme", 'help.md', package = "metapr2"))))
+    )
+    # ,
+    # tabPanel("Help",
+    #          column(8, includeMarkdown(system.file("readme", 'help.md', package = "metapr2"))))
     
 
     # tabPanel("Debug",

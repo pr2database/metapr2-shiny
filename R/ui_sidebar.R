@@ -8,6 +8,9 @@ sidebar <- function() {sidebarPanel(width = 3,
                 #  ),
               div(img(src='img/metapr2_logo.png', width="80"), style="text-align: center;"),
               h4("The metaPR2 database", align = "center"),
+              div(actionButton("button_help", "Help", class = "btn-info", 
+                         onclick ="window.open('https://pr2database.github.io/metapr2-shiny/articles/', '_blank')"), 
+                  style="text-align: center;"),
              
              conditionalPanel(
                condition = '

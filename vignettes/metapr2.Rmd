@@ -56,3 +56,18 @@ OR
 
 * Hit the stop button at the top right of the bottom left window
 * Relaunch `metapr2App()`
+
+# Structure of the application
+
+panel | subpanel | content 
+--- | ---  | ---
+**About** | | Basic information on the metapr2 database.
+**Datasets** | | Select and list datasets used. You can select also groups of datasets (e.g. arctic)
+**Treemap** | | Create treemaps (square pie-chart) provinding the proportion of each taxon for the samples and datasets selected
+**Map** | | Maps of read abundance. For a given taxonomic level you can visualize the proportions of the taxonomic levels below (e.g. species if you are at the genus level) or alternatively the main taxon at each station (e.g. the mainn species if you are the genus level). Size of circle is proportional to contribution of taxon to total eukaryotes.
+**Barplot** | | Composition for specific variables (e.g. depth_level).
+**Diversity** | | Diversity analysis using the R phyloseq package
+-  | **Alpha diversity** | Alpha diversity indices (e.g. Shannon, Simpson).
+-  | **Beta diversity** | Mutivariate analyses (e.g. NMDS).
+**Query** | | Enter a sequence and search for metabarcode that are similar to your sequence using a BLAST like search. You can plot the ASVs matching your query.
+**Download** | | Download data for selected samples/taxa as well as the whole dataset as a phyloseq file.

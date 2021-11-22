@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# metaPR2
+# metaPR2 <img src="inst/img/metapr2_logo.png" align="right" />
 
 **Database version 1.0.0** : 41 datasets
 
@@ -11,24 +11,6 @@
 
 MetaPR2 is a database of published 18S rRNA metabarcodes that have been
 reprocessed and assigned using PR2.
-
-#### Data processing
-
--   Raw fastq files were downloaded from NCBI or from author web site if
-    not deposited to NCBI
-
--   All datasets were processed with cutapdapt to remove primers and the
-    dada2 R package to compute ASVs.
-
--   Assignment was done with dada2 assignTaxa using the 18S PR2 4.14.0
-    as reference
-
--   ASVs with less 100 reads total and with bootstrap value at the
-    supergroup level &lt; 90 were not considered.
-
--   Total read number per sample has been normalized to 100 with 3
-    decimals so that the value displayed in the different panels
-    correspond to % of total eukaryotic reads.
 
 ### Acessing the database
 
@@ -64,6 +46,11 @@ metapr2::metapr2App()
 *(NOT YET AVAILABLE)*
 
 Will be available from Docker repository
+
+### Help
+
+Extensive help is provided
+[here](https://pr2database.github.io/metapr2-shiny/articles/).
 
 ### Errors
 

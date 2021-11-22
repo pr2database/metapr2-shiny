@@ -1,3 +1,12 @@
+#metapr2App -------------------------------------------------------
+#' @title Launch metapr2 shiny app
+#' @examples
+#' # Starts shiny application
+#'
+#' \dontrun{
+#'  metapr2::metapr2App()
+#'  }
+#'
 #' @export
 
 metapr2App <- function() {
