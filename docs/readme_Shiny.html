@@ -160,18 +160,23 @@
 <div id="small-stuff" class="section level2">
 <h2 class="hasAnchor">
 <a href="#small-stuff" class="anchor"></a>Small stuff</h2>
-<p>Barplots:</p>
 <ul>
-<li><p>Put year boundaries…</p></li>
-<li><p>Add salinity</p></li>
-<li><p>For ASV map, allow user to select ASV from the left menu and have it as a special color…</p></li>
-<li><p>Order colors by most abundant to least abundant (only for ASV map)</p></li>
+<li>For ASV map, allow user to select ASV from the left menu and have it as a special color…</li>
+<li>Have ASVs treemap same as Map and barplots treemaps.</li>
+<li>Order colors by most abundant to least abundant (only for ASV map)</li>
 </ul>
 </div>
 <div id="priority" class="section level2">
 <h2 class="hasAnchor">
 <a href="#priority" class="anchor"></a>Priority</h2>
 <ul>
+<li>
+<p>Do a new panel with different settings</p>
+<ul>
+<li>Exclude some groups: Metazoa, Streptophyta and Fungi</li>
+<li>Allow user to choose palette</li>
+</ul>
+</li>
 <li><p>Order on the legend on the maps the taxa by decreasing abundance in the dataset. Color should follow same order…<br></p></li>
 <li><p>Add a treemap of ASVs number</p></li>
 <li><p>Be able to search for a specific species</p></li>
@@ -198,6 +203,7 @@
 <ul>
 <li><p>Use vegan</p></li>
 <li><p><a href="https://easystats.github.io/parameters/articles/clustering.html" class="uri">https://easystats.github.io/parameters/articles/clustering.html</a></p></li>
+<li><p>Use Microbiome package: <a href="https://microbiome.github.io/tutorials/" class="uri">https://microbiome.github.io/tutorials/</a></p></li>
 <li><p>Check metabarcoder for nice trees <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005404" class="uri">https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005404</a></p></li>
 <li><p>Implement some function of MicrobiomeSeq <a href="http://userweb.eng.gla.ac.uk/umer.ijaz/projects/microbiomeSeq_Tutorial.html#alpha_div" class="uri">http://userweb.eng.gla.ac.uk/umer.ijaz/projects/microbiomeSeq_Tutorial.html#alpha_div</a></p></li>
 <li><p>Display output of ordination in box <a href="https://stackoverflow.com/questions/27139348/shiny-printing-console-output-to-a-text-object-without-waiting-for-a-function-t" class="uri">https://stackoverflow.com/questions/27139348/shiny-printing-console-output-to-a-text-object-without-waiting-for-a-function-t</a></p></li>
@@ -215,8 +221,9 @@
 <a href="#misc" class="anchor"></a>Misc</h3>
 <ul>
 <li>Allow to add specific private datasets (using same format)</li>
-<li>Use ploty to interact with some graphics</li>
 <li>Create splash screen: <a href="https://www.r-bloggers.com/2019/12/shiny-splash-screen-using-modules-and-shinyjs/" class="uri">https://www.r-bloggers.com/2019/12/shiny-splash-screen-using-modules-and-shinyjs/</a>
+</li>
+<li>Use a dashboard approach: <a href="https://rstudio.github.io/shinydashboard/" class="uri">https://rstudio.github.io/shinydashboard/</a>
 </li>
 </ul>
 </div>
@@ -227,6 +234,7 @@
 <li>If data become too big switch duckdb (a bit slower but no limitation on size basically…)</li>
 <li>For the private part create two versions of the qs file. One is not saved to GitHub and is only read with the private key…</li>
 <li>It could be read from the Docker file, so do not provide option for Docker file. So create a separate Docker file version without the private file…</li>
+<li>Provide a more detailed tables with more columns for each dataset</li>
 </ul>
 </div>
 <div id="docker" class="section level3">
@@ -581,6 +589,15 @@
 <a href="#week-of-2021-11-22" class="anchor"></a>Week of 2021-11-22</h2>
 <ul>
 <li>Document all panels</li>
+<li>Fix small issue in the dataset table (do not replace name when updating selection tool)</li>
+<li>Barplots:
+<ul>
+<li>Put year boundaries…</li>
+<li>Add salinity</li>
+</ul>
+</li>
+<li>Sidebar. Create scrolling: <a href="https://stackoverflow.com/questions/66582335/dynamically-sized-sidebarpanel-and-mainpanel-in-shiny" class="uri">https://stackoverflow.com/questions/66582335/dynamically-sized-sidebarpanel-and-mainpanel-in-shiny</a>
+</li>
 </ul>
 </div>
 </div>
@@ -596,9 +613,9 @@
 <h1 class="hasAnchor">
 <a href="#section-13" class="anchor"></a>====================================</h1>
 </div>
-<div id="to-update-namespace" class="section level1">
+<div id="to-update-namespace-as-well-as-function-rd-files" class="section level1">
 <h1 class="hasAnchor">
-<a href="#to-update-namespace" class="anchor"></a>To update NAMESPACE</h1>
+<a href="#to-update-namespace-as-well-as-function-rd-files" class="anchor"></a>To update NAMESPACE as well as function Rd files</h1>
 <p>devtools::document()</p>
 </div>
 <div id="to-create-description-only-do-once-" class="section level1">

@@ -34,7 +34,7 @@ Reads are expressed as % relative to total eukaryotes.  The taxa shown are below
 
 The map panel offers 2 different views:
 
-* **Dominant taxon**: The color of the circles represent the dominant taxon.  If you click on the circle the contribution of the taxonomic group selected is provided with some information on the sample (Fig. 1)
+* **Dominant taxon**: The color of the circles represent the dominant taxon.  If you click on the circle the contribution of the taxonomic group selected is provided with some information on the sample (Fig. 1). This includes the dataset_id, dataset_code, station_id, depth_level and substrate.
 
 * **Pie chart**: The different taxon at the next rank are represented.  Click on the pie chart will provide the % contribution of each group below the taxonomic level selected (Fig. 2)
 

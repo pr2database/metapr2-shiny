@@ -291,6 +291,13 @@ dataServer <- function(id, taxo, authentification) {
         cat("Using full path")
       }
       
+      asv_set_all$samples <- asv_set_all$samples %>% 
+        mutate(label = str_c(dataset_id, dataset_code,
+                             str_replace_na(station_id, ""),
+                             str_replace_na(depth_level, ""),
+                             str_replace_na(substrate, ""),
+                             sep = "-"))
+      
       cat("Data sets: ", nrow(asv_set_all$datasets), "\n")
       cat("Samples: ", nrow(asv_set_all$samples), "\n")
       cat("df: ",nrow(asv_set_all$df), "\n")

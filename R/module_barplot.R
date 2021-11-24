@@ -57,7 +57,6 @@ barplot <- function(df, variable, color_coding, taxo_level) {
     df <- df %>%
       filter(!is.na(date)) %>% 
       mutate(date =  lubridate::floor_date(as.Date(date), variable))
-    variable <- "date"
   } 
   
   # Discretize the data (must make sure that there is more than one value)
@@ -70,6 +69,16 @@ barplot <- function(df, variable, color_coding, taxo_level) {
     } else {
       df <- df %>%
         mutate(temperature =  as.factor(temperature))
+    }
+  }
+  
+  if (variable == "salinity") {
+    if (length(unique(df$salinity)) > 1) {
+      df <- df %>%
+        mutate(salinity =  fct_rev(cut_width(salinity, width=5, boundary=0)))
+    } else {
+      df <- df %>%
+        mutate(salinity =  as.factor(salinity))
     }
   }
 
@@ -111,7 +120,12 @@ barplot <- function(df, variable, color_coding, taxo_level) {
        geom_col(aes(y= fct_rev(.data[[variable_to_use]]),
                    x=n_reads_pct, 
                    fill=.data[[color_col]]))
-     }
+   }
+
+  if(variable %in% c("month", "day")) {   # Add vertical limits
+    gg <- gg +
+      geom_vline(xintercept= as.numeric(as.Date(str_c(c(2000:2030), "-01-01"))))
+  }
   
   if(color_coding == "taxonomy"){ 
     gg <- gg + scale_fill_viridis_d() 
@@ -160,7 +174,7 @@ barplotServer <- function(id, df, taxo, messages) {
         fluidRow(
           column(9, radioButtons(ns("barplot_variable"), "Variable to use for barplots:", inline = TRUE,
                                  choices = c("fraction_name", "ecosystem", "substrate", "depth_level", 
-                                             "depth","DNA_RNA", "latitude", "temperature", "year", "month", "day"),
+                                             "depth","DNA_RNA", "latitude", "temperature", "salinity", "year", "month", "day"),
                                  selected = c("latitude")))
         ),
       )

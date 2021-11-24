@@ -28,21 +28,21 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-This panel allows to select the data analyzed according to a variety of criteria.
+This panel allows to select the data analyzed according to a variety of criteria. When the application is started a number of defaults values are selected to limit the number of samples.
 
 
 
-Select | Choices 
---- | --- 
-**Datasets** | Access through panel "Datasets". 
+Select | Choices | Default
+--- | --- | ---  
+**Datasets** | Access through panel "Datasets". | All
 **Samples** | 
-DNA_RNA | DNA or RNA
-ecosystems | oceanic, coastal, freshwater etc ...
-substrates | water, ice, soil etc...
-fraction | pico 0.2-3 µm / nano 3-20 µm / micro 20-100 µm   / meso 100-1000 µm / total 0.2-100 or 200 µm
-Depth levels | surface (0-10 m), euphotic (10-250 m), bathypelagic (250-1000 m), bathypelagic (> 1000 m)
-**Minimum number of reads per ASV** | 100-10,000 - If you increase this number the number of ASVs will decrease.
-**Taxa** | supergroup, division, class, order, family, genus, species
+DNA_RNA | DNA or RNA | DNA
+ecosystems | oceanic, coastal, freshwater etc ... | All
+substrates | water, ice, soil etc... | water
+fraction | pico 0.2-3 µm / nano 3-20 µm / micro 20-100 µm   / meso 100-1000 µm / total 0.2-100 or 200 µm | pico, total
+Depth levels | surface (0-10 m), euphotic (10-250 m), bathypelagic (250-1000 m), bathypelagic (> 1000 m) | surface
+**Minimum number of reads per ASV** | 100-10,000 - If you increase this number the number of ASVs will decrease. | 1,000
+**Taxa** | supergroup, division, class, order, family, genus, species | All
 
 <br />
 <br />

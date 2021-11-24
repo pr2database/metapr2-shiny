@@ -1,7 +1,9 @@
 # --- Side bar Panel
 sidebar <- function() {sidebarPanel(width = 3,
-                                    style = "position:fixed;width:22%;",
-
+                                    # The next line create a scrolling window for the sidebar panel
+                                    # See: https://stackoverflow.com/questions/66582335/dynamically-sized-sidebarpanel-and-mainpanel-in-shiny
+                                    style = "height: 100vh; overflow-y: auto;position:fixed;;width:22%;", 
+                                    
                 # conditionalPanel(
                 #   condition ='input.panel == "Datasets"',
                 #   data_datasets_UI("data")
