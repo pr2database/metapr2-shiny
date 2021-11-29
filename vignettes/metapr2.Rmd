@@ -22,6 +22,12 @@ knitr::opts_chunk$set(
 
 The metaPR2 shiny application allowing access to the metaPR2 database is provided as a R package called **metaPR2**.  This page provides instruction to install and use the package.  
 
+YOu can also:
+
+* Use a [web interface](https://metapr2-dcx2qwgoua-as.a.run.app/).
+
+* Download and run a Docker container 
+
 # Installation
 
 Install from the GitHub web site using the devtools package

@@ -19,8 +19,6 @@ knitr::opts_chunk$set(
 
 # metaPR2 <img src="inst/img/metapr2_logo.png" align="right" />
 
-**Database version 1.0.0** : 41 datasets
-
 ## A database of 18S rRNA metabarcodes
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -28,6 +26,9 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/191439796.svg)](https://zenodo.org/badge/latestdoi/191439796)
 <!-- badges: end -->
 ```
+
+**Database version**:  1.0.0 - 41 datasets
+**Shiny application version**: 1.0.2
 
 ### Presentation
 
@@ -38,17 +39,17 @@ MetaPR2 is a database of published 18S rRNA metabarcodes that have been reproces
 
 Access to the database to map, search and download the barcodes can be done in three different ways:
 
-* Using a [web interface](https://metapr2-dcx2qwgoua-as.a.run.app/).
+1 - Using a [web interface](https://metapr2-dcx2qwgoua-as.a.run.app/).
 
-* Download the R package and launch the shiny application.
+2 - Download the R package and launch the shiny application.
 
-* Download and run a Docker container 
+3 - Download and run a Docker container 
 
-#### Web interface
+#### 1 - Web interface
 
 * https://metapr2-dcx2qwgoua-as.a.run.app/
 
-#### metaPR2 shiny R package
+#### 2 - metaPR2 shiny R package
 *(NOT YET AVAILABLE)*
 
 Install the package from GitHub and launch function metapr2App()
@@ -63,7 +64,7 @@ metapr2::metapr2App()
 ```
 
 
-#### The metaPR2 Docker container
+#### 3 - metaPR2 Docker container
 *(NOT YET AVAILABLE)*
 
 Will be available from Docker repository

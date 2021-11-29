@@ -76,19 +76,24 @@ phyloseqServer <- function(id, samples_selected, df_selected, fasta_selected, ta
     
     output$ui_ps_alpha_param <- renderUI({
       req(ps_selected())
-      tagList(
-      checkboxGroupInput(ns("alpha_method"), "Diversity Measure", inline = TRUE,  
+      tagList(checkboxGroupInput(ns("alpha_method"), "Diversity Measure", inline = TRUE,  
                          choices = c("Chao1", "Shannon", "Simpson"), 
                          selected = c("Chao1", "Shannon", "Simpson")),
-      radioButtons(ns("alpha_x"), "X axis", inline = TRUE,
-                   choices = c("latitude", "ecosystem", "substrate", "depth_level", "depth", "fraction_name","DNA_RNA", "temperature", "salinity"),
+        fluidRow(
+          column(3,tags$b("Discretize continuous Y variable")
+                 ),         
+          column(2, shinyWidgets::switchInput(ns("alpha_x_discretize"), value = FALSE, size = "mini")
+                  )
+      ),
+      radioButtons(ns("alpha_x"), "Y variable", inline = TRUE,
+                   choices = c( "ecosystem", "substrate","fraction_name","DNA_RNA",  "depth_level", "latitude","depth", "temperature", "salinity"),
                    selected = c("latitude")),
       
       fluidRow(
-        column(4, radioButtons(ns("alpha_color"), "Color", inline = TRUE,
+        column(4, radioButtons(ns("alpha_color"), "Color (only with continuous Y)", inline = TRUE,
                    choices = c("latitude", "depth","temperature", "salinity"),
                    selected = c("depth"))),
-        column(6, radioButtons(ns("alpha_shape"), "Shape", inline = TRUE,
+        column(6, radioButtons(ns("alpha_shape"), "Shape (only with continuous Y)", inline = TRUE,
                    choices = c( "fraction_name", "substrate","ecosystem", "depth_level", "DNA_RNA"),
                    selected = c("fraction_name")))
       )
@@ -101,10 +106,19 @@ phyloseqServer <- function(id, samples_selected, df_selected, fasta_selected, ta
       
       if (typeof(ps_selected())== "S4"){
       
-          ps_alpha(ps= ps_selected(), 
+          gg <- ps_alpha(ps= ps_selected(), 
                    measures=input$alpha_method,
                    x = input$alpha_x,
-                   color=input$alpha_color, shape = input$alpha_shape)
+                   color=input$alpha_color, 
+                   shape = input$alpha_shape,
+                   discretize = input$alpha_x_discretize)
+        tagList(
+          p(""),
+          
+          renderPrint(print(ps_selected())),
+          
+          renderPlot(gg,  height = 600*length(input$alpha_method), width = 1200, res = 96)
+        )
       } else {
         messages$no_data
       }

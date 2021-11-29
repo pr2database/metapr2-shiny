@@ -24,7 +24,7 @@
 # Javascript function for timer -----------------------------------------------------
 
 #  See: https://stackoverflow.com/questions/35306295/how-to-stop-running-shiny-app-by-closing-the-browser-window
-#   * Will close windows after x msec 60000 -> 1 min 600 000 -> 10 min
+#   * Will close windows after x msec 60 000 -> 1 min 600 000 -> 10 min
 
 inactivity <- "function idleTimer() {
   var t = setTimeout(logout, 1800000);

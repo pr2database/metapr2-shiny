@@ -1,3 +1,15 @@
+# metapr2 1.0.2
+
+Released: 2021-xx
+
+
+## Barplots
+* Add number of samples for each bar
+
+## Diversity Alpha
+* Use Violin + Sina plot for discrete variable
+* Allow discretization of continuous variables (e.g. depth, latitude)
+
 # metapr2 1.0.1
 
 Released: 2021-11-22
@@ -10,7 +22,7 @@ Released: 2021-11-22
 * Add coloring by ecological function
 * Add time series
 
-### metapr2 1.0.0
+# metapr2 1.0.0
 
 Released: 2021-11-19
 

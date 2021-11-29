@@ -46,14 +46,18 @@ In order to start the computation, press on the button which will build the phyl
 
 You can:
 
-* compute different indices
-* Change the x axis
+* compute different indices and display as violin plot when using a discrete variable for y-axis.
+* Change the y axis.  If you choose a continuous variable (depth, latitude, temperature, salinity), you can choose to discretize it in intervals.
 * Change the color of points (continuous variables)
 * Change the shape of points (discrete variables)
 
 
-```{r echo=FALSE, out.width="100%", fig.cap="Fig. 1: Alpha diversity"}
+```{r echo=FALSE, out.width="100%", fig.cap="Fig. 1A: Alpha diversity: continuous y axis"}
 knitr::include_graphics("img/alpha_01.png")
+```
+
+```{r echo=FALSE, out.width="100%", fig.cap="Fig. 1B: Alpha diversity: discrete y-axis"}
+knitr::include_graphics("img/alpha_02.png")
 ```
 
 ## Beta diversity

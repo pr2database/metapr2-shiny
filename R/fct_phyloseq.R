@@ -54,47 +54,84 @@ ps_select <- function(ps, gene_region, DNA_RNA, ecosystem, depth_level, fraction
 # Alpha diversity ---------------------------------------------------------
 
 ps_alpha <- function(ps, measures = c("Shannon"), 
-                     x="latitude" , color="depth", shape="fraction_name") {
+                     x="latitude" , color="depth", shape="fraction_name",
+                     discretize = FALSE) {
   
   variable_discrete <- c("depth_level", "fraction_name", "DNA_RNA", "ecosystem", "substrate")
+
+  # Discretize the data (must make sure that there is more than one value)
   
-  gg <-phyloseq::plot_richness(ps, 
-                          x = x, color = color, shape = shape, 
-                          measures=measures)  +
-    # xlim(xmin,xmax) +
-    # Next line remove samples with diversity = 0 (single species)
-    scale_y_continuous(limits = c(0.01, NA))
-  if (x %in% variable_discrete){
-    gg <- gg +
-      geom_boxplot(aes(x= .data[[x]], shape=NULL), alpha = 0) +
-      geom_jitter(size=2, alpha=0.85)
-  } else {
-    gg <- gg +
-      geom_smooth(aes(x= .data[[x]], shape=NULL), method = "gam", alpha = 0) +
-      geom_point(size=2, alpha=0.85) 
+  phyloseq_discretize <- function(ps, x, width, boundary, reverse = TRUE){
+    if (length(unique(phyloseq::get_variable(ps, x))) > 1) {
+      if ( x == "depth") {
+        phyloseq::sample_data(ps)[[x]] = fct_rev(cut.default(phyloseq::get_variable(ps, x), breaks = c(seq(0,250,25), 500, 750, 1000, 5000), include.lowest = TRUE))
+      } else {
+        if (reverse) phyloseq::sample_data(ps)[[x]] =  fct_rev(cut_width(phyloseq::get_variable(ps, x), width=width, boundary=boundary))
+        else phyloseq::sample_data(ps)[[x]] =  cut_width(phyloseq::get_variable(ps, x), width=width, boundary=boundary)
+      }
+    } else{
+      phyloseq::sample_data(ps)[[x]] =  as.factor(phyloseq::get_variable(ps, x))
+    }
+    return(ps)
+  }  
+
+  # Discretize the data (must make sure that there is more than one value)
+  
+  if (discretize) {
+    if (x == "depth") ps <- phyloseq_discretize(ps, x = x , width=50, boundary=0, reverse = TRUE)
+    if (x %in%  c("temperature", "salinity")) ps <- phyloseq_discretize(ps, x = x , width=5, boundary=0, reverse = FALSE)
+    if (x == "latitude")  ps <- phyloseq_discretize(ps, x = x , width=20, boundary=0, reverse = FALSE) 
   }
   
-  if (color %in% variable_discrete){
+  diversity <- phyloseq::estimate_richness(ps, split = TRUE, measures = measures) %>% 
+    tibble::rownames_to_column(var = "file_code")
+  
+  samples <- data.frame(phyloseq::sample_data(ps)) 
+  
+  samples <- samples %>% 
+    tibble::rownames_to_column(var = "file_code") %>% 
+    left_join(diversity) %>% 
+    tidyr::pivot_longer(cols = measures, values_to = "diversity", names_to = "measures") %>% 
+    filter(diversity > 0)
+  
+  # print(head(samples))
+
+  gg <- ggplot(data = samples, aes(x= .data[[x]], y = diversity)) +
+    theme_bw() +
+    # xlim(xmin,xmax) +
+    # Next line remove samples with diversity = 0 (single species) - Not necessary anymore because filter before
+    # scale_y_continuous(limits = c(0.01, NA)) +
+    facet_wrap(vars(measures), scales = "free", ncol = 1) +
+      coord_flip()
+  if ((x %in% variable_discrete) || discretize){
     gg <- gg +
-      scale_color_viridis_d() 
+      geom_violin() +
+      # ggforce::geom_sina(aes(color=.data[[color]], shape =.data[[shape]] ), scale = "width") +
+      ggforce::geom_sina() +
+      geom_boxplot(color = "grey", alpha = 0, width=0.5)
   } else {
+    gg <- gg +
+      geom_smooth(method = "gam", alpha = 0) +
+      geom_point(size=2, alpha=0.85, aes(color = .data[[color]], shape= .data[[shape]])) 
+  } 
+  if ((x == "depth") & !discretize) {
+    gg <- gg +
+      scale_x_reverse()
+  }
+  
+  if (!(color == x & discretize)) {
     gg <- gg +
       # scale_color_gradient(high = "darkblue", low = "lightblue1") +
-      scale_color_viridis_c(option = "turbo")   
+      scale_color_viridis_c(option = "turbo")
+  } else {
+    gg <- gg +
+      scale_color_viridis_d()
   }
   
- tagList(
-  p(""),
 
-  renderPrint(print(ps)),
-
-  renderPlot(gg,  height = 600, width = 1200, res = 96)
-)
- 
- # gg # To test graphics
+  return(gg)
   
 }
-
 
 # Beta diversity ----------------------------------------------------------
 

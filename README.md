@@ -17,17 +17,17 @@ reprocessed and assigned using PR2.
 Access to the database to map, search and download the barcodes can be
 done in three different ways:
 
--   Using a [web interface](https://metapr2-dcx2qwgoua-as.a.run.app/).
+1 - Using a [web interface](https://metapr2-dcx2qwgoua-as.a.run.app/).
 
--   Download the R package and launch the shiny application.
+2 - Download the R package and launch the shiny application.
 
--   Download and run a Docker container
+3 - Download and run a Docker container
 
-#### Web interface
+#### 1 - Web interface
 
 -   <https://metapr2-dcx2qwgoua-as.a.run.app/>
 
-#### metaPR2 shiny R package
+#### 2 - metaPR2 shiny R package
 
 *(NOT YET AVAILABLE)*
 
@@ -41,7 +41,7 @@ devtools::install_github("pr2database/metapr2-shiny")
 metapr2::metapr2App()
 ```
 
-#### The metaPR2 Docker container
+#### 3 - metaPR2 Docker container
 
 *(NOT YET AVAILABLE)*
 

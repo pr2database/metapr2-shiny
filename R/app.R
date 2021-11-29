@@ -41,7 +41,7 @@ shinymanager::set_labels(
 
 ui <- fluidPage(
   
-  # Script to close the windows after some inactivity - ACTIVARE for web application
+  # Script to close the windows after some inactivity - ACTIVATE for web application
   tags$script(inactivity),  
   
 
@@ -88,7 +88,7 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  # Stop the application of the session is closed (after 10 min) - ACTIVATE  for web application
+  # Stop the application of the session is closed (after 30 min) - ACTIVATE  for web application
   session$onSessionEnded(stopApp)
   
   # Authentification

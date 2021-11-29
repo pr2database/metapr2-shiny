@@ -53,6 +53,9 @@ RUN install2.r --error --skipinstalled \
 RUN install2.r --error --skipinstalled \
     plotly lubridate
 
+RUN install2.r --error --skipinstalled \
+    ggforce yaml
+
 # Install vsearch
 # https://github.com/FredHutch/docker-vsearch/blob/master/Dockerfile
 

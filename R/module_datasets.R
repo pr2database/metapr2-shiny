@@ -121,6 +121,7 @@ dataServer <- function(id, taxo, authentification) {
           multiple = TRUE,
           options= shinyWidgets::pickerOptions(
             actionsBox = TRUE,
+            size = 10,
             selectedTextFormat = "count > 1",
             liveSearch = TRUE
           )
@@ -179,6 +180,7 @@ dataServer <- function(id, taxo, authentification) {
         selected = selected,
         options= shinyWidgets::pickerOptions(
           actionsBox = TRUE,
+          size = 10,
           selectedTextFormat = "count > 1",
           liveSearch = TRUE
         )
