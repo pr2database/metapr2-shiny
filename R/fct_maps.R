@@ -64,7 +64,7 @@ map_leaflet <- function(map, df,
                lat = ~ latitude, 
                lng = ~ longitude, 
                icon=cross,
-               popup = ~ label,
+               popup = ~ stringr::str_c(label, "<br/>","Taxon is absent"), 
                labelOptions = labelOptions(textsize = "10px", 
                                            noHide = F) 
     ) %>% 
@@ -98,7 +98,7 @@ map_leaflet <- function(map, df,
                          lat = ~ latitude,
                          lng = ~ longitude,
                          radius = ~ sqrt(pct/pct_max)*size_factor,
-                         popup = ~ stringr::str_c(label, " - ", sprintf(pct, fmt = '%.2f'), " %"),
+                         popup = ~ stringr::str_c(label, "<br/>", sprintf(pct, fmt = '%.2f'), " % of euks", "<br/>", "Dominant taxon: ", dominant_taxon),
                          color = ~ pal_dominant(dominant_taxon),
                          weight = 0,  # No line
                          fillOpacity = 0.5, # Alpha factor

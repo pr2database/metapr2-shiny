@@ -36,7 +36,7 @@ The barplot panel allow to produce barplots using a variety of metadata (Fig. 1)
   * fraction name
   * ecosystem
   * substrate
-  * depth (in m) and depth_level: when depth (m) is selected, only the top 250 m are shown.
+  * depth (in m) and depth_level
   * DNA_RNA
   * latitude
   * temperature

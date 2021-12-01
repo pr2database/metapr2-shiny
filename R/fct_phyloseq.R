@@ -61,13 +61,13 @@ ps_alpha <- function(ps, measures = c("Shannon"),
 
   # Discretize the data (must make sure that there is more than one value)
   
-  phyloseq_discretize <- function(ps, x, width, boundary, reverse = TRUE){
+  phyloseq_discretize <- function(ps, x, reverse = TRUE, ...){
     if (length(unique(phyloseq::get_variable(ps, x))) > 1) {
       if ( x == "depth") {
-        phyloseq::sample_data(ps)[[x]] = fct_rev(cut.default(phyloseq::get_variable(ps, x), breaks = c(seq(0,250,25), 500, 750, 1000, 5000), include.lowest = TRUE))
+        phyloseq::sample_data(ps)[[x]] = fct_rev(cut.default(phyloseq::get_variable(ps, x), breaks = c(seq(0,250,25), 500, 750, 1000, 9000), include.lowest = TRUE, dig.lab = 4))
       } else {
-        if (reverse) phyloseq::sample_data(ps)[[x]] =  fct_rev(cut_width(phyloseq::get_variable(ps, x), width=width, boundary=boundary))
-        else phyloseq::sample_data(ps)[[x]] =  cut_width(phyloseq::get_variable(ps, x), width=width, boundary=boundary)
+        if (reverse) phyloseq::sample_data(ps)[[x]] =  fct_rev(cut_width(phyloseq::get_variable(ps, x), ...))
+        else phyloseq::sample_data(ps)[[x]] =  cut_width(phyloseq::get_variable(ps, x), ...)
       }
     } else{
       phyloseq::sample_data(ps)[[x]] =  as.factor(phyloseq::get_variable(ps, x))

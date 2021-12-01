@@ -31,14 +31,14 @@ barplot <- function(df, variable, color_coding, taxo_level) {
   # https://statisticsglobe.com/aggregate-daily-data-to-month-year-intervals-in-r
   
   
-  barplot_discretize <- function(df, x, width, boundary, reverse = TRUE){
+  barplot_discretize <- function(df, x, reverse = TRUE, ...){
     if (length(unique(df[[x]])) > 1) {
       if (x == "depth") {
-        df[[x]] = cut.default(df[[x]], breaks = c(seq(0,250,25), 500, 750, 1000, 5000), include.lowest = TRUE)
+        df[[x]] = cut.default(df[[x]], breaks = c(seq(0,250,25), 500, 750, 1000, 9000), include.lowest = TRUE, dig.lab = 4)
       }
       else{
-        if (reverse) df[[x]]  =  fct_rev(cut_width(df[[x]], width=width, boundary=boundary))
-        else df[[x]]  =  cut_width(df[[x]], width=width, boundary=boundary)
+        if (reverse) df[[x]]  =  fct_rev(cut_width(df[[x]], ...))
+        else df[[x]]  =  cut_width(df[[x]], ...)
       }
     } else{
       df[[x]] =  as.factor(df[[x]])

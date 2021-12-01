@@ -19,9 +19,10 @@ metapr2App <- function() {
   #   cat("Object:",deparse(substitute(x)), "- size: ", round(pryr::object_size(x)/10**6, 2), " Mb \n")
   # }
 
-# Remove warnings
+# Remove warnings: -1 remove, 0 save, 1 print
+# https://docs.tibco.com/pub/enterprise-runtime-for-R/5.0.0/doc/html/Language_Reference/base/stop.html#:~:text=The%20warn%20option%20(see%20options,by%20calling%20the%20function%20warnings.
   
-options(warn=-1)
+options(warn = - 1)
 
 messages <- list()
 messages$no_data = tags$div(
@@ -29,6 +30,7 @@ messages$no_data = tags$div(
                       # tags$br(),
                       tags$span(style="color:red","You may want to change minimum number of reads or select more samples")
                       )
+
 shinymanager::set_labels(
   language = "en",
   "Please authenticate" = "Choose datasets",

@@ -99,7 +99,7 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
             )
           ),
           
-          shinycssloaders::withSpinner(leafletOutput(ns("map_1"), width ="auto", height = 800))
+          shinycssloaders::withSpinner(leafletOutput(ns("map_1"), width ="auto", height = 1200))
         )
     })
       

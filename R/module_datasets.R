@@ -15,7 +15,7 @@ data_reads_min_UI <- function(id) {
     numericInput(
       ns("reads_min"),
       "Minimum number of total reads per ASV",
-      1000,
+      100,
       min = 100,
       max = 10000,
       step = NA,
@@ -166,7 +166,7 @@ dataServer <- function(id, taxo, authentification) {
       choices <- choices[order(names(choices))]
       
       filter_datasets <- str_c(input$dataset_group , collapse = " | ")
-      cat(filter_datasets, "\n")
+      message(filter_datasets)
       
       selected <- asv_set()$datasets %>%
         filter(!! rlang::parse_expr(filter_datasets)) %>%
@@ -273,7 +273,7 @@ dataServer <- function(id, taxo, authentification) {
       }
       
       
-      cat("User: ", authentification$user, "\n")
+      message("User: ", authentification$user)
       
       # Reading the data - Using the normal way ----------------------------------
       asv_set_all  <- tryCatch(
@@ -281,7 +281,7 @@ dataServer <- function(id, taxo, authentification) {
           qs::qread(system.file(dir_asv_set,  'asv_set.qs', package = "metapr2"))
         },
         error=function(cond) {
-          cat("Cannot use system.file")
+          message("Cannot use system.file")
           return(NA)
         }
       )
@@ -290,7 +290,7 @@ dataServer <- function(id, taxo, authentification) {
       
       if(is.na(asv_set_all)){
         asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/asv_set.qs"))
-        cat("Using full path")
+        message("Using full path")
       }
       
       asv_set_all$samples <- asv_set_all$samples %>% 
@@ -300,10 +300,11 @@ dataServer <- function(id, taxo, authentification) {
                              str_replace_na(substrate, ""),
                              sep = "-"))
       
-      cat("Data sets: ", nrow(asv_set_all$datasets), "\n")
-      cat("Samples: ", nrow(asv_set_all$samples), "\n")
-      cat("df: ",nrow(asv_set_all$df), "\n")
-      cat("Fasta: ",nrow(asv_set_all$fasta), "\n")
+      message("Data sets: ", nrow(asv_set_all$datasets))
+      message("Samples: ", nrow(asv_set_all$samples))
+      message("df: ",nrow(asv_set_all$df))
+      message("Fasta: ",nrow(asv_set_all$fasta))
+      message("Mem used (GB): ", pryr::mem_used()/10^9)
       
       return(asv_set_all)
       

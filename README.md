@@ -3,9 +3,11 @@
 
 # metaPR2 <img src="inst/img/metapr2_logo.png" align="right" />
 
-**Database version 1.0.0** : 41 datasets
-
 ## A database of 18S rRNA metabarcodes
+
+**Database version**: 1.0.0 - 41 datasets
+
+**Shiny application version**: 1.0.2
 
 ### Presentation
 
@@ -17,7 +19,7 @@ reprocessed and assigned using PR2.
 Access to the database to map, search and download the barcodes can be
 done in three different ways:
 
-1 - Using a [web interface](https://metapr2-dcx2qwgoua-as.a.run.app/).
+1 - Using a [web interface](http://shiny.metapr2.org).
 
 2 - Download the R package and launch the shiny application.
 
@@ -25,7 +27,7 @@ done in three different ways:
 
 #### 1 - Web interface
 
--   <https://metapr2-dcx2qwgoua-as.a.run.app/>
+<http://shiny.metapr2.org>
 
 #### 2 - metaPR2 shiny R package
 
