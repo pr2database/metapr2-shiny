@@ -33,15 +33,17 @@
 
     tabPanel("Query",
              queryUI("query")
-    ),
+             ),
+    
     tabPanel("Download",
              downloadUI("download")
-
-    )
+             )
     # ,
-    # tabPanel("Help",
-    #          column(8, includeMarkdown(system.file("readme", 'help.md', package = "metapr2"))))
-    
+    # 
+    # tabPanel("Settings",
+    #          # data_settings_UI("data")
+    #          )
+
 
     # tabPanel("Debug",
     #          textOutput("test1"),

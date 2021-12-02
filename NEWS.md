@@ -2,6 +2,8 @@
 
 Released: 2021-xx
 
+## Datasets
+* Settings (datasets, type of samples) can be saved and recalled
 
 ## Barplots
 * Add number of samples for each bar

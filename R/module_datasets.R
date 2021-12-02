@@ -6,6 +6,13 @@ options_picker <- shinyWidgets::pickerOptions(
   liveSearch = TRUE
 )
 
+options_picker_datasets <- shinyWidgets::pickerOptions(
+  actionsBox = TRUE,
+  size = 10,
+  selectedTextFormat = "count > 1",
+  liveSearch = TRUE
+)
+
 # UI ----------------------------------------------------------------------
 
 data_reads_min_UI <- function(id) {
@@ -39,6 +46,11 @@ data_datasets_table_UI <- function(id) {
     h4("Quick dataset selection."),
     checkboxGroupInput(ns("dataset_group"), "Dataset groups", inline = TRUE,  
                        choiceNames = global$datasets$group, choiceValues = global$datasets$filter),
+    h4("Save/Load settings"),
+    fluidRow(
+      column(2, downloadButton(ns('save_settings'), 'Save settings')),
+      column(4, fileInput(ns('load_settings'), NULL, buttonLabel = 'Load settings', multiple = FALSE, accept = ".yaml"))
+    )  ,
     p(),
     # h4("Select and deselect datasets by clicking on the corresponding row."), 
     DT::DTOutput(ns('datasets_table'))
@@ -54,12 +66,6 @@ data_samples_UI <- function(id) {
     
     h3("Select Samples"),
     
-    # checkboxGroupInput(ns("gene_region"), "Gene regions", inline = TRUE,  choices = global$gene_regions, selected = "V4"),
-    # checkboxGroupInput(ns("DNA_RNA"), "DNA or RNA", inline = TRUE,  choices = global$DNA_RNAs, selected = "DNA"),
-    # checkboxGroupInput(ns("ecosystem"), "Ecosystems", inline = TRUE,  choices = global$ecosystems, selected = global$ecosystems),
-    # checkboxGroupInput(ns("substrate"), "Substrates", inline = TRUE,  choices = global$substrates, selected = "water"),
-    # checkboxGroupInput(ns("fraction_name"), "Size fractions", inline = TRUE,  choices = global$fraction_names, selected = c("pico", "total")),
-    # checkboxGroupInput(ns("depth_level"), "Depth levels", inline = TRUE,  choices = global$depth_levels, selected = "surface"),
     shinyWidgets::pickerInput(ns("gene_region"), "Gene regions", choices = global$gene_regions, selected = "V4", multiple = TRUE, options= options_picker),
     shinyWidgets::pickerInput(ns("DNA_RNA"), "DNA or RNA", choices = global$DNA_RNAs, selected = "DNA", multiple = TRUE, options= options_picker),
     shinyWidgets::pickerInput(ns("ecosystem"), "Ecosystems", choices = global$ecosystems, selected = global$ecosystems, multiple = TRUE, options= options_picker),
@@ -72,12 +78,11 @@ data_samples_UI <- function(id) {
 
 
 
+
 # Server ------------------------------------------------------------------
 
 
 dataServer <- function(id, taxo, authentification) {
-  # dataServer <- function(id, df_full, taxo) {
-  # stopifnot(is.reactive(df))
   
   moduleServer(id, function(input, output, session) {
     
@@ -119,19 +124,14 @@ dataServer <- function(id, taxo, authentification) {
           choices = choices,
           selected = asv_set()$datasets$dataset_id,
           multiple = TRUE,
-          options= shinyWidgets::pickerOptions(
-            actionsBox = TRUE,
-            size = 10,
-            selectedTextFormat = "count > 1",
-            liveSearch = TRUE
-          )
+          options= options_picker_datasets
         )
         
       )
     })
     
       
-    # Create table of datasets -------------------------------------------------
+    # Panel with table of datasets -------------------------------------------------
     
     # See:
     # Column width: https://stackoverflow.com/questions/25205410/r-shiny-set-datatable-column-width
@@ -159,12 +159,11 @@ dataServer <- function(id, taxo, authentification) {
     # Update the sets selected in case of Quick dataset selection --------------
     
     
+    
+    
     observeEvent(input$dataset_group, {
       req(asv_set())
-      choices = asv_set()$datasets$dataset_id
-      names(choices) = asv_set()$datasets$dataset_code
-      choices <- choices[order(names(choices))]
-      
+
       filter_datasets <- str_c(input$dataset_group , collapse = " | ")
       message(filter_datasets)
       
@@ -176,14 +175,7 @@ dataServer <- function(id, taxo, authentification) {
       shinyWidgets::updatePickerInput(
         session = session,
         inputId = "datasets_selected_id",
-        choices = choices,
-        selected = selected,
-        options= shinyWidgets::pickerOptions(
-          actionsBox = TRUE,
-          size = 10,
-          selectedTextFormat = "count > 1",
-          liveSearch = TRUE
-        )
+        selected = selected
       )
     })
     
@@ -192,65 +184,89 @@ dataServer <- function(id, taxo, authentification) {
     
     # Update Sample Checkboxes With the values possible for the datasets selected ---
     
-    update_picker <- function(asv_set, variable, datasets_id) {
-      values <- asv_set$samples %>% 
+    update_picker <- function(asv_set, variable, values_selected, datasets_id) {
+      choices <- asv_set$samples %>% 
         filter(dataset_id %in% datasets_id) %>% 
         arrange(.data[[variable]]) %>% 
         pull(.data[[variable]]) %>% 
         unique() %>% 
         as.character()
-      values_selected <- values
-      # print(values)
-      if (variable == "DNA_RNA") values_selected <- "DNA"
-      if (variable == "gene_region") values_selected <- "V4"
-      if (variable == "depth_level") values_selected <- "surface"
-      if (variable == "substrate") values_selected <- "water"
-      if (variable == "fraction_name") values_selected <- c("pico", 'total')
-      
+      if (is.null(values_selected)) values_selected <- choices
       shinyWidgets::updatePickerInput( session = session,
                                        inputId = variable, 
-                                       choices = values,
+                                       choices = choices,
                                        selected = values_selected,
                                        options = options_picker)
     }
     
-    update_checkbox <- function(asv_set, variable, datasets_id) {
-      values <- asv_set$samples %>% 
-        filter(dataset_id %in% datasets_id) %>% 
-        arrange(.data[[variable]]) %>% 
-        pull(.data[[variable]]) %>% 
-        unique() %>% 
-        as.character()
-      
-      values_selected <- values
-      if (variable == "DNA_RNA") values_selected <- "DNA"
-      if (variable == "gene_region") values_selected <- "V4"
-      if (variable == "depth_level") values_selected <- "surface"
-      if (variable == "substrate") values_selected <- "water"
-      if (variable == "fraction_name") values_selected <- c("pico", 'total')
-      
-      updateCheckboxGroupInput(inputId = variable, 
-                               choices = values,
-                               selected = values_selected,
-                               inline = TRUE)
-    }
-    
     observeEvent(input$datasets_selected_id,{
       req(asv_set())
-      # update_checkbox("gene_region", input$datasets_selected_id)
-      # update_checkbox("DNA_RNA", input$datasets_selected_id)
-      # update_checkbox("ecosystem", input$datasets_selected_id)
-      # update_checkbox("substrate", input$datasets_selected_id)
-      # update_checkbox("fraction_name", input$datasets_selected_id)
-      # update_checkbox("depth_level", input$datasets_selected_id)
-      update_picker(asv_set(), "gene_region", input$datasets_selected_id)
-      update_picker(asv_set(), "DNA_RNA", input$datasets_selected_id)
-      update_picker(asv_set(), "ecosystem", input$datasets_selected_id)
-      update_picker(asv_set(), "substrate", input$datasets_selected_id)
-      update_picker(asv_set(), "fraction_name", input$datasets_selected_id)
-      update_picker(asv_set(), "depth_level", input$datasets_selected_id)
+      update_picker(asv_set(), "gene_region", input$gene_region, input$datasets_selected_id)
+      update_picker(asv_set(), "DNA_RNA", input$DNA_RNA, input$datasets_selected_id)
+      update_picker(asv_set(), "ecosystem", input$ecosystem, input$datasets_selected_id)
+      update_picker(asv_set(), "substrate", input$substrate, input$datasets_selected_id)
+      update_picker(asv_set(), "fraction_name",  input$fraction_name, input$datasets_selected_id)
+      update_picker(asv_set(), "depth_level", input$depth_level, input$datasets_selected_id)
+    })
+    
+    # Create settings -----------------------------------------------------------
+    
+    settings  <- reactive({
+         return(list(
+                gene_region = input$gene_region,
+                DNA_RNA = input$DNA_RNA,
+                ecosystem = input$ecosystem,
+                substrate = input$substrate,
+                fraction_name = input$fraction_name,
+                depth_level = input$depth_level,
+                datasets_selected_id = input$datasets_selected_id,
+                reads_min = input$reads_min,
+                taxo = taxo())
+           )
+    })
+    
+    # Save settings --------
+    output$save_settings <- downloadHandler(
       
+      filename = function() {str_c("metapr2_settings", "_", Sys.Date(), ".yaml")},
+      content = function(path) {
+      yaml::write_yaml(settings(), file = path)
+        
+     }
+    ) 
+    
+    # Update settings --------
+    observeEvent(input$load_settings, {
       
+      tryCatch( 
+        {settings_new <- yaml::read_yaml(file = input$load_settings$datapath)                
+          print(settings_new)
+          
+          choices = asv_set()$datasets$dataset_id
+          names(choices) = asv_set()$datasets$dataset_code
+          choices <- choices[order(names(choices))]
+          
+          shinyWidgets::updatePickerInput(
+            session = session,
+            inputId = "datasets_selected_id",
+            choices = choices,
+            selected =  settings_new$datasets_selected_id,
+            options= options_picker_datasets
+          )
+          update_picker(asv_set(), "gene_region", settings_new$gene_region, settings_new$datasets_selected_id)
+          update_picker(asv_set(), "DNA_RNA", settings_new$DNA_RNA, settings_new$datasets_selected_id)
+          update_picker(asv_set(), "ecosystem", settings_new$ecosystem, settings_new$datasets_selected_id)
+          update_picker(asv_set(), "substrate", settings_new$substrate, settings_new$datasets_selected_id)
+          update_picker(asv_set(), "fraction_name", settings_new$fraction_name, settings_new$datasets_selected_id)
+          update_picker(asv_set(), "depth_level", settings_new$depth_level, settings_new$datasets_selected_id)
+        },
+          error=function(cond) {
+            message("Invalid yaml file")
+            showModal(modalDialog(title = "Loading settings", "Invalid YAML file", size = "s", easyClose = TRUE))
+            return(NA)
+          }
+      )
+
     })
     
     

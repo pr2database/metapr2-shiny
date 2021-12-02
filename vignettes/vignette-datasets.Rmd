@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-This page (Fig. 1) lists all the datasets included in the database (41 for the current version)  with basic information (reference, number of samples, mean number of reads).  Datasets can be selected using the left panel but there is also a quick way to select datasets from specific environments or time series (Fig. 2)
+This page (Fig. 1) lists all the datasets included in the database (41 for the current version)  with basic information (reference, number of samples, mean number of reads).  Datasets can be selected using the left panel but there is also a quick way to select datasets from specific environments or time series (Fig. 2). It is possible to save the settings (dataset selected, gene region, DNA/RNA etc...) in a simple text file ([yaml](https://en.wikipedia.org/wiki/YAML)) that can edited/reloaded.
 
 <br />
 <br />

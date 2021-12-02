@@ -105,37 +105,37 @@ server <- function(input, output, session) {
   
   # Datasets - Reformat the datasets and creates output for download  
   
-    r <- dataServer("data", taxo, authentification)
-
-  # Panel - Download
-
-    downloadServer("download", r$datasets_selected, r$samples_selected, r$df_selected, r$fasta_selected, taxo, messages)
-
-  # Panel - Treemap
-
-    treemapServer("treemap", r$df_selected, taxo, messages)
-
-  # Panel - Leaflet map
-
-    mapServer("map", r$df_selected, r$samples_selected, taxo)
-
-  # Panels - Barplot
-
-    barplotServer("barplot", r$df_selected, taxo, messages)
-
-
-  # Panels - Alpha and beta diversity
-
-   phyloseqServer("phyloseq", r$samples_selected, r$df_selected, r$fasta_selected, taxo, messages)
-
-  # Panel - Matching ASV
-
-    queryServer("query", r$samples_selected, r$df_all, r$fasta_all)
-
+    asv_set <- dataServer("data", taxo, authentification)
 
   # Utils - Dynamic taxonomy boxes
 
     taxo <- taxoServer("taxo")
+
+  # Panel - Download
+
+    downloadServer("download", asv_set$datasets_selected, asv_set$samples_selected, asv_set$df_selected, asv_set$fasta_selected, taxo, messages)
+
+  # Panel - Treemap
+
+    treemapServer("treemap", asv_set$df_selected, taxo, messages)
+
+  # Panel - Leaflet map
+
+    mapServer("map", asv_set$df_selected, asv_set$samples_selected, taxo)
+
+  # Panels - Barplot
+
+    barplotServer("barplot", asv_set$df_selected, taxo, messages)
+
+
+  # Panels - Alpha and beta diversity
+
+    phyloseqServer("phyloseq", asv_set$samples_selected, asv_set$df_selected, asv_set$fasta_selected, taxo, messages)
+
+  # Panel - Matching ASV
+
+    queryServer("query", asv_set$samples_selected, asv_set$df_all, asv_set$fasta_all)
+
 
     # cat("Server: ")
     # print(pryr::mem_used())
