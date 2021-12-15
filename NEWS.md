@@ -11,6 +11,10 @@ Released: 2021-12-14
 * Taxa (selected and excluded) can be saved and recalled
 * It is necessary to press the "Validate taxa" to replot after changing taxo selection
 
+### Maps
+* Add topography
+* Add equator, tropics and polar circle
+
 ### Barplots
 * Add number of samples for each bar
 

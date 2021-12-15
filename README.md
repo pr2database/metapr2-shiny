@@ -37,9 +37,7 @@ Install the package from GitHub and launch function metapr2App()
 
 ``` r
 install.packages(devtools)
-
 devtools::install_github("pr2database/metapr2-shiny")
-
 metapr2::metapr2App()
 ```
 

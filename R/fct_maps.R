@@ -22,14 +22,29 @@ addLegendCustom <- function(map, colors, labels, sizes, opacity = 0.5, legend_ti
 # Leaflet - Function to start a  map ------------------------------------------
 
 
-map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 2, 
+map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 3, 
                              width=1000,  height=1000) {
+  
+  lng_all = c(-5000,5000)
+  lat_equator = c(0,0)
+  lat_tropics = c(23.44, 23.44)
+  lat_polar = c(66.6,66.6)
+  dash_equator = NULL
+  dash_tropics = c(20, 20)
+  dash_polar = c(10, 30)
+  line_weight = 2
+  color = "blue"
   
 
   map <- leaflet(width = width, height = height) %>%
     addTiles() %>%
     addProviderTiles(providers$Esri.WorldStreetMap) %>%
-    setView(lng=lng_center, lat=lat_center, zoom=zoom)
+    addPolylines(lat = lat_polar, lng = lng_all, dashArray = dash_polar, color = color, weight = line_weight) %>%
+    addPolylines(lat = lat_tropics, lng = lng_all, dashArray = dash_tropics, color = color, weight = line_weight) %>%
+    addPolylines(lat = lat_equator, lng = lng_all, dashArray = dash_equator, color = color, weight = line_weight) %>% 
+    addPolylines(lat = -lat_tropics, lng = lng_all, dashArray = dash_tropics, color = color, weight = line_weight) %>%
+    addPolylines(lat = -lat_polar, lng = lng_all, dashArray = dash_polar, color = color, weight = line_weight) %>%
+    setView(lng=lng_center, lat=lat_center, zoom=zoom) 
 }
 
 # Leaflet - Function to draw a  map--------------------------------------------

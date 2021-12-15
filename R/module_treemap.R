@@ -22,8 +22,14 @@ treemap <- function(df, taxo_level) {
   # cat("Level 2: ",taxo_level_2 ,"\n")
   # print(df)
   
-  df <- df %>%
+  reads <- df %>%
     count(across(any_of(c(taxo_level_1, taxo_level_2))), wt=n_reads_pct) %>% 
+    ungroup()
+  
+  asv <- df %>%
+    select(asv_code, all_of(c(taxo_level_1, taxo_level_2))) %>% 
+    distinct() %>% 
+    count(across(all_of(c(taxo_level_1, taxo_level_2)))) %>% 
     ungroup()
   
   
@@ -32,22 +38,32 @@ treemap <- function(df, taxo_level) {
   # ggplot(df, aes(area = n, fill = {{level2}}, subgroup = {{level1}}, label = {{level2}})) +
   #   treemapify::geom_treemap()
   
+  treemap_plot <- function(df, title){
+  
   g <- ggplot(df, aes(area = n, 
                  fill = .data[[taxo_level_1]],
                  subgroup = .data[[taxo_level_1]], 
                  label = .data[[taxo_level_2]])) +
-    treemapify::geom_treemap() +
+    treemapify::geom_treemap(alpha = 0.8) +
     treemapify::geom_treemap_text(colour = "white", place = "centre", grow = FALSE) +
     treemapify::geom_treemap_subgroup_border() +
     treemapify::geom_treemap_subgroup_text(place = "topleft", grow = F, 
-                                           alpha = 0.5, colour = "black", 
+                                           alpha = 0.8, colour = "grey40", 
                                            min.size = 0) +
     theme_bw() +
-    scale_color_brewer() +
-    guides(fill = FALSE)
+    # scale_color_brewer() +
+    scale_fill_viridis_d() +
+    guides(fill = FALSE) +
+    ggtitle(title)
+  }
   
   # cat("Treemap: ")
   # print(pryr::mem_used())
+  
+  g1 <- treemap_plot(reads, "Reads")
+  g2 <- treemap_plot(asv, "ASVs")
+  
+  g <- g1 + g2
   
   return(g)
   
