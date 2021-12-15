@@ -28,6 +28,7 @@ map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 2,
 
   map <- leaflet(width = width, height = height) %>%
     addTiles() %>%
+    addProviderTiles(providers$Esri.WorldStreetMap) %>%
     setView(lng=lng_center, lat=lat_center, zoom=zoom)
 }
 
@@ -122,7 +123,7 @@ map_leaflet <- function(map, df,
 
 # Function to reformat data frame from sample counts ----------------------------
 
-reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
+reformat_df_map <- function (df, samples, taxo_level) {
   
   # Only keep the taxa of interest
   
@@ -135,6 +136,8 @@ reformat_df_map <- function (df, samples, taxo_level, taxo_name) {
   #   filter(!!as.symbol(taxo_level)  %in% taxo_name) 
   
   # Compute the level below the rank considered (e.g. species for genus) 
+  
+  if(taxo_level == "asv_code") taxo_level <- "species"
   
   if(taxo_level != "asv_code"){
   

@@ -33,19 +33,14 @@ YOu can also:
 Install from the GitHub web site using the devtools package
 
 ```{r, eval=FALSE, echo=TRUE}
-
 install.packages(devtools)
-
 devtools::install_github("pr2database/metapr2-shiny")
-
 ```
 
 # Run the Shiny application
 
 ```{r eval=FALSE }
-
 metapr2::metapr2App()
-
 ```
 
 

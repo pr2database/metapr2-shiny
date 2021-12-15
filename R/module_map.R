@@ -32,7 +32,7 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
     df_map <- reactive({
       req(df_selected(), samples_selected(), taxo())
       df_selected() %>%
-        reformat_df_map(samples = samples_selected(), taxo_level = taxo()$level, taxo_name = taxo()$name)
+        reformat_df_map(samples = samples_selected(), taxo_level = taxo()$level)
     })
     
     # Computer number of samples with present and absent ----------------------
@@ -46,7 +46,7 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
                                                        sep=" ")})
     
     output$taxo_selected <- renderText({stringr::str_c("Taxo level: <b>", taxo()$level, 
-                                                       "</b>- Taxon name: <b>", taxo()$name,"</b>", sep=" ")})
+                                                       "</b>- Taxon name: <b>", str_c(taxo()$name, collapse = ";"),"</b>", sep=" ")})
     
     
     # Create the map ----------------------------------------------------------

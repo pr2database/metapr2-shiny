@@ -55,3 +55,6 @@ navbar:
        href: articles/vignette-query.html
      - text: Download
        href: articles/vignette-download.html
+
+template:
+  bootstrap: 5

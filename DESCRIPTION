@@ -1,6 +1,6 @@
 Package: metapr2
 Title: Eukaryotic 18S rRNA metabarcode database 
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     person(given = "Daniel",
            family = "Vaulot",
@@ -8,7 +8,7 @@ Authors@R:
            email = "vaulot@gmail.com",
            comment = c(ORCID = "0000-0002-0717-5685"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()`
+License: MIT
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -16,6 +16,7 @@ RoxygenNote: 7.1.2
 Imports: 
     Biostrings,
     blaster,
+    bslib,
     dplyr,
     DT,
     forcats,
@@ -30,6 +31,7 @@ Imports:
     pkgload,
     plotly,
     pryr,
+    purrr,
     qs,
     rio,
     scrypt,

@@ -55,7 +55,10 @@ barplotServer <- function(id, df, taxo, messages) {
                 barplot(df(),
                        variable = input$barplot_variable,
                        color_coding = input$color_coding, 
-                       taxo_level = global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1]),
+                       taxo_level = ifelse(taxo()$level != "asv_code",
+                                           global$taxo_levels[which(global$taxo_levels == taxo()$level) + 1],
+                                           "asv_code")
+                       ),
                 height = 1000, width=1200
               )
             })}

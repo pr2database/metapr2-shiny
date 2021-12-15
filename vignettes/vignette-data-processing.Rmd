@@ -31,7 +31,7 @@ knitr::opts_chunk$set(
 
 * Assignment was done with dada2 assignTaxa using the 18S PR2 4.14.0 as reference
 
-* ASVs with less 100 reads total and with bootstrap value at the supergroup level < 90 were not considered.
+* ASVs with less 100 reads total and with bootstrap value at the supergroup level < 75 were not considered.
 
 * Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads.
 

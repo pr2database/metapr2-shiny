@@ -40,7 +40,7 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
   
   output$download_df <- downloadHandler(
       
-      filename = function() {str_c("metapr2_ASVs_selected_abundance_", taxo()$name, "_", Sys.Date(), ".tsv.gz")},
+      filename = function() {str_c("metapr2_ASVs_selected_abundance_",  str_c(taxo()$name, collapse = "-"), "_", Sys.Date(), ".tsv.gz")},
       
       content = function(path) {
         
@@ -52,7 +52,7 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
     
   output$download_phyloseq <- downloadHandler(
     
-    filename = function() {str_c("metapr2_phyloseq_", taxo()$name, "_", Sys.Date(), ".rds")},
+    filename = function() {str_c("metapr2_phyloseq_", str_c(taxo()$name, collapse = "-"), "_", Sys.Date(), ".rds")},
     
     content = function(path) {
       rio::export(ps_selected(), file=path)
@@ -62,7 +62,7 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
   
   output$download_datasets_zip <- downloadHandler(
 
-    filename = function() {str_c("metapr2_datasets_", taxo()$name, "_", Sys.Date(), ".zip")},
+    filename = function() {str_c("metapr2_datasets_", str_c(taxo()$name, collapse = "-"), "_", Sys.Date(), ".zip")},
 
     content = function(path) {
 

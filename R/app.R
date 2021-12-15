@@ -43,8 +43,14 @@ shinymanager::set_labels(
 
 ui <- fluidPage(
   
+  # Booststrap theme:https://rstudio.github.io/shinythemes/
+  # theme = bslib::bs_theme(bootswatch = "yeti"),
+  
   # Script to close the windows after some inactivity - ACTIVATE for web application
   tags$script(inactivity),  
+  
+  # To activate shinyjs
+  # shinyjs::useShinyjs(),
   
 
   # To include the favicon.ico
@@ -109,7 +115,7 @@ server <- function(input, output, session) {
 
   # Utils - Dynamic taxonomy boxes
 
-    taxo <- taxoServer("taxo")
+    taxo <- taxoServer("taxo", asv_set$fasta_selected)
 
   # Panel - Download
 

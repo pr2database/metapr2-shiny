@@ -7,21 +7,23 @@ treemap <- function(df, taxo_level) {
     taxo_level_number = which(global$taxo_levels == taxo_level)
   
   # Do not go beyond ASV level (taxo_level_number = 9)
-  if(taxo_level_number < 8 ){
+  if(taxo_level_number >= 8 ) taxo_level_number = 7
+    
     taxo_level_1 = global$taxo_levels[taxo_level_number + 1] 
-    taxo_level_2 = global$taxo_levels[taxo_level_number + 2] 
-  } else {
-    taxo_level_1 = global$taxo_levels[taxo_level_number] 
-    taxo_level_2 = global$taxo_levels[taxo_level_number + 1]   
-  }
+    taxo_level_2 = global$taxo_levels[taxo_level_number + 2]
   
   # Group
   # df <- df %>%
   #   count(!!as.symbol(taxo_level_1), !!as.symbol(taxo_level_2), wt=n_reads) %>% 
   #   ungroup()
+  # cat("Level: ",taxo_level ,"\n")  
+  # cat("Level #: ",taxo_level_number ,"\n")  
+  # cat("Level 1: ",taxo_level_1 ,"\n")
+  # cat("Level 2: ",taxo_level_2 ,"\n")
+  # print(df)
   
   df <- df %>%
-    count(across(all_of(c(taxo_level_1, taxo_level_2))), wt=n_reads_pct) %>% 
+    count(across(any_of(c(taxo_level_1, taxo_level_2))), wt=n_reads_pct) %>% 
     ungroup()
   
   
@@ -56,6 +58,7 @@ treemapUI <- function(id) {
   ns <- NS(id)
   tagList(
     p("Number of reads have been normalized (not rarefield) to 100 with 3 decimals."), 
+    # div(actionButton(ns("update_treemap"), "Update treemap", class = "btn-primary"), style="text-align: left;"),
     shinycssloaders::withSpinner(uiOutput(ns('treemap')))
   )
 }
@@ -71,20 +74,28 @@ treemapServer <- function(id, df_selected, taxo, messages) {
   moduleServer(id, function(input, output, session) {
     
     ns <- NS(id)
+    
+    update_plot <- reactiveVal(FALSE)
+    
+    observeEvent(input$update_treemap, {update_plot(TRUE)})
 
-    output$treemap <- renderUI({
-      req(df_selected(), taxo())
-      tagList(
-        p(""),
-        if(nrow(df_selected()) > 0) {
-          renderPlot({
-            treemap(df_selected(), taxo_level = taxo()$level)
-          },  height = 800, width = 800, res = 96)}
-        else {
-          messages$no_data
-        }
-      )  
-    })  
+    # Trigger by button
+        output$treemap <- renderUI({
+        tagList(
+          p(""),
+          if(nrow(df_selected()) > 0) {
+            renderPlot({
+              treemap(df_selected(), taxo_level = taxo()$level)
+            },  height = 800, width = 800, res = 96)}
+          else {
+            messages$no_data
+          }
+        )
+      })
+        # update_plot(FALSE)
+        # print(update_plot())
+        
+    # })
 
   })
   
