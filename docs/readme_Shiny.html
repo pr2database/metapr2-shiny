@@ -76,7 +76,6 @@
 <li>Order colors by most abundant to least abundant (only for ASV map)</li>
 <li>Color picker - <a href="https://github.com/daattali/colourpicker/" class="external-link uri">https://github.com/daattali/colourpicker/</a>
 </li>
-<li>Add lines for tropics and poles based on an agreed convention (eg: 33.5N to 33.5S tropical etc). If not, would it be possible to include latitudinal lines across the map?</li>
 </ul><div class="section level3">
 <h3 id="alpha-and-beta">Alpha and beta<a class="anchor" aria-label="anchor" href="#alpha-and-beta"></a></h3>
 </div>
@@ -103,8 +102,6 @@
 <div class="section level3">
 <h3 id="other">Other<a class="anchor" aria-label="anchor" href="#other"></a></h3>
 <ul><li><p>Write in background taxa selected…</p></li>
-<li><p>Order on the legend on the maps the taxa by decreasing abundance in the dataset. Color should follow same order…<br></p></li>
-<li><p>Add a treemap of ASVs number.</p></li>
 <li><p>Be able to search for a specific species</p></li>
 <li><p>Add heatmaps</p></li>
 <li><p>Do better feedback: <a href="https://github.com/daattali/shinyalert" class="external-link uri">https://github.com/daattali/shinyalert</a></p></li>
@@ -158,9 +155,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="docker">Docker<a class="anchor" aria-label="anchor" href="#docker"></a></h3>
-<ul><li>Use ARGs to have one image without the private dir</li>
-<li>Create a compose YAML file</li>
-<li>Probably better to have 2 Docker files…. One which will only be used for the Docker repository</li>
+<ul><li>Do not copy the private dir (Dockerfile)</li>
 </ul></div>
 </div>
 <div class="section level1">
@@ -475,7 +470,11 @@
 <li>Change selection logic in module dataset so that the taxonomy is only that present in the samples considered</li>
 <li>Problème for replot buttons</li>
 <li>Use instead a validate taxonomy button but with ignoreNull = FALSE so that the plots are created at t=0</li>
-</ul></div>
+<li>Add lines for tropics and poles based on an agreed convention (eg: 33.5N to 33.5S tropical etc). If not, would it be possible to include latitudinal lines across the map?</li>
+<li>Treemap colors are the same than maps and barplots</li>
+<li>Add Treemap for ASVs</li>
+</ul><p>=== Version 1.0.2 ===</p>
+</div>
 </div>
 <div class="section level1">
 <h1 id="section-14">====================================<a class="anchor" aria-label="anchor" href="#section-14"></a></h1>

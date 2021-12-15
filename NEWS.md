@@ -11,6 +11,10 @@ Released: 2021-12-14
 * Taxa (selected and excluded) can be saved and recalled
 * It is necessary to press the "Validate taxa" to replot after changing taxo selection
 
+### Treemaps
+* Color of taxa now match other panels
+* Add a treemap of ASVs number
+
 ### Maps
 * Add topography
 * Add equator, tropics and polar circle

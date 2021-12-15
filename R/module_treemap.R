@@ -102,7 +102,7 @@ treemapServer <- function(id, df_selected, taxo, messages) {
           if(nrow(df_selected()) > 0) {
             renderPlot({
               treemap(df_selected(), taxo_level = taxo()$level)
-            },  height = 800, width = 800, res = 96)}
+            },  height = 800, width = 1200, res = 96)}
           else {
             messages$no_data
           }
