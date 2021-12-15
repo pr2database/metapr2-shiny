@@ -26,9 +26,9 @@ knitr::opts_chunk$set(
 # - need to build source package to have the vignettes
 ```
 
-## Overview
+This panel shows a treemap both in terms of read numbers (left) and of number of ASVs (right).
 
-Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads.
+Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels on the left size correspond to % of total eukaryotic reads.
 
 <br />
 <br />

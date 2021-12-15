@@ -26,8 +26,6 @@ knitr::opts_chunk$set(
 # - need to build source package to have the vignettes
 ```
 
-## Overview
-
 Alpha and beta diversity are performed using the phyloseq package (McMurdie and Holmes, 2013).
 
 * Because of the time and resources that are used for these computations, the maximum number of samples possible is **1000**. If you have more samples, you will need to deselect some datasets or groups of samples.
@@ -55,7 +53,8 @@ You can:
 ```{r echo=FALSE, out.width="100%", fig.cap="Fig. 1A: Alpha diversity: continuous y axis"}
 knitr::include_graphics("img/alpha_01.png")
 ```
-
+<br />
+<br />
 ```{r echo=FALSE, out.width="100%", fig.cap="Fig. 1B: Alpha diversity: discrete y-axis"}
 knitr::include_graphics("img/alpha_02.png")
 ```
@@ -73,11 +72,14 @@ You can:
 ```{r echo=FALSE, out.width="100%", fig.cap="Fig. 2: Beta diversity samples."}
 knitr::include_graphics("img/beta_01.png")
 ```
-
+<br />
+<br />
 
 ```{r echo=FALSE, out.width="100%", fig.cap="Fig. 3: Bata diversity taxa and phyloseq object structure."}
 knitr::include_graphics("img/beta_02.png")
 ```
+<br />
+<br />
 
 ## References
 

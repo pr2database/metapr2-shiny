@@ -26,11 +26,10 @@ knitr::opts_chunk$set(
 # - need to build source package to have the vignettes
 ```
 
-## Overview
 
 This panel allows to download the processed data.  The following files are provided.  They can be linked by key fields.  They only contain the selected datasets, sample type and taxa. 
 
-**The asv_reads and phyloseq files can be very big** if you download all datasets and all taxa.
+The asv_reads and phyloseq files can be **very big** if you download all datasets and all taxa.
 
 
 <br />

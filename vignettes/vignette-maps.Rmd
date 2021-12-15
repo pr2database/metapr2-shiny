@@ -26,8 +26,6 @@ knitr::opts_chunk$set(
 # - need to build source package to have the vignettes
 ```
 
-## Overview
-
 Reads are expressed as % relative to total eukaryotes.  The taxa shown are below the level selected.  For example if you select division, the different classes within this division will be shown (see Fig. 3).
 
 **Crosses** indicate samples for which the selected taxonomic group is **absent**.
@@ -42,9 +40,11 @@ Reads are expressed as % relative to total eukaryotes.  The taxa shown are below
 
 **Crosses** indicate samples for which the selected taxonomic group is **absent**.
 
+The total number of stations with and without the taxon present are indicated above the map (Fig. 3, red rectangle). The size of the circle can be changed by moving the cursor above the map.  This size is expressed as % of total eukaryotic reads.
+
 <br />
 <br />
-```{r echo=FALSE, out.width="100%", fig.cap="Fig.1: Map panel indpminant taxon mode."}
+```{r echo=FALSE, out.width="100%", fig.cap="Fig.1: Map panel in dominant taxon mode."}
 knitr::include_graphics("img/map_01.png")
 ```
 <br />
@@ -53,8 +53,6 @@ knitr::include_graphics("img/map_01.png")
 knitr::include_graphics("img/map_02.png")
 ```
 
-
-The total number of stations with and without the taxon present are indicated above the map (Fig. 3, red rectangle). The size of the circle can be changed by moving the cursor above the map.  This is expressed as % of total eukaryotic reads.
 
 <br />
 <br />

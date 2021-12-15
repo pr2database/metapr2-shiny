@@ -26,8 +26,6 @@ knitr::opts_chunk$set(
 # - need to build source package to have the vignettes
 ```
 
-## Overview
-
 This panel allows to select the data analyzed according to a variety of criteria. When the application is started a number of defaults values are selected to limit the number of samples.
 
 ### Select datasets, samples and ASVs
