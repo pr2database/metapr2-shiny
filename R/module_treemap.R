@@ -4,6 +4,8 @@
 
 treemap <- function(df, taxo_level) {
   
+    message("Computing treemap")
+  
     taxo_level_number = which(global$taxo_levels == taxo_level)
   
   # Do not go beyond ASV level (taxo_level_number = 9)

@@ -178,6 +178,8 @@ make_phyloseq <- function(samples, df, fasta){
 # samples = 1000, 192 Mb
 # samples = 2000, 822 Mb
   
+  message("Computing phyloseq")
+  
 cols_to_include <- c("latitude", "ecosystem", "substrate", 
                      "depth_level", "depth", "fraction_name", 
                      "DNA_RNA", "temperature", "salinity")

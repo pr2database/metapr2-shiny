@@ -150,6 +150,8 @@ reformat_df_map <- function (df, samples, taxo_level) {
   # df <- df%>% 
   #   filter(!!as.symbol(taxo_level)  %in% taxo_name) 
   
+  message("Computing map")
+  
   # Compute the level below the rank considered (e.g. species for genus) 
   
   if(taxo_level == "asv_code") taxo_level <- "species"

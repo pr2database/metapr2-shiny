@@ -1,6 +1,8 @@
 
 barplot <- function(df, variable, color_coding, taxo_level) {
   
+  message("Computing barplot")
+  
   variable_date <- c("year", "month", "day")
   
   if (variable == "year") {

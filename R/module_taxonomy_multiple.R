@@ -41,8 +41,8 @@ taxo_selected <- function(supergroup, division, class, order, family, genus, spe
   
   if (taxo_level == "kingdom") taxo_name = "Eukaryota"
   
-  cat ("Taxo level: ", taxo_level, "\n")
-  print (taxo_name)
+  message("Taxo level: ", taxo_level)
+  message(taxo_name)
   
   # Very strange, the if one puts the name in the list then if there are more than one it is returned as several names (name1, name2 etc...) 
   # See: https://stackoverflow.com/questions/9031819/add-named-vector-to-a-list
