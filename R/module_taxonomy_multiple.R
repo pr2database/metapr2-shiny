@@ -60,7 +60,10 @@ taxoUI <- function(id) {
     h3("Select Taxa"),
     
     div(actionButton(ns("validate_taxo"), "Validate Taxa", class = "btn-primary"), style="display:inline-block"),
-    div(actionButton(ns("reset_taxo"), "Reset Taxa (necessary after load)", class = "btn-primary"), style="display:inline-block"),
+    div(actionButton(ns("reset_taxo"), "Reset Taxa", class = "btn-primary"), style="display:inline-block"),
+    p(),
+    p("Press VALIDATE after changing taxonomy to update screen."),
+    p("Press RESET to reset taxonomy to top level (need to press validate after reset)"),
     p(),
     
     shinyWidgets::pickerInput(ns("supergroup"), "Supergroup", choices = unique(global$pr2_taxo$supergroup), selected = NULL, multiple = TRUE, options= options_picker_taxo),
@@ -97,6 +100,10 @@ taxoServer <- function(id, fasta_selected) {
   moduleServer(id, function(input, output, session) {
     
     ns <- NS(id)
+    
+    # Reactive Value to prevent update of pickers when uploading-------------
+    update_taxo_auto <- reactiveVal(TRUE) 
+    
 
     # ===========================================
     # Update taxonomy selected
@@ -107,11 +114,10 @@ taxoServer <- function(id, fasta_selected) {
       taxo_selected(input$supergroup, input$division, input$class, input$order, input$family, input$genus, input$species, input$asv_code)
       })
     
-    taxo_final <- eventReactive(input$validate_taxo, {
-      # Do not use req because if one member is NULL it will not be activated
+
+    taxo_final <- eventReactive(c(input$validate_taxo), {
       c(taxo(), taxa_excluded = input$taxa_excluded)
-      # ignoreNULL is necessary so that the plots are created at initial time
-    }, ignoreNULL = F)
+    }, ignoreNULL = F) # ignoreNULL is necessary so that the plots are created at initial time
  
     
     output$test1 <- renderPrint(taxo())
@@ -124,9 +130,7 @@ taxoServer <- function(id, fasta_selected) {
     # See: https://mastering-shiny.org/action-dynamic.html#freezing-reactive-inputs
     #   In this case freezeReactiveValue does not work....
     
-    # Reactive Value to prevent update of pickers when uploading-------------
-    
-    update_taxo_auto <- reactiveVal(TRUE)
+
     
     # Define a function to update each Picker -------------
     
@@ -227,6 +231,7 @@ taxoServer <- function(id, fasta_selected) {
       shinyWidgets::updatePickerInput(session = session,  inputId = "supergroup", choices = unique(global$pr2_taxo$supergroup), selected = character(0), )
       purrr::map(global$taxo_levels[3:9], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
       update_taxo_auto(TRUE)
+      # click(ns("validate_taxo"))
     })
       
     
@@ -240,43 +245,3 @@ taxoServer <- function(id, fasta_selected) {
 } 
 
 
-# 
-# 
-# 
-# # UI ----------------------------------------------------------------------
-# 
-# 
-# ui <- fluidPage(
-#   
-# 
-#   # Title
-#   title = "MetaPR2",
-#   # --- Side bar layout
-#   sidebarLayout(sidebarPanel(width = 3, taxoUI("taxo")), 
-#                 mainPanel(tabsetPanel(id = 'panel' , tabPanel("About"))
-#                 )
-#   )
-# )
-# 
-# 
-# 
-# # Server ------------------------------------------------------------------
-# 
-# server <- function(input, output, session) {
-#   
-#   taxo <- taxoServer("taxo")
-#   # print(taxo())
-#   
-# 
-# }
-# 
-# # Run the shiny app -------------------------------------------------------
-# library(shiny)
-# library(dplyr)
-# 
-# 
-# global <- qs::qread("../inst/data-qs/global.qs")
-# 
-# shinyApp(ui, server)
-#     
-# 

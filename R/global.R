@@ -45,6 +45,22 @@ inactivity <- "function idleTimer() {
 }
 idleTimer();"
 
+
+# function misc -----------------------------------------------------------
+
+send_message <- function(type, ids, ...) {
+  session <- shiny::getDefaultReactiveDomain()
+  if (!is.null(session)) {
+    for (id in ids) {
+      session$sendCustomMessage(type = type, message = list(id = id, ...))
+    }
+  }
+}
+
+click <- function(ids) {
+  send_message("clickElement", ids = ids)
+}
+
 # Read credentials ----------------------------------------------------------
 
 credentials  <- tryCatch(

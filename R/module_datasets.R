@@ -343,71 +343,7 @@ dataServer <- function(id, taxo, authentification) {
         filter(dataset_id %in% input$datasets_selected_id) 
     })
     
-    # Display datasets selected
-    # output$datasets_selected_id = renderText(input$datasets_selected_id)
-    
-    
-    # # Select samples based on different parameters and datasets --------------------
-    # 
-    # samples_selected <- reactive({
-    #   
-    #   # First check some samples are chosen
-    #   req(iv_samples$is_valid())
-    #   req(asv_set())
-    #   
-    #   asv_set()$samples %>%
-    #     filter(gene_region %in% input$gene_region,
-    #            DNA_RNA %in% input$DNA_RNA,
-    #            ecosystem %in% input$ecosystem,
-    #            depth_level %in% input$depth_level,
-    #            fraction_name %in% input$fraction_name,
-    #            substrate %in% input$substrate,
-    #            dataset_id %in% input$datasets_selected_id
-    #     ) })
-    # # Only keep the ASVs that are in df_selected ---------------
-    # 
-    # fasta_selected <- reactive({
-    #   req(taxo(), input$reads_min)
-    #   req(asv_set())
-    #   if (taxo()$level != "kingdom") {
-    #     fasta <- asv_set()$fasta %>%
-    #       # filter(.data[[taxo()$level]] %in% taxo()[[taxo()$level]] ,
-    #       filter(.data[[taxo()$level]] %in% taxo()$name ,
-    #              sum_reads_asv >= input$reads_min
-    #       )
-    #   } else {
-    #     fasta <- asv_set()$fasta
-    #    }
-    #   return(fasta)
-    # })
-    # 
-    # 
-    # df_selected <- reactive({
-    #   # First check some samples are chosen
-    #   req(iv_samples$is_valid(), samples_selected(), fasta_selected ())
-    #   req(asv_set())
-    #   
-    #   cols_to_remove <- c("reads_corrected_total" , "reads_corrected_photo" , 
-    #                       "country" , "oceanic_region" , "cruise" , "station_id" , 
-    #                       "bottom_depth" , "site_name" , 
-    #                       "sum_reads_asv" , 
-    #                       "Chla" , "NO3" , "NH4" , "PO4" , "Si")
-    #   
-    #   asv_set()$df %>%
-    #     filter(file_code %in% samples_selected()$file_code,
-    #            asv_code %in% fasta_selected()$asv_code) %>% 
-    #     left_join(asv_set()$samples) %>% 
-    #     left_join(select(asv_set()$fasta, asv_code, kingdom:species, ecological_function, sum_reads_asv)) %>%
-    #     filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked) %>% 
-    #     select(-any_of(cols_to_remove))
-    # })
-    
 
-      
-      cols_to_remove <- c("reads_corrected_total" , "reads_corrected_photo" , 
-                          "country" , "oceanic_region" , "cruise" , "station_id" , 
-                          "bottom_depth" , "site_name" ,
-                          "Chla" , "NO3" , "NH4" , "PO4" , "Si")
     
     samples_selected <- reactive({
       asv_set()$samples%>% 
@@ -420,6 +356,13 @@ dataServer <- function(id, taxo, authentification) {
                dataset_id %in% input$datasets_selected_id
         )
     })
+    
+
+      
+    cols_to_remove <- c("reads_corrected_total" , "reads_corrected_photo" , 
+                          "country" , "oceanic_region" , "cruise" , "station_id" , 
+                          "bottom_depth" , "site_name" ,
+                          "Chla" , "NO3" , "NH4" , "PO4" , "Si")    
     
     df_selected <- reactive({
       # First check some samples are chosen
@@ -436,6 +379,7 @@ dataServer <- function(id, taxo, authentification) {
     })
     
     fasta_selected <- reactive({
+      message("Mem used (GB) after df_selected : ", pryr::mem_used()/10^9)
       asv_set()$fasta %>% 
         filter(asv_code %in% df_selected()$asv_code)
     })
