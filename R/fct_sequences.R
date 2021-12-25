@@ -6,7 +6,8 @@
 
 sequence_check <- function(sequence){
   sequence <- str_to_upper(sequence)
-  ((nchar(sequence) >= 250) &
+  sequence <- str_replace_all(sequence, "[\r\n]" , "")
+  ((nchar(sequence) >= 130) &
    (str_detect(sequence, "[^ACGTRYSWKMBDHVN]", negate = TRUE)))
 }
 
@@ -18,6 +19,9 @@ sequence_check <- function(sequence){
 
 match_asv <- function(fasta.df, query){
 
+  query <- str_to_upper(query)
+  query <- str_replace_all(query, "[\r\n]" , "")
+  
   query <-  Biostrings::DNAString(query)
 
   pattern <- Biostrings::DNAStringSet(fasta.df$sequence)
@@ -32,7 +36,7 @@ match_asv <- function(fasta.df, query){
     mutate(pid = round(pid, 2)) %>%  # Only 2 decimals
     select(asv_code, pid, kingdom:species, sequence, sum_reads_asv)
   
-  print(df)
+  # print(df)
   
   return(df)
 }
@@ -75,7 +79,7 @@ blaster_asv <- function(fasta.df, query,
   } else {
     df <- NULL
   }
-  print(df)
+  # print(df)
   
   return(df)
 }

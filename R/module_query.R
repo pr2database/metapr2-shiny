@@ -33,7 +33,7 @@ queryServer <- function(id, samples_selected, df_all, fasta_all) {
     asv_blast <- eventReactive(input$button_match, {
       
       iv_query <- shinyvalidate::InputValidator$new()
-      iv_query$add_rule("query", ~ if(!sequence_check(.)) " Please enter valid sequence at least 250 bp long.")
+      iv_query$add_rule("query", ~ if(!sequence_check(.)) " Please enter valid sequence at least 130 bp long.")
       
       iv_query$enable()
       
@@ -77,7 +77,7 @@ queryServer <- function(id, samples_selected, df_all, fasta_all) {
         sliderInput(ns("pct_id_min"), label ="% identity min", min = 80.0, max = 100.0, 
                     step = 0.2, value = 100, width = "500px"),
         
-        textAreaInput(ns("query"), label = "Query - at least 250 bp", value = "", 
+        textAreaInput(ns("query"), label = "Query - at least 130 bp", value = "", 
                       width = "100%", height = "100px",
                       cols = NULL, rows = NULL, 
                       placeholder = "GTAGTTGGATTTCTGTTGAGGACGGC...", resize = NULL),
