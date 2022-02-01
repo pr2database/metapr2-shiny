@@ -32,7 +32,7 @@ map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 3,
   dash_equator = NULL
   dash_tropics = c(20, 20)
   dash_polar = c(10, 30)
-  line_weight = 2
+  line_weight = 0.5
   color = "blue"
   
 

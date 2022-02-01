@@ -116,7 +116,7 @@ taxoServer <- function(id, fasta_selected) {
     
 
     taxo_final <- eventReactive(c(input$validate_taxo), {
-      c(taxo(), taxa_excluded = input$taxa_excluded)
+      c(taxo(), list(taxa_excluded = input$taxa_excluded))
     }, ignoreNULL = F) # ignoreNULL is necessary so that the plots are created at initial time
  
     

@@ -138,7 +138,7 @@ dataServer <- function(id, taxo, authentification) {
     datasets_table <- reactive ({
       req(asv_set())
       DT::datatable(asv_set()$datasets %>% 
-                      select(dataset_id, dataset_name, region, paper_reference, sample_number, asv_number, n_reads_mean) %>%
+                      select(dataset_id, dataset_name, region, paper_reference, sequencing_technology, sample_number, asv_number, n_reads_mean) %>%
                       mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>% 
                       arrange(dataset_name) ,
                     rownames = FALSE ,
@@ -366,7 +366,7 @@ dataServer <- function(id, taxo, authentification) {
     
     df_selected <- reactive({
       # First check some samples are chosen
-      req(iv_samples$is_valid())      
+      req(iv_samples$is_valid())  
       asv_set()$df %>% 
         inner_join(samples_selected(), by = "file_code") %>% 
         left_join(select(asv_set()$fasta, asv_code, kingdom:species, ecological_function, sum_reads_asv), by="asv_code") %>%
