@@ -66,7 +66,7 @@ print("Read credentials")
 
 credentials  <- tryCatch(
   {
-    qs::qread(system.file("data-qs", 'credentials.qs', package = "metapr2"))
+    qs::qread(system.file("data-qs", 'credentials.qs', package = "metapr2", mustWork = TRUE))
   },
   error=function(cond) {
     message("Cannot use system.file")
@@ -86,7 +86,7 @@ print("Read globals")
 
 global  <- tryCatch(
   {
-    qs::qread(system.file("data-qs", 'global.qs', package = "metapr2"))
+    qs::qread(system.file("data-qs", 'global.qs', package = "metapr2", mustWork = TRUE))
   },
   error=function(cond) {
     message("Cannot use system.file")
