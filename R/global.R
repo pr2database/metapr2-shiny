@@ -18,7 +18,7 @@
 # The file should be in "inst/img" - See https://r-pkgs.org/inst.html
 
 .onAttach <- function(libname, pkgname) {
-      # shiny::addResourcePath('img',system.file('img', package = 'metapr2'))
+      shiny::addResourcePath('img',system.file('img', package = 'metapr2'))
 }
 
 # Javascript function for timer -----------------------------------------------------
