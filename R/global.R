@@ -62,7 +62,7 @@ click <- function(ids) {
 }
 
 # Read credentials ----------------------------------------------------------
-# print("Read credentials")
+print("Read credentials")
 
 credentials  <- tryCatch(
   {
@@ -82,6 +82,7 @@ if(is.na(credentials)){
 }
 
 # Read global ----------------------------------------------------------
+print("Read globals")
 
 global  <- tryCatch(
   {
