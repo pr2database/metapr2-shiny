@@ -51,7 +51,6 @@ Access to the database to map, search and download the barcodes can be done in t
 http://shiny.metapr2.org
 
 #### 2 - metaPR2 shiny R package
-*(NOT YET AVAILABLE)*
 
 Install the package from GitHub and launch function metapr2App()
 
@@ -63,9 +62,8 @@ metapr2::metapr2App()
 
 
 #### 3 - metaPR2 Docker container
-*(NOT YET AVAILABLE)*
 
-Will be available from Docker repository
+Will be available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
 
 
 ### Help

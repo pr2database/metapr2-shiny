@@ -1,7 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^data-raw$
-^data-rda$
 dev_history\.R
 ^dev$
 $run_dev.*
@@ -12,11 +10,16 @@ $run_dev.*
 ^\.dockerignore$
 ^app\.R$
 ^install_packages*
-^sandbox$
-^archives$
 ^readme_*
 ^shiny-customized\.config$
 ^data/sets*
 ^_pkgdown\.yml$
+^archives$
+^data-raw$
+^data-rda$
 ^docs$
 ^pkgdown$
+^readme$
+^sandbox$
+^tests$
+

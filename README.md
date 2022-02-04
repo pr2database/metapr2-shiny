@@ -31,8 +31,6 @@ done in three different ways:
 
 #### 2 - metaPR2 shiny R package
 
-*(NOT YET AVAILABLE)*
-
 Install the package from GitHub and launch function metapr2App()
 
 ``` r
@@ -43,9 +41,8 @@ metapr2::metapr2App()
 
 #### 3 - metaPR2 Docker container
 
-*(NOT YET AVAILABLE)*
-
-Will be available from Docker repository
+Will be available from Docker repository:
+<https://hub.docker.com/repository/docker/vaulot/metapr2>
 
 ### Help
 

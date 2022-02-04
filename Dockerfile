@@ -86,7 +86,9 @@ COPY README.md ./
 COPY *.R ./
 
 COPY /R ./R
-COPY /inst  ./inst
+COPY /inst/data-qs  ./inst/data-qs
+COPY /inst/img  ./inst/img
+COPY /inst/readme  ./inst/readme
 
 # For testing
 # CMD Rscript R/test.R
