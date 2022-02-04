@@ -59,7 +59,6 @@ Available from Docker repository:
 
 ``` bash
 # Download container
-
 docker pull vaulot/metapr2:v1.0.2
 
 # Launch container

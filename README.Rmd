@@ -87,7 +87,6 @@ Available from Docker repository: https://hub.docker.com/repository/docker/vaulo
 
 ```{bash}
 # Download container
-
 docker pull vaulot/metapr2:v1.0.2
 
 # Launch container
