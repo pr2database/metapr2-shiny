@@ -128,5 +128,5 @@ global$datasets <- tibble::tribble(
 # Done --------------------------------------------------------------------
 
 
-print("init.R done")
+print("global.R done")
 
