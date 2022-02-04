@@ -27,7 +27,8 @@ done in three different ways:
 
 #### 1 - Web interface
 
-<http://shiny.metapr2.org>
+-   Launch in your browser: <http://shiny.metapr2.org>
+-   Help : <https://pr2database.github.io/metapr2-shiny/articles/>
 
 #### 2 - metaPR2 shiny R package
 
