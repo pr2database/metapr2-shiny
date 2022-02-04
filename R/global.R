@@ -66,7 +66,7 @@ print("Read credentials")
 
 credentials  <- tryCatch(
   {
-    qs::qread(pkgload::system.file("data-qs", 'credentials.qs', package = "metapr2"))
+    qs::qread(system.file("data-qs", 'credentials.qs', package = "metapr2"))
   },
   error=function(cond) {
     message("Cannot use system.file")
