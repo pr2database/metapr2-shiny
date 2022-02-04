@@ -62,7 +62,7 @@ click <- function(ids) {
 }
 
 # Read credentials ----------------------------------------------------------
-print("Read credentials")
+# print("Read credentials")
 
 credentials  <- tryCatch(
   {

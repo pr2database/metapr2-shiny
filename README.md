@@ -41,8 +41,23 @@ metapr2::metapr2App()
 
 #### 3 - metaPR2 Docker container
 
-Will be available from Docker repository:
+Available from Docker repository:
 <https://hub.docker.com/repository/docker/vaulot/metapr2>
+
+-   Install docker on your computer: <https://docs.docker.com/desktop/>
+
+-   At shell prompt (can be Linux or Windows Powershell)
+
+``` bash
+# Download container
+
+docker pull vaulot/metapr2:v1.0.2
+
+# Launch container
+docker run --rm -p 8080:8080 metapr2
+```
+
+-   In your browser: <http://localhost:8080/>
 
 ### Help
 
@@ -59,6 +74,12 @@ database](https://github.com/pr2database/metapr2-shiny/issues).
 Vaulot, D. et al. (2021). metaPR2 : An interactive 18S rRNA metabarcode
 database. Unpublished
 
+### Resources
+
+-   Website: <https://shiny.metapr2.org/>
+-   Docker: <https://hub.docker.com/repository/docker/vaulot/metapr2>
+-   Source code: <https://github.com/pr2database/metapr2-shiny>
+
 ### Maintainer
 
 -   Daniel Vaulot: <vaulot@gmail.com>
@@ -70,5 +91,5 @@ database. Unpublished
 -   Clarence Sim, NTU-ASE Geek lab
 -   Denise Ong, NTU-ASE Geek lab
 -   Bryan Teo, NTU-ASE Geek lab
--   Mahwash Jamy, Uppsala University Sweden
 -   Charlie Biwer, Uppsala University Sweden
+-   Mahwash Jamy, Uppsala University Sweden
