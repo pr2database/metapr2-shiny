@@ -31,13 +31,21 @@ done in three different ways:
 
 #### 2 - metaPR2 shiny R package
 
-Install the package from GitHub and launch function metapr2App()
+-   Download repository from
+    <https://github.com/pr2database/metapr2-shiny/archive/refs/heads/main.zip>
+-   Unzip on your computer
+-   Launch project `shiny_metapr2.Rproj` in R studio
+-   Run the following lines in the R console
 
 ``` r
-install.packages(devtools)
-devtools::install_github("pr2database/metapr2-shiny")
-metapr2::metapr2App()
+install.packages(devtools) # If package devtools is not installed on your computer
+
+devtools::load_all(".")
+metapr2App()
 ```
+
+Note: You may have to install some packages if they are not installed on
+your machine
 
 #### 3 - metaPR2 Docker container
 
