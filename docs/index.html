@@ -98,23 +98,43 @@
 <div class="section level4">
 <h4 id="1---web-interface">1 - Web interface<a class="anchor" aria-label="anchor" href="#1---web-interface"></a>
 </h4>
-<p><a href="http://shiny.metapr2.org" class="external-link uri">http://shiny.metapr2.org</a></p>
+<ul>
+<li>Launch in your browser: <a href="http://shiny.metapr2.org" class="external-link uri">http://shiny.metapr2.org</a>
+</li>
+<li>Help : <a href="https://pr2database.github.io/metapr2-shiny/articles/" class="external-link uri">https://pr2database.github.io/metapr2-shiny/articles/</a>
+</li>
+</ul>
 </div>
 <div class="section level4">
 <h4 id="2---metapr2-shiny-r-package">2 - metaPR2 shiny R package<a class="anchor" aria-label="anchor" href="#2---metapr2-shiny-r-package"></a>
 </h4>
-<p><em>(NOT YET AVAILABLE)</em></p>
-<p>Install the package from GitHub and launch function metapr2App()</p>
+<ul>
+<li>Install the package from GitHub and launch function metapr2App()</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span>
+
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pr2database/metapr2-shiny"</span><span class="op">)</span>
 <span class="fu">metapr2</span><span class="fu">::</span><span class="fu"><a href="reference/metapr2App.html">metapr2App</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Note: You may have to install some packages required by metapr2 if they are not installed on your machine</p>
 </div>
 <div class="section level4">
 <h4 id="3---metapr2-docker-container">3 - metaPR2 Docker container<a class="anchor" aria-label="anchor" href="#3---metapr2-docker-container"></a>
 </h4>
-<p><em>(NOT YET AVAILABLE)</em></p>
-<p>Will be available from Docker repository</p>
+<p>Available from Docker repository: <a href="https://hub.docker.com/repository/docker/vaulot/metapr2" class="external-link uri">https://hub.docker.com/repository/docker/vaulot/metapr2</a></p>
+<ul>
+<li><p>Install docker on your computer: <a href="https://docs.docker.com/desktop/" class="external-link uri">https://docs.docker.com/desktop/</a></p></li>
+<li><p>At shell prompt (can be Linux or Windows Powershell)</p></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download container</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull vaulot/metapr2:v1.0.2</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch container</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run --rm -p 8080:8080 metapr2</span></code></pre></div>
+<ul>
+<li>In your browser: <a href="http://localhost:8080/" class="external-link uri">http://localhost:8080/</a>
+</li>
+</ul>
 </div>
 </div>
 <div class="section level3">
@@ -133,6 +153,18 @@
 <p>Vaulot, D. et al. (2021). metaPR2 : An interactive 18S rRNA metabarcode database. Unpublished</p>
 </div>
 <div class="section level3">
+<h3 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
+</h3>
+<ul>
+<li>Website: <a href="https://shiny.metapr2.org/" class="external-link uri">https://shiny.metapr2.org/</a>
+</li>
+<li>Docker: <a href="https://hub.docker.com/repository/docker/vaulot/metapr2" class="external-link uri">https://hub.docker.com/repository/docker/vaulot/metapr2</a>
+</li>
+<li>Source code: <a href="https://github.com/pr2database/metapr2-shiny" class="external-link uri">https://github.com/pr2database/metapr2-shiny</a>
+</li>
+</ul>
+</div>
+<div class="section level3">
 <h3 id="maintainer">Maintainer<a class="anchor" aria-label="anchor" href="#maintainer"></a>
 </h3>
 <ul>
@@ -149,8 +181,8 @@
 <li>Clarence Sim, NTU-ASE Geek lab</li>
 <li>Denise Ong, NTU-ASE Geek lab</li>
 <li>Bryan Teo, NTU-ASE Geek lab</li>
-<li>Mahwash Jamy, Uppsala University Sweden</li>
 <li>Charlie Biwer, Uppsala University Sweden</li>
+<li>Mahwash Jamy, Uppsala University Sweden</li>
 </ul>
 </div>
 </div>

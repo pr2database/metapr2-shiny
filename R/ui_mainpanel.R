@@ -20,10 +20,10 @@
         id = 'sub_panel' ,
         tabPanel("Alpha diversity",
                  phyloseq_alpha_UI("phyloseq")
-        ),
+                 ),
         tabPanel("Beta diversity",
                  phyloseq_beta_UI("phyloseq")
-        )
+                 )
         )
     ),
 
@@ -36,7 +36,8 @@
              ),
     
     tabPanel("About",
-             column(8, includeMarkdown(system.file("readme", 'README.md', package = "metapr2")))),
+             column(8, includeMarkdown(system.file("readme", 'README.md', package = "metapr2")))
+             )
     # column(8, includeMarkdown('README.md')))
     
     # ,
