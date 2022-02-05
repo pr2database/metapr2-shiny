@@ -1,10 +1,6 @@
   mainpanel <- function() {mainPanel(
   tabsetPanel(
     id = 'panel' ,
-    
-    tabPanel("About",
-             # column(8, includeMarkdown(system.file("readme", 'README.md', package = "metapr2")))),
-             column(8, includeMarkdown('README.md'))),
 
     tabPanel("Datasets",
              data_datasets_table_UI("data")
@@ -37,7 +33,12 @@
     
     tabPanel("Download",
              downloadUI("download")
-             )
+             ),
+    
+    tabPanel("About",
+             column(8, includeMarkdown(system.file("readme", 'README.md', package = "metapr2")))),
+    # column(8, includeMarkdown('README.md')))
+    
     # ,
     # 
     # tabPanel("Settings",
