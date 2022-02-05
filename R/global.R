@@ -17,7 +17,7 @@
 
 # The file should be in "inst/img" - See https://r-pkgs.org/inst.html
 
-.onAttach <- function(libname, pkgname) {
+.onLoad <- function(libname, pkgname) {
       shiny::addResourcePath('img',system.file('img', package = 'metapr2'))
 }
 

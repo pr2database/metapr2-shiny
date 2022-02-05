@@ -65,7 +65,8 @@ ui <- fluidPage(
     tags_top = 
       tags$div(
         # tags$h1("metaPR2", style = "align:center"),
-        tags$img(src = "img/metapr2_logo.png", width = 80)
+        # tags$img(src = "img/metapr2_logo.png", width = 80)
+        tags$img(src = "https://github.com/pr2database/metapr2-shiny/blob/main/inst/img/metapr2_logo.png?raw=true", width = 80)
       ),
     # add information on bottom ?
     tags_bottom = tags$div(

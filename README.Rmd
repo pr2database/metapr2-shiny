@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# metaPR2 <img src="inst/img/metapr2_logo.png" align="right" />
+# metaPR2 <img src="https://github.com/pr2database/metapr2-shiny/blob/main/inst/img/metapr2_logo.png?raw=true" align="right" />
 
 ## A database of 18S rRNA metabarcodes
 
