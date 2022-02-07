@@ -3,6 +3,11 @@
 
 # metaPR2 <img src="https://github.com/pr2database/metapr2-shiny/blob/main/inst/img/metapr2_logo.png?raw=true" align="right" />
 
+<!-- badges: start -->
+
+[![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
+<!-- badges: end -->
+
 ## A database of 18S rRNA metabarcodes
 
 **Database version**: 1.0.0 - 41 datasets
