@@ -80,8 +80,10 @@ database](https://github.com/pr2database/metapr2-shiny/issues).
 
 ### Citation
 
-Vaulot, D. et al. (2021). metaPR2 : An interactive 18S rRNA metabarcode
-database. Unpublished
+Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes
+dos Santos, A., 2022. metaPR<sup>2</sup>: a database of eukaryotic 18S
+rRNA metabarcodes with an emphasis on protists. BioRxiv.
+<https://doi.org/10.1101/2022.02.04.479133>
 
 ### Resources
 
