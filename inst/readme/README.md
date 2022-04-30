@@ -6,13 +6,16 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
+![Release](https://img.shields.io/badge/release-1.0.3-blue.svg)
+![Date](https://img.shields.io/badge/date-30%20April%202022-lightgrey.svg)
+
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
 
-**Database version**: 1.0.0 - 41 datasets
+**Database version**: 1.1 - 41 datasets
 
-**Shiny application version**: 1.0.2
+**Shiny application version**: 1.0.3
 
 ### Presentation
 

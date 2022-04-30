@@ -6,6 +6,9 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
+![Release](https://img.shields.io/badge/release-1.0.3-blue.svg)
+![Date](https://img.shields.io/badge/date-30%20April%202022-lightgrey.svg)
+
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
