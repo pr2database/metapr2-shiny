@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 # - need to build source package to have the vignettes
 ```
 
-This panel allows to query the ASVs in the database. Enter your sequence (only the sequence, do not include the fasta header) and press the `Search`button. All ASVs in the database are searched (not only those from teh selected datasets or samples).  By clicking a sequence in the ASV table (Fig. 1) you can display the distribution of this ASV in the samples selected.  
+This panel allows to query the ASVs in the database. Enter your sequence (you may include the fasta header) and press the `Search`button. All ASVs in the database are searched (not only those from teh selected datasets or samples).  By clicking a sequence in the ASV table (Fig. 1) you can display the distribution of this ASV in the samples selected.  
 
 You can change the number of sequences displayed by decreasing the similarity threshold (Fig. 2).
 

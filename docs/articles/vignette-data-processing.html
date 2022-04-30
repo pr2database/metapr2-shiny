@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metapr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,9 +93,10 @@
 <ul>
 <li><p>Raw fastq files were downloaded from NCBI or from author web site if not deposited to NCBI</p></li>
 <li><p>All datasets were processed with cutapdapt (Martin et al. 2011) to remove primers and the dada2 R package (Callahan et al. 2016) to compute ASVs.</p></li>
+<li><p>Samples with less than 1,000 reads after processing not considered.</p></li>
 <li><p>Assignment was done with dada2 assignTaxa using the 18S PR2 4.14.0 as reference</p></li>
 <li><p>ASVs with less 100 reads total and with bootstrap value at the supergroup level &lt; 75 were not considered.</p></li>
-<li><p>Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads.</p></li>
+<li><p>Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads. For this the number of reads for a given ASV in a given sample was divided by the total number of reads in this sample multiplied by 100.</p></li>
 </ul>
 </div>
 <div class="section level2">

@@ -39,12 +39,16 @@ shinymanager::set_labels(
   "Login" = "Enter metaPR2"
 )
 
+
 # User interface ----------------------------------------------------------
 
 ui <- fluidPage(
   
   # Booststrap theme:https://rstudio.github.io/shinythemes/
   # theme = bslib::bs_theme(bootswatch = "yeti"),
+  
+  # Tracking not necessary in ui
+  # shinylogs::use_tracking(),
   
   # Script to close the windows after some inactivity - ACTIVATE for web application
   tags$script(inactivity),  
@@ -99,6 +103,9 @@ server <- function(input, output, session) {
   
   # Stop the application of the session is closed (after 30 min) - ACTIVATE  for web application
   session$onSessionEnded(stopApp)
+  
+  # To track usage
+  shinylogs::track_usage(storage_mode = shinylogs::store_sqlite(path = "logs/"))
   
   # Authentification
   

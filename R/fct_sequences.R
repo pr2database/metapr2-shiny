@@ -1,3 +1,16 @@
+# =========================================================================
+# --- Check that sequence is valid --------------------------------------------
+# =========================================================================
+
+
+sequence_clean <- function(sequence){
+  sequence <- str_to_upper(sequence)
+  sequence <- str_replace_all(sequence, "^>.*" , "") # Remove fasta header in case it is present
+  sequence <- str_replace_all(sequence, "[\\r\\n]" , "")
+}
+
+
+
 
 # =========================================================================
 # --- Check that sequence is valid --------------------------------------------
@@ -5,8 +18,7 @@
 
 
 sequence_check <- function(sequence){
-  sequence <- str_to_upper(sequence)
-  sequence <- str_replace_all(sequence, "[\r\n]" , "")
+  sequence <- sequence_clean(sequence)
   ((nchar(sequence) >= 130) &
    (str_detect(sequence, "[^ACGTRYSWKMBDHVN]", negate = TRUE)))
 }
@@ -19,8 +31,7 @@ sequence_check <- function(sequence){
 
 match_asv <- function(fasta.df, query){
 
-  query <- str_to_upper(query)
-  query <- str_replace_all(query, "[\r\n]" , "")
+  query <- sequence_clean(query)
   
   query <-  Biostrings::DNAString(query)
 
@@ -51,6 +62,7 @@ blaster_asv <- function(fasta.df, query,
                         minIdentity = 0.80,
                         maxAccepts = 100){
   
+  query <- sequence_clean(query)
   query <-  data.frame(Id = "query", Seq =query)
   
   db <- fasta.df %>% 
@@ -84,5 +96,59 @@ blaster_asv <- function(fasta.df, query,
   return(df)
 }
 
+# =========================================================================
+# --- Write fasta file with taxo ------------------------------------------
+# =========================================================================
+
+#' @title Write a fasta file with the taxonomy
+#'
+#' @description
+#' Write a fasta file from a set of sequences
+#' Option : add to the definition line the the taxonomy separated by separator character (e.g. |)
+#'
+#' >Otu0001|Alveolata|Dinophyta|Syndiniales|Dino-Group-I|Dino-Group-I-Clade-1|Dino-Group-I-Clade-1_X|Dino-Group-I-Clade-1_X_sp.
+#'
+#' AGCTCCAATAGCGTATATTAAAGTTGTTGCGGTTAAAAAGCTCGTAGTTGGA...
+#' @param df The data frame with the otu names, the taxonomy and the sequences. It should have the following columns (with exactly these names)
+#'
+#'       * seq_name : the sequence name
+#'       * supergroup: species
+#'       * sequence
+#' @param file_name Character, where to save the fasta file
+#' @param compress If TRUE produces a gz file
+#' @param taxo_include If TRUE then add taxo information which must be provided
+#' @param taxo_separator Character used to separate the different taxonomic levels
+#' TRUE if it terminates OK
+#'
+#' @examples
+#' fasta_write(df,"otu_taxo.fasta", compress=FALSE, include_taxo=TRUE, taxo_separator=";")
+#' @md
+#' @export
+
+fasta_write <- function(df,file_name, compress=FALSE, taxo_include=TRUE, taxo_separator="|") {
+  
+  # First remove the gaps (can be - or .)
+  df <-  df %>%  mutate(sequence = str_replace_all(sequence, "(-|\\.)",""))
+  
+  seq_out <- Biostrings::DNAStringSet(df$sequence)
+  
+  if (taxo_include==TRUE) {
+    names(seq_out) <- str_c(df$seq_name,
+                            df$supergroup,
+                            df$division,
+                            df$class,
+                            df$order,
+                            df$family,
+                            df$genus,
+                            df$species,
+                            sep=taxo_separator)
+  }
+  else { names(seq_out) <- df$seq_name
+  }
+  
+  Biostrings::writeXStringSet(seq_out, file_name, compress=compress, width = 20000)
+  
+  return(TRUE)
+}
 
 

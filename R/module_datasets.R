@@ -139,8 +139,9 @@ dataServer <- function(id, taxo, authentification) {
       req(asv_set())
       DT::datatable(asv_set()$datasets %>% 
                       select(dataset_id, dataset_name, region, paper_reference, sequencing_technology, sample_number, asv_number, n_reads_mean) %>%
-                      mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>% 
-                      arrange(dataset_name) ,
+                      mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>%
+                      mutate(paper_reference = iconv(paper_reference, "latin1", to = "UTF-8")) %>% 
+                      arrange(-selected, dataset_name) ,
                     rownames = FALSE ,
                     options = list(
                       autoWidth = FALSE,
@@ -287,6 +288,9 @@ dataServer <- function(id, taxo, authentification) {
       }
       if (authentification$user == "private") {
         dir_asv_set <- "data-qs-private"
+      }
+      if (authentification$user == "ge") {
+        dir_asv_set <- "data-qs-ge"
       }
       
       

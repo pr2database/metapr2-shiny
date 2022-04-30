@@ -57,7 +57,7 @@ RUN install2.r --error --skipinstalled \
     ggforce yaml
 
 RUN install2.r --error --skipinstalled \
-    purrr bslib
+    purrr bslib shinylogs
 # Install vsearch
 # https://github.com/FredHutch/docker-vsearch/blob/master/Dockerfile
 

@@ -1,6 +1,6 @@
 Package: metapr2
 Title: Eukaryotic 18S rRNA metabarcode database 
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: 
     person(given = "Daniel",
            family = "Vaulot",
@@ -37,6 +37,7 @@ Imports:
     scrypt,
     shiny,
     shinycssloaders,
+    shinylogs,
     shinymanager,
     shinyvalidate,
     shinyWidgets,

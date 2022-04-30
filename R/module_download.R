@@ -70,12 +70,18 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
       file_datasets <- str_c(tmpdir, "/datasets.xlsx")
       file_samples <- str_c(tmpdir, "/samples.xlsx")
       file_asv <- str_c(tmpdir, "/asv.xlsx")
+      file_asv_fasta <- str_c(tmpdir, "/asv.fasta")
+      
       # file_asv_reads <- str_c(tmpdir, "/asv_reads.xlsx")
-      files = c(file_datasets, file_samples, file_asv)
+      files = c(file_datasets, file_samples, file_asv, file_asv_fasta)
 
       rio::export(datasets_selected(), file=file_datasets, overwrite = TRUE)
       rio::export(samples_selected(), file=file_samples, overwrite = TRUE)
       rio::export(fasta_selected(), file=file_asv, overwrite = TRUE)
+      # Export fasta file
+      fasta_selected() %>% 
+        rename(seq_name = asv_code) %>% 
+        fasta_write(file_asv_fasta)
       # rio::export(df_selected(), file=file_asv_reads, overwrite = TRUE)
 
       system2("zip", args=(paste("--junk-paths", path, files,sep=" "))) # remove the paths of the files

@@ -10,9 +10,9 @@
 
 ## A database of 18S rRNA metabarcodes
 
-**Database version**: 1.0.0 - 41 datasets
+**Database version**: 1.1 - 41 datasets
 
-**Shiny application version**: 1.0.2
+**Shiny application version**: 1.0.3
 
 ### Presentation
 
