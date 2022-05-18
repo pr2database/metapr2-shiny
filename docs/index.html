@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">metapr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,13 +76,16 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="metapr2-">metaPR2 <img src="inst/img/metapr2_logo.png" align="right"><a class="anchor" aria-label="anchor" href="#metapr2-"></a>
+<div class="page-header"><h1 id="metapr2-">metaPR2 <img src="https://github.com/pr2database/metapr2-shiny/blob/main/inst/img/metapr2_logo.png?raw=true" align="right"><a class="anchor" aria-label="anchor" href="#metapr2-"></a>
 </h1></div>
+<!-- badges: start -->
+
+<!-- badges: end -->
 <div class="section level2">
 <h2 id="a-database-of-18s-rrna-metabarcodes">A database of 18S rRNA metabarcodes<a class="anchor" aria-label="anchor" href="#a-database-of-18s-rrna-metabarcodes"></a>
 </h2>
-<p><strong>Database version</strong>: 1.0.0 - 41 datasets</p>
-<p><strong>Shiny application version</strong>: 1.0.2</p>
+<p><strong>Database version</strong>: 1.1 - 41 datasets</p>
+<p><strong>Shiny application version</strong>: 1.0.3</p>
 <div class="section level3">
 <h3 id="presentation">Presentation<a class="anchor" aria-label="anchor" href="#presentation"></a>
 </h3>
@@ -92,10 +95,13 @@
 <h3 id="acessing-the-database">Acessing the database<a class="anchor" aria-label="anchor" href="#acessing-the-database"></a>
 </h3>
 <p>Access to the database to map, search and download the barcodes can be done in three different ways:</p>
-<p>1 - Using a <a href="http://shiny.metapr2.org" class="external-link">web interface</a>.</p>
-<p>2 - Download the R package and launch the shiny application.</p>
-<p>3 - Download and run a Docker container</p>
-<div class="section level4">
+<ul>
+<li><p>Using a <a href="http://shiny.metapr2.org" class="external-link">web interface</a>.</p></li>
+<li><p>Download the R package and launch the shiny application.</p></li>
+</ul>
+<!-- This is commented out.
+3 - Download and run a Docker container 
+ --><div class="section level4">
 <h4 id="1---web-interface">1 - Web interface<a class="anchor" aria-label="anchor" href="#1---web-interface"></a>
 </h4>
 <ul>
@@ -117,24 +123,28 @@
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pr2database/metapr2-shiny"</span><span class="op">)</span>
 <span class="fu">metapr2</span><span class="fu">::</span><span class="fu"><a href="reference/metapr2App.html">metapr2App</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Note: You may have to install some packages required by metapr2 if they are not installed on your machine</p>
-</div>
-<div class="section level4">
-<h4 id="3---metapr2-docker-container">3 - metaPR2 Docker container<a class="anchor" aria-label="anchor" href="#3---metapr2-docker-container"></a>
-</h4>
-<p>Available from Docker repository: <a href="https://hub.docker.com/repository/docker/vaulot/metapr2" class="external-link uri">https://hub.docker.com/repository/docker/vaulot/metapr2</a></p>
-<ul>
-<li><p>Install docker on your computer: <a href="https://docs.docker.com/desktop/" class="external-link uri">https://docs.docker.com/desktop/</a></p></li>
-<li><p>At shell prompt (can be Linux or Windows Powershell)</p></li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download container</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull vaulot/metapr2:v1.0.2</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch container</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run --rm -p 8080:8080 metapr2</span></code></pre></div>
-<ul>
-<li>In your browser: <a href="http://localhost:8080/" class="external-link uri">http://localhost:8080/</a>
-</li>
-</ul>
+<!-- This is commented out.
+#### 3 - metaPR2 Docker container
+
+Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
+
+* Install docker on your computer: https://docs.docker.com/desktop/
+
+* At shell prompt (can be Linux or Windows Powershell)
+
+
+```bash
+# Download container
+docker pull vaulot/metapr2:v1.0.2
+
+# Launch container
+docker run --rm -p 8080:8080 metapr2
+
+```
+
+* In your browser: http://localhost:8080/
+ 
+ -->
 </div>
 </div>
 <div class="section level3">
@@ -150,7 +160,7 @@
 <div class="section level3">
 <h3 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h3>
-<p>Vaulot, D. et al. (2021). metaPR2 : An interactive 18S rRNA metabarcode database. Unpublished</p>
+<p>Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes dos Santos, A., 2022. metaPR<sup>2</sup>: a database of eukaryotic 18S rRNA metabarcodes with an emphasis on protists. BioRxiv. <a href="https://doi.org/10.1101/2022.02.04.479133" class="external-link uri">https://doi.org/10.1101/2022.02.04.479133</a></p>
 </div>
 <div class="section level3">
 <h3 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
@@ -210,7 +220,12 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://zenodo.org/badge/latestdoi/410160328" class="external-link"><img src="https://zenodo.org/badge/410160328.svg" alt="DOI"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

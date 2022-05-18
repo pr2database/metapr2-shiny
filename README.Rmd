@@ -41,12 +41,14 @@ MetaPR2 is a database of published 18S rRNA metabarcodes that have been reproces
 
 Access to the database to map, search and download the barcodes can be done in three different ways:
 
-1 - Using a [web interface](http://shiny.metapr2.org).
+- Using a [web interface](http://shiny.metapr2.org).
 
-2 - Download the R package and launch the shiny application.
+- Download the R package and launch the shiny application.
 
+<!-- This is commented out.
 3 - Download and run a Docker container 
-
+ -->
+ 
 #### 1 - Web interface
 
 * Launch in your browser: http://shiny.metapr2.org
@@ -80,6 +82,7 @@ metapr2::metapr2App()
 
 Note: You may have to install some packages required by metapr2 if they are not installed on your machine
 
+<!-- This is commented out.
 #### 3 - metaPR2 Docker container
 
 Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
@@ -98,7 +101,9 @@ docker run --rm -p 8080:8080 metapr2
 ```
 
 * In your browser: http://localhost:8080/
-
+ 
+ -->
+ 
 ### Help
 
 Extensive help is provided [here](https://pr2database.github.io/metapr2-shiny/articles/).

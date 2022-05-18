@@ -27,11 +27,13 @@ reprocessed and assigned using PR2.
 Access to the database to map, search and download the barcodes can be
 done in three different ways:
 
-1 - Using a [web interface](http://shiny.metapr2.org).
+-   Using a [web interface](http://shiny.metapr2.org).
 
-2 - Download the R package and launch the shiny application.
+-   Download the R package and launch the shiny application.
 
-3 - Download and run a Docker container
+<!-- This is commented out.
+3 - Download and run a Docker container 
+ -->
 
 #### 1 - Web interface
 
@@ -52,24 +54,28 @@ metapr2::metapr2App()
 Note: You may have to install some packages required by metapr2 if they
 are not installed on your machine
 
+<!-- This is commented out.
 #### 3 - metaPR2 Docker container
 
-Available from Docker repository:
-<https://hub.docker.com/repository/docker/vaulot/metapr2>
+Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
 
--   Install docker on your computer: <https://docs.docker.com/desktop/>
+* Install docker on your computer: https://docs.docker.com/desktop/
 
--   At shell prompt (can be Linux or Windows Powershell)
+* At shell prompt (can be Linux or Windows Powershell)
 
-``` bash
+
+```bash
 # Download container
 docker pull vaulot/metapr2:v1.0.2
 
 # Launch container
 docker run --rm -p 8080:8080 metapr2
+
 ```
 
--   In your browser: <http://localhost:8080/>
+* In your browser: http://localhost:8080/
+ 
+ -->
 
 ### Help
 
