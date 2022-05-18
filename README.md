@@ -97,8 +97,11 @@ rRNA metabarcodes with an emphasis on protists. BioRxiv.
 ### Resources
 
 -   Website: <https://shiny.metapr2.org/>
--   Docker: <https://hub.docker.com/repository/docker/vaulot/metapr2>
+
 -   Source code: <https://github.com/pr2database/metapr2-shiny>
+
+-   Docker (only version &lt;= 1.0.2):
+    <https://hub.docker.com/repository/docker/vaulot/metapr2>
 
 ### Maintainer
 

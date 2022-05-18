@@ -121,9 +121,14 @@ Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes dos Santos
 
 
 ### Resources
+
 * Website: https://shiny.metapr2.org/
-* Docker: https://hub.docker.com/repository/docker/vaulot/metapr2
+
 * Source code: https://github.com/pr2database/metapr2-shiny
+
+* Docker (only version <= 1.0.2): https://hub.docker.com/repository/docker/vaulot/metapr2
+
+ 
 
 
 
