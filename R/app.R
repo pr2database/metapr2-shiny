@@ -74,7 +74,8 @@ ui <- fluidPage(
       ),
     # add information on bottom ?
     tags_bottom = tags$div(
-      tags$h4("Datasets"),
+      tags$h4("metaPR2  version: 1.0.3"),
+      tags$h4("Datasets version: 1.1"),
       tags$h5("41 public datasets (V4 and V9), no password needed"),
       tags$p("For other datasets, please  contact ",
         tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")

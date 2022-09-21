@@ -25,7 +25,7 @@ samples.xlsx | List of samples selected with medadata | file_code
 asv.xlsx | ASV selected with taxonomy and sequence | asv_code
 asv.fasta | ASV selected with taxonomy and sequence  in fasta form|
 asv_reads.tsv.gz | Percent of reads (normalized to total number of eukaryotic reads in the sample), for each ASV and each sample (long form). | asv_code, file_code
-phyloseq.rds | File to use with phyloseq R package (https://joey711.github.io/phyloseq/). Use readRDS() function to read | **5000 samples max**
+phyloseq.rds | File to use with phyloseq R package (https://joey711.github.io/phyloseq/). Use readRDS() function to read | **2000 samples max**
 </div>
 
 <br>

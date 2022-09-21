@@ -29,12 +29,12 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
       print(ps)
     })
     
-    n_samples_max = 5000
+    n_samples_max = 2000
     
     n_samples_valid <- reactive({nrow(samples_selected()) <= n_samples_max})
     
     output$sample_number <- renderText({stringr::str_c("Number of samples: <b>", nrow(samples_selected()), 
-                                                       if_else(n_samples_valid(), "</b>", " - Too many for phyloseq download!!</b> - Must be below <b>5000 !</b>"),
+                                                       if_else(n_samples_valid(), "</b>", " - Too many for phyloseq download!!</b> - Must be below <b>2000 !</b>"),
                                                        sep=" ")})
   
   
