@@ -7,7 +7,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "vaulot@gmail.com",
            comment = c(ORCID = "0000-0002-0717-5685"))
-Description: What the package does (one paragraph).
+Description: Provides an interface to the metaPR2 database (current version = 1.0) which contains eukaryotic 18S rRNA metabarcodes.
+    Many options for selecting samples are provided. 
+    Data can be displayed as maps, barplots, treemaps. 
+    Data can be searched and downloaded. 
+    See  https://pr2-database.org for more information.
 License: MIT
 Encoding: UTF-8
 LazyData: true
