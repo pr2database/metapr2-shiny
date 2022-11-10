@@ -64,19 +64,20 @@ click <- function(ids) {
 # Read credentials ----------------------------------------------------------
 print("Read credentials")
 
-credentials  <- tryCatch(
+file_loaded  <- tryCatch(
   {
-    qs::qread(system.file("data-qs", 'credentials.qs', package = "metapr2", mustWork = TRUE))
+    credentials <- qs::qread(system.file("data-qs", 'credentials.qs', package = "metapr2", mustWork = TRUE))
+    TRUE                # Returns true if loaded
   },
   error=function(cond) {
     message("Cannot use system.file")
-    return(NA)
+    return(FALSE)
   }
 )
 
 ## Using the explicit way
 
-if(is.na(credentials)){
+if(!file_loaded){
   credentials <- qs::qread("inst/data-qs/credentials.qs")
   print("Using full path")
 }
@@ -84,19 +85,20 @@ if(is.na(credentials)){
 # Read global ----------------------------------------------------------
 print("Read globals")
 
-global  <- tryCatch(
+file_loaded  <- tryCatch(
   {
-    qs::qread(system.file("data-qs", 'global.qs', package = "metapr2", mustWork = TRUE))
+    global <- qs::qread(system.file("data-qs", 'global.qs', package = "metapr2", mustWork = TRUE))
+    TRUE              # Returns true if loaded
   },
   error=function(cond) {
     message("Cannot use system.file")
-    return(NA)
+    return(FALSE)
   }
 )
 
 ## Using the explicit way
 
-if(is.na(global)){
+if(!file_loaded){
   global <- qs::qread("inst/data-qs/global.qs")
   print("Using full path")
 }
