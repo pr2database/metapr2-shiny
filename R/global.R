@@ -66,7 +66,7 @@ print("Read credentials")
 
 file_loaded  <- tryCatch(
   {
-    credentials <- qs::qread(system.file("data-qs", 'credentials.qs', package = "metapr2", mustWork = TRUE))
+    credentials <- qs::qread(system.file("data-qs/credentials.qs", package = "metapr2", mustWork = TRUE))
     TRUE                # Returns true if loaded
   },
   error=function(cond) {
@@ -87,7 +87,7 @@ print("Read globals")
 
 file_loaded  <- tryCatch(
   {
-    global <- qs::qread(system.file("data-qs", 'global.qs', package = "metapr2", mustWork = TRUE))
+    global <- qs::qread(system.file("data-qs/global.qs", package = "metapr2", mustWork = TRUE))
     TRUE              # Returns true if loaded
   },
   error=function(cond) {

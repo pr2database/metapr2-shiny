@@ -8,8 +8,8 @@
 <meta name="description" content="Map, Barplot, Diversity analysis and Query the metaPR2 database">
 <title>An R package for interactive access to metaPR2 database • metapr2</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="An R package for interactive access to metaPR2 database">
 <meta property="og:description" content="Map, Barplot, Diversity analysis and Query the metaPR2 database">
@@ -26,14 +26,14 @@
     
     <a class="navbar-brand me-2" href="index.html">metapr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="articles/metapr2.html">Get started</a>
@@ -52,6 +52,7 @@
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Panels</h6>
     <a class="dropdown-item" href="articles/vignette-datasets.html">Datasets</a>
+    <a class="dropdown-item" href="articles/vignette-taxonomy.html">Taxonomy table</a>
     <a class="dropdown-item" href="articles/vignette-treemaps.html">Treemaps</a>
     <a class="dropdown-item" href="articles/vignette-maps.html">Maps</a>
     <a class="dropdown-item" href="articles/vignette-barplots.html">Barplots</a>
@@ -84,8 +85,8 @@
 <div class="section level2">
 <h2 id="a-database-of-18s-rrna-metabarcodes">A database of 18S rRNA metabarcodes<a class="anchor" aria-label="anchor" href="#a-database-of-18s-rrna-metabarcodes"></a>
 </h2>
-<p><strong>Database version</strong>: 1.1 - 41 datasets</p>
-<p><strong>Shiny application version</strong>: 1.0.3</p>
+<p><strong>Database version</strong>: 2.0 - 59 datasets</p>
+<p><strong>Shiny application version</strong>: 1.0.4</p>
 <div class="section level3">
 <h3 id="presentation">Presentation<a class="anchor" aria-label="anchor" href="#presentation"></a>
 </h3>
@@ -102,7 +103,7 @@
 <!-- This is commented out.
 3 - Download and run a Docker container 
  --><div class="section level4">
-<h4 id="1---web-interface">1 - Web interface<a class="anchor" aria-label="anchor" href="#1---web-interface"></a>
+<h4 id="id_1---web-interface">1 - Web interface<a class="anchor" aria-label="anchor" href="#id_1---web-interface"></a>
 </h4>
 <ul>
 <li>Launch in your browser: <a href="http://shiny.metapr2.org" class="external-link uri">http://shiny.metapr2.org</a>
@@ -112,17 +113,36 @@
 </ul>
 </div>
 <div class="section level4">
-<h4 id="2---metapr2-shiny-r-package">2 - metaPR2 shiny R package<a class="anchor" aria-label="anchor" href="#2---metapr2-shiny-r-package"></a>
+<h4 id="id_2---metapr2-shiny-r-package">2 - metaPR2 shiny R package<a class="anchor" aria-label="anchor" href="#id_2---metapr2-shiny-r-package"></a>
 </h4>
-<ul>
-<li>Install the package from GitHub and launch function metapr2App()</li>
-</ul>
+<div class="section level5">
+<h5 id="install-the-package-from-github">Install the package from GitHub<a class="anchor" aria-label="anchor" href="#install-the-package-from-github"></a>
+</h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span>
-
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pr2database/metapr2-shiny"</span><span class="op">)</span>
-<span class="fu">metapr2</span><span class="fu">::</span><span class="fu"><a href="reference/metapr2App.html">metapr2App</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"pr2database/metapr2-shiny"</span><span class="op">)</span></span></code></pre></div>
 <p>Note: You may have to install some packages required by metapr2 if they are not installed on your machine</p>
+</div>
+<div class="section level5">
+<h5 id="alternatively-install-from-r-universe">Alternatively install from <a href="https://pr2database.r-universe.dev/ui#packages" class="external-link">R-universe</a>
+<a class="anchor" aria-label="anchor" href="#alternatively-install-from-r-universe"></a>
+</h5>
+<p>No need in this case to install package <code>devetools</code></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Enable repository from pr2database</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  pr2database <span class="op">=</span> <span class="st">'https://pr2database.r-universe.dev'</span>,</span>
+<span>  CRAN <span class="op">=</span> <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Download and install metapr2 in R</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'metapr2'</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level5">
+<h5 id="launch-shiny-interface-with-function-run_app">Launch shiny interface with function run_app()<a class="anchor" aria-label="anchor" href="#launch-shiny-interface-with-function-run_app"></a>
+</h5>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">metapr2</span><span class="fu">::</span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <!-- This is commented out.
 #### 3 - metaPR2 Docker container
 
@@ -147,6 +167,7 @@ docker run --rm -p 8080:8080 metapr2
  -->
 </div>
 </div>
+</div>
 <div class="section level3">
 <h3 id="help">Help<a class="anchor" aria-label="anchor" href="#help"></a>
 </h3>
@@ -160,18 +181,15 @@ docker run --rm -p 8080:8080 metapr2
 <div class="section level3">
 <h3 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h3>
-<p>Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes dos Santos, A., 2022. metaPR<sup>2</sup>: a database of eukaryotic 18S rRNA metabarcodes with an emphasis on protists. BioRxiv. <a href="https://doi.org/10.1101/2022.02.04.479133" class="external-link uri">https://doi.org/10.1101/2022.02.04.479133</a></p>
+<p>Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes dos Santos, A., 2022. metaPR<span class="math inline"><sup>2</sup></span>: a database of eukaryotic 18S rRNA metabarcodes with an emphasis on protists. Molecular Ecology Resources 22, 3188–3201. <a href="https://doi.org/10.1111/1755-0998.13674" class="external-link uri">https://doi.org/10.1111/1755-0998.13674</a></p>
 </div>
 <div class="section level3">
 <h3 id="resources">Resources<a class="anchor" aria-label="anchor" href="#resources"></a>
 </h3>
 <ul>
-<li>Website: <a href="https://shiny.metapr2.org/" class="external-link uri">https://shiny.metapr2.org/</a>
-</li>
-<li>Docker: <a href="https://hub.docker.com/repository/docker/vaulot/metapr2" class="external-link uri">https://hub.docker.com/repository/docker/vaulot/metapr2</a>
-</li>
-<li>Source code: <a href="https://github.com/pr2database/metapr2-shiny" class="external-link uri">https://github.com/pr2database/metapr2-shiny</a>
-</li>
+<li><p>Website: <a href="https://shiny.metapr2.org/" class="external-link uri">https://shiny.metapr2.org/</a></p></li>
+<li><p>Source code: <a href="https://github.com/pr2database/metapr2-shiny" class="external-link uri">https://github.com/pr2database/metapr2-shiny</a></p></li>
+<li><p>Docker (only version &lt;= 1.0.2): <a href="https://hub.docker.com/repository/docker/vaulot/metapr2" class="external-link uri">https://hub.docker.com/repository/docker/vaulot/metapr2</a></p></li>
 </ul>
 </div>
 <div class="section level3">
@@ -238,7 +256,7 @@ docker run --rm -p 8080:8080 metapr2
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

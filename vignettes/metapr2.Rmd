@@ -35,32 +35,40 @@ install.packages(devtools)
 devtools::install_github("pr2database/metapr2-shiny")
 ```
 
+Alternatively you can also install from [R-universe](https://pr2database.r-universe.dev/ui#packages)
+
+```{r, eval=FALSE, echo=TRUE}
+# Enable repository from pr2database
+options(repos = c(
+  pr2database = 'https://pr2database.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'))
+
+# Download and install metapr2 in R
+install.packages('metapr2')
+```
+
 # Run the Shiny application
 
 ```{r eval=FALSE }
-metapr2::metapr2App()
+metapr2::run_app()
 ```
 
 
-#### Stop the Shiny application
+### Stop and relaunch the Shiny application
 
-* Close the browser window
+* Hit the Disconnect button at the top of left panel.
 
-OR
+### In case Shiny application crashes
 
-* Hit the stop button at the top right of the bottom left window
-
-
-#### In case Shiny application crashes
-
-* Hit the stop button at the top right of the bottom left window
-* Relaunch `metapr2App()`
+* Hit the Disconnect button at the top of left panel.
+* Relaunch `run_app()`
 
 # Structure of the application
 
 panel/subpanel | content 
 --- | ---  
 **Datasets** | Select and list datasets used. You can select also groups of datasets (e.g. arctic)
+**Taxonomy** | List the taxa present in the metaPR2 database and the number of ASVs for each
 **Treemap** | Create treemaps (square pie-chart) provinding the proportion of each taxon for the samples and datasets selected
 **Map** | Maps of read abundance. For a given taxonomic level you can visualize the proportions of the taxonomic levels below (e.g. species if you are at the genus level) or alternatively the main taxon at each station (e.g. the mainn species if you are the genus level). Size of circle is proportional to contribution of taxon to total eukaryotes.
 **Barplot** | Composition for specific variables (e.g. depth_level).
@@ -70,3 +78,7 @@ panel/subpanel | content
 **Query** | Enter a sequence and search for metabarcode that are similar to your sequence using a BLAST like search. You can plot the ASVs matching your query.
 **Download** | Download data for selected samples/taxa as well as the whole dataset as a phyloseq file.
 **About** | Basic information on the metapr2 database.
+
+# Citation
+
+Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes dos Santos, A., 2022. metaPR$^{2}$: a database of eukaryotic 18S rRNA metabarcodes with an emphasis on protists. Molecular Ecology Resources 22, 3188–3201. https://doi.org/10.1111/1755-0998.13674

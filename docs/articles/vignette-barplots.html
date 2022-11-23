@@ -8,8 +8,8 @@
 <meta name="description" content="metapr2">
 <title>Barplots • metapr2</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Barplots">
 <meta property="og:description" content="metapr2">
@@ -26,14 +26,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">metapr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../articles/metapr2.html">Get started</a>
@@ -52,6 +52,7 @@
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Panels</h6>
     <a class="dropdown-item" href="../articles/vignette-datasets.html">Datasets</a>
+    <a class="dropdown-item" href="../articles/vignette-taxonomy.html">Taxonomy table</a>
     <a class="dropdown-item" href="../articles/vignette-treemaps.html">Treemaps</a>
     <a class="dropdown-item" href="../articles/vignette-maps.html">Maps</a>
     <a class="dropdown-item" href="../articles/vignette-barplots.html">Barplots</a>
@@ -75,8 +76,11 @@
   </div>
 </nav><div class="container template-article">
 
+
+
+
 <div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Barplots</h1>
                         <h4 data-toc-skip class="author"></h4>
             
@@ -87,9 +91,14 @@
 
     
     
-<p>The barplot panel allow to produce barplots using a variety of metadata (Fig. 1). As for the other panels this will only apply to the datasets, samples, ASV and taxa selected. Two major settings can be used:</p>
+<p>The barplot panel allow to produce barplots using a variety of
+metadata (Fig. 1). As for the other panels this will only apply to the
+datasets, samples, ASV and taxa selected. Two major settings can be
+used:</p>
 <ul>
-<li><p>Color according to taxonomy or according to ecological function (Fig. 1). Ecological function is according the list from Sommeria-Klein et al. (2021) as appears in their Supplementary material.</p></li>
+<li><p>Color according to taxonomy or according to ecological function
+(Fig. 1). Ecological function is according the list from Sommeria-Klein
+et al. (2021) as appears in their Supplementary material.</p></li>
 <li>
 <p>Variable to use</p>
 <ul>
@@ -106,16 +115,33 @@
 </li>
 </ul>
 <br><br><div class="figure">
-<img src="img/bar_01.png" alt="Fig. 1: Barplot with taxonomy. 1: Color accoding to taxonomy of ecological function. 2: Variable to use. 3: Barplot. Left: Using taxonomy Right: using ecological function" width="100%"><p class="caption">
-Fig. 1: Barplot with taxonomy. 1: Color accoding to taxonomy of ecological function. 2: Variable to use. 3: Barplot. Left: Using taxonomy Right: using ecological function
+<img src="img/bar_01.png" alt="Fig. 1A: Barplot with taxonomy. 1: Color accoding to taxonomy or ecological function. 2: Variable to use. 3: Barplot. \n Left: Using taxonomy Right: using ecological function" width="100%"><p class="caption">
+Fig. 1A: Barplot with taxonomy. 1: Color accoding to taxonomy or
+ecological function. 2: Variable to use. 3: Barplot. Left: Using
+taxonomy Right: using ecological function
 </p>
 </div>
-<br><br> ## Interactive plots Plots are interactive and there is a menu on the upper right (Fig. 2). In particular you can isolate a specific taxonomic group by clicking on the group (Fig. 4). <br><br><div class="figure">
+<p><br><br></p>
+<p>The right side of the graph indicates, for each parameter range, the
+number of samples that fall into that range as well as the number of
+samples that contain the taxa selected.</p>
+<div class="figure">
+<img src="img/bar_08.png" alt="Fig. 1B: Number of samples and number of samples with taxa" width="100%"><p class="caption">
+Fig. 1B: Number of samples and number of samples with taxa
+</p>
+</div>
+<div class="section level2">
+<h2 id="interactive-plots">Interactive plots<a class="anchor" aria-label="anchor" href="#interactive-plots"></a>
+</h2>
+Plots are interactive and there is a menu on the upper right (Fig. 2).
+In particular you can isolate a specific taxonomic group by clicking on
+the group (Fig. 4). <br><br><div class="figure">
 <img src="img/bar_03.png" alt="Fig. 2: Barplot interactive. Right:  isolating a specific group." width="100%"><p class="caption">
 Fig. 2: Barplot interactive. Right: isolating a specific group.
 </p>
 </div>
 <p><br><br></p>
+</div>
 <div class="section level2">
 <h2 id="time-series">Time series<a class="anchor" aria-label="anchor" href="#time-series"></a>
 </h2>
@@ -125,7 +151,10 @@ Fig. 2: Barplot interactive. Right: isolating a specific group.
 <li>month (Fig. 4)</li>
 <li>day</li>
 </ul>
-<p>To test this feature it is best to use a single dataset (e.g. Spanish Blanes from Giner et al. 2019) and to use a single size fraction. Using the zoom function of plotly, one can more easily display monthly and daily data (Fig. 4).</p>
+<p>To test this feature it is best to use a single dataset (e.g. Spanish
+Blanes from Giner et al. 2019) and to use a single size fraction. Using
+the zoom function of plotly, one can more easily display monthly and
+daily data (Fig. 4).</p>
 <br><br><div class="figure">
 <img src="img/bar_05.png" alt="Fig. 3: Barplot time series with year aggregation" width="80%"><p class="caption">
 Fig. 3: Barplot time series with year aggregation
@@ -142,8 +171,14 @@ Fig. 4: Barplot time series with month aggregation. Right: after zooming
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <ul>
-<li><p>Sommeria-Klein, G., Watteaux, R., Ibarbalz, F.M., Pierella Karlusich, J.J., Iudicone, D., Bowler, C., Morlon, H., 2021. Global drivers of eukaryotic plankton biogeography in the sunlit ocean. Science 374, 594–599. <a href="https://doi.org/10.1126/science.abb3717" class="external-link uri">https://doi.org/10.1126/science.abb3717</a></p></li>
-<li><p>Giner, C.R., Balagué, V., Krabberød, A.K., Ferrera, I., Reñé, A., Garcés, E., Gasol, J.M., Logares, R., Massana, R., 2019. Quantifying long-term recurrence in planktonic microbial eukaryotes. Molecular Ecology 28, 923–935. <a href="https://doi.org/10.1111/mec.14929" class="external-link uri">https://doi.org/10.1111/mec.14929</a></p></li>
+<li><p>Sommeria-Klein, G., Watteaux, R., Ibarbalz, F.M., Pierella
+Karlusich, J.J., Iudicone, D., Bowler, C., Morlon, H., 2021. Global
+drivers of eukaryotic plankton biogeography in the sunlit ocean. Science
+374, 594–599. <a href="https://doi.org/10.1126/science.abb3717" class="external-link uri">https://doi.org/10.1126/science.abb3717</a></p></li>
+<li><p>Giner, C.R., Balagué, V., Krabberød, A.K., Ferrera, I., Reñé, A.,
+Garcés, E., Gasol, J.M., Logares, R., Massana, R., 2019. Quantifying
+long-term recurrence in planktonic microbial eukaryotes. Molecular
+Ecology 28, 923–935. <a href="https://doi.org/10.1111/mec.14929" class="external-link uri">https://doi.org/10.1111/mec.14929</a></p></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -159,7 +194,7 @@ Fig. 4: Barplot time series with month aggregation. Right: after zooming
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

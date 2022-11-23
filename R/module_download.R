@@ -66,11 +66,14 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
 
     content = function(path) {
 
-      tmpdir <- tempdir()
-      file_datasets <- str_c(tmpdir, "/datasets.xlsx")
-      file_samples <- str_c(tmpdir, "/samples.xlsx")
-      file_asv <- str_c(tmpdir, "/asv.xlsx")
-      file_asv_fasta <- str_c(tmpdir, "/asv.fasta")
+      # This is needed to avoid problems with file path 
+      # (on windows tempdir() returns the path as windows path)
+      setwd(tempdir())  
+      
+      file_datasets <- "datasets.xlsx"
+      file_samples <- "samples.xlsx"
+      file_asv <- "asv.xlsx"
+      file_asv_fasta <- "asv.fasta"
       
       # file_asv_reads <- str_c(tmpdir, "/asv_reads.xlsx")
       files = c(file_datasets, file_samples, file_asv, file_asv_fasta)

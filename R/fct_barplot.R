@@ -1,5 +1,5 @@
 
-barplot <- function(df, variable, color_coding, taxo_level) {
+barplot <- function(df, samples, variable, color_coding, taxo_level) {
   
   message("Computing barplot")
   
@@ -42,6 +42,8 @@ barplot <- function(df, variable, color_coding, taxo_level) {
         if (reverse) df[[x]]  =  fct_rev(cut_width(df[[x]], ...))
         else df[[x]]  =  cut_width(df[[x]], ...)
       }
+      
+      # Remove the ( for the range
     } else{
       df[[x]] =  as.factor(df[[x]])
     }
@@ -56,24 +58,51 @@ barplot <- function(df, variable, color_coding, taxo_level) {
   
   # Discretize the data (must make sure that there is more than one value)
   
-  if (variable %in%  c("temperature", "salinity")) df <- barplot_discretize (df, variable,  width=5, boundary=0, reverse = TRUE)
-  if (variable %in%  c("latitude")) df <- barplot_discretize (df, variable,  width=20, boundary=0, reverse = TRUE)
-  if (variable %in%  c("depth")) df <- barplot_discretize (df, variable,  width=25, boundary=0, reverse = FALSE)
+  # if (variable %in%  c("temperature", "salinity")) df <- barplot_discretize (df, variable,  width=5, boundary=0, reverse = TRUE)
+  # if (variable %in%  c("latitude")) df <- barplot_discretize (df, variable,  width=20, boundary=0, reverse = TRUE)
+  # if (variable %in%  c("depth")) df <- barplot_discretize (df, variable,  width=25, boundary=0, reverse = FALSE)
+  
+  if (variable %in%  c("temperature", "salinity")) samples <- barplot_discretize (samples, variable,  width=5, boundary=0, reverse = TRUE)
+  if (variable %in%  c("latitude")) samples <- barplot_discretize (samples, variable,  width=20, boundary=0, reverse = TRUE)
+  if (variable %in%  c("depth")) samples <- barplot_discretize (samples, variable,  width=25, boundary=0, reverse = FALSE)
   
   # floor_date: Round date-times down.
   
   if(variable %in% variable_date) {
-    df <- df %>%
+    # df <- df %>%
+    #   filter(!is.na(date)) %>% 
+    #   mutate(date =  lubridate::floor_date(as.Date(date), variable))
+    
+    samples <- samples %>%
       filter(!is.na(date)) %>% 
       mutate(date =  lubridate::floor_date(as.Date(date), variable))
   } 
   
+  # This step replace the initiale variable (temp, lat etc..) by the discretized version.
+  # This is necessary to preserve the ordering of the y axis which is a factor
+  
+  df <- df %>% 
+    select(-any_of(variable_to_use)) %>% 
+    left_join(select(samples, file_code, any_of(variable_to_use)))
 
-  samples <- df %>% 
+  samples_present <- df %>% 
     select(file_code, any_of(c(variable_to_use))) %>% 
     distinct() %>% 
-    group_by(across(any_of(variable_to_use))) %>% 
-    count() 
+    count(across(any_of(variable_to_use)), name = "n_present") 
+  
+  samples_absent <- samples %>% 
+    select(file_code, any_of(c(variable_to_use))) %>% 
+    filter(!(file_code %in% df$file_code)) %>% 
+    count(across(any_of(variable_to_use)), name = "n_absent") 
+  
+  samples <- samples_present %>% 
+    full_join(samples_absent) %>% 
+    tidyr::replace_na(list(n_absent = 0, n_present = 0)) %>% # Need to remove NA
+    mutate(n_total = n_present + n_absent, pct_present = round(n_present/n_total*100, 0)) %>% 
+    arrange(across(any_of(variable_to_use))) # Need to rearrange according to factor
+  
+   # print(samples)
+   # print(samples_absent)
   
   df <- df %>% 
     group_by(across(any_of(c(color_col, variable_to_use)))) %>%
@@ -98,22 +127,24 @@ barplot <- function(df, variable, color_coding, taxo_level) {
       scale_x_date(date_breaks = date_breaks,
                    date_labels = date_labels) + 
       theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 0.5))  +
-      scale_y_continuous(breaks = seq(0,100,20)) 
+      scale_y_continuous(limits = c(0,110), breaks = seq(0,100,20)) 
   }
   else {
     gg <- gg +
+      # Add number of samples
+      geom_text(data = samples, 
+                aes(x = 110, 
+                    y = fct_rev(.data[[variable_to_use]]), 
+                    label = glue::glue("samples = {n_total}
+                                        with taxa = {n_present} ({pct_present} %)"),
+                ),
+                hjust = "left", 
+                size = 3.5)  +
+      # Add bar plot
       geom_col(aes(y= fct_rev(.data[[variable_to_use]]),
                    x=n_reads_pct, 
-                   fill=.data[[color_col]])) +
-      # Add numberof samples
-      geom_text(data = samples, 
-                aes(x = 100, 
-                    y = fct_rev(.data[[variable_to_use]]), 
-                    label = glue::glue("n = {n}"),
-                ),
-                nudge_x = 3, 
-                size = 3) +
-      scale_x_continuous(breaks = seq(0,100,20))
+                   fill=.data[[color_col]]))+
+      scale_x_continuous(limits = c(0,120), breaks = seq(0,100,20))
   }
   
   if(variable %in% c("month", "day")) {   # Add vertical limits
@@ -122,13 +153,15 @@ barplot <- function(df, variable, color_coding, taxo_level) {
   }
 
   if(variable %in% c("year")) {   
-    # Add numberof samples
+    # Add number of samples
     gg <- gg + geom_text( data = samples, 
                           aes(y = 100, 
                               x = .data[[variable_to_use]], 
-                              label = glue::glue("n = {n}"),
+                              label = glue::glue("present
+                                                 {pct_present} %"),
                           ),
                           nudge_y = 3,
+                          check_overlap = TRUE,
                           size = 3,
                           angle = 45) # Angle does not work with plotly
   }

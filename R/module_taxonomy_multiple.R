@@ -62,8 +62,8 @@ taxoUI <- function(id) {
     div(actionButton(ns("validate_taxo"), "Validate Taxa", class = "btn-primary"), style="display:inline-block"),
     div(actionButton(ns("reset_taxo"), "Reset Taxa", class = "btn-primary"), style="display:inline-block"),
     p(),
-    p("Press VALIDATE after changing taxonomy to update screen."),
-    p("Press RESET to reset taxonomy to top level (need to press validate after reset)"),
+    p("VALIDATE after changes to update screen."),
+    p("RESET + VALIDATE to cancel choices"),
     p(),
     
     shinyWidgets::pickerInput(ns("supergroup"), "Supergroup", choices = unique(global$pr2_taxo$supergroup), selected = NULL, multiple = TRUE, options= options_picker_taxo),
@@ -94,9 +94,10 @@ taxoUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-taxoServer <- function(id, fasta_selected) {
-
+taxoServer <- function(id, fasta_all) {
   
+  # Taxonomy is now selected for the full dataset and not only for the selected samples
+
   moduleServer(id, function(input, output, session) {
     
     ns <- NS(id)
@@ -147,7 +148,7 @@ taxoServer <- function(id, fasta_selected) {
       
      taxo_level_below = global$taxo_levels[taxo_level_number(taxo_level) + 1]
       
-      taxon_list <- fasta_selected() %>% 
+      taxon_list <-    fasta_all() %>% 
         filter(.data[[taxo_level]] %in% input[[taxo_level]]) %>%
         pull(.data[[taxo_level_below]]) %>%
         unique()

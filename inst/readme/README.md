@@ -1,118 +1,73 @@
+# pr2database <img src="https://pr2-database.org/img/pr2_logo_16_9_big.png" width="300" align="right" />
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+Protist Ribosomal Reference database (PR<sup>2</sup>)
+=====================================================
 
-# metaPR2 <img src="https://github.com/pr2database/metapr2-shiny/blob/main/inst/img/metapr2_logo.png?raw=true" align="right" />
+[![Release](https://img.shields.io/badge/release-4.14.0-blue.svg)
+![Date](https://img.shields.io/badge/date-25%20June%202021-lightgrey.svg)
+![Github Downloads
+(total)](https://img.shields.io/github/downloads/pr2database/pr2database/total.svg)](https://github.com/vaulot/pr2_database/releases)
 
-<!-- badges: start -->
+[![Twitter
+URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=PR2%20database&url=https://github.com/vaulot/pr2_database&hashtags=PR2database)
 
-[![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
-![Release](https://img.shields.io/badge/release-1.0.3-blue.svg)
-![Date](https://img.shields.io/badge/date-30%20April%202022-lightgrey.svg)
+## SSU rRNA gene database
 
-<!-- badges: end -->
+The [PR<sup>2</sup> database](https://pr2-database.org/) was initiated in 2010 in the frame of the BioMarks project from work that had developed in the previous ten years in the Plankton Group of the Station Biologique of Roscoff.  Its aim is to provide a reference database of carefully annotated 18S rRNA sequences using  eight unique taxonomic fields (from kingdom to species).  At present it contains about 205,000 sequences. A number of metadata fields are available for many sequences, including geo-localisation, whether it originates from a culture or a natural sample, host type etc... The annotation of PR2 is performed by experts from each taxonomic groups.  One very important project in this respect is [EukRef](https://pr2-database.org/eukref/about/) which has recently decided to merge its effort with PR<sup>2</sup>. EukRef has built bioinformatics pipelines that have been used during three workshops dedicated to specific taxonomic groups.
 
-## A database of 18S rRNA metabarcodes
+## Current version
 
-**Database version**: 1.1 - 41 datasets
+-   Current version : 4.14.0
+-   Last update : 25 June 2021
+-   [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3362765.svg)](https://doi.org/10.5281/zenodo.3362765)
+-   [Link to latest release](https://github.com/pr2database/pr2database/releases)
+-   [Documentation](https://pr2-database.org/#documentation)
 
-**Shiny application version**: 1.0.3
 
-### Presentation
+## Downloading PR2
 
-MetaPR2 is a database of published 18S rRNA metabarcodes that have been
-reprocessed and assigned using PR2.
-
-### Acessing the database
-
-Access to the database to map, search and download the barcodes can be
-done in three different ways:
-
--   Using a [web interface](http://shiny.metapr2.org).
-
--   Download the R package and launch the shiny application.
-
-<!-- This is commented out.
-3 - Download and run a Docker container 
- -->
-
-#### 1 - Web interface
-
--   Launch in your browser: <http://shiny.metapr2.org>
--   Help : <https://pr2database.github.io/metapr2-shiny/articles/>
-
-#### 2 - metaPR2 shiny R package
-
--   Install the package from GitHub and launch function metapr2App()
+-   [Flat files - latest release](https://github.com/pr2database/pr2database/releases)
+-   [R package](https://pr2database.github.io/pr2database/index.html)
 
 ``` r
 install.packages(devtools)
-
-devtools::install_github("pr2database/metapr2-shiny")
-metapr2::metapr2App()
+devtools::install_github("pr2database/pr2database")
 ```
 
-Note: You may have to install some packages required by metapr2 if they
-are not installed on your machine
+## PR2 statistics
 
-<!-- This is commented out.
-#### 3 - metaPR2 Docker container
+-   [PR<sup>2</sup> statistics](https://pr2database.github.io/pr2database/articles/pr2_01_stats.html)
 
-Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
+## Core Team
 
-* Install docker on your computer: https://docs.docker.com/desktop/
+-   [Daniel VAULOT](mailto:vaulot@gmail.com), Asian School of the Environment, Nanyang Technological University, SINGAPORE
+-   [Javier del CAMPO](mailto:jdelcampo@rsmas.miami.edu), University of Miami, USA
+-   [Laure GUILLOU](mailto:lguillou@sb-roscoff.fr), CNRS-Sorbonne Université, Station Biologique, 29680 Roscoff FRANCE
+-   [Frédéric MAHE](mailto:frederic.mahe@cirad.fr), CIRAD, Montpellier, FRANCE
 
-* At shell prompt (can be Linux or Windows Powershell)
+## Scientific committee and contributors
+
+-  [PR<sup>2</sup> team](https://pr2-database.org/team/)  
+
+## Please cite
+
+-   Guillou, L., Bachar, D., Audic, S., Bass, D., Berney, C., Bittner,
+    L., Boutte, C. et al. 2013. [The Protist Ribosomal Reference
+    database (PR<sup>2</sup>): a catalog of unicellular eukaryote Small
+    Sub-Unit rRNA sequences with curated
+    taxonomy](http://nar.oxfordjournals.org/lookup/doi/10.1093/nar/gks1160).
+    Nucleic Acids Res. 41:D597–604.
+
+## Related Projects
+
+#### 18S rRNA primer database
+
+The [PR<sup>2</sup> primer
+database](https://github.com/pr2database/pr2-primers) is a compilation
+of primers found in the litterature with an *in silico* analysis against
+the PR<sup>2</sup> database.
 
 
-```bash
-# Download container
-docker pull vaulot/metapr2:v1.0.2
+## Report issues
 
-# Launch container
-docker run --rm -p 8080:8080 metapr2
-
-```
-
-* In your browser: http://localhost:8080/
- 
- -->
-
-### Help
-
-Extensive help is provided
-[here](https://pr2database.github.io/metapr2-shiny/articles/).
-
-### Errors
-
-Please report errors in the [Issues page of the metaPR2
-database](https://github.com/pr2database/metapr2-shiny/issues).
-
-### Citation
-
-Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes
-dos Santos, A., 2022. metaPR<sup>2</sup>: a database of eukaryotic 18S
-rRNA metabarcodes with an emphasis on protists. BioRxiv.
-<https://doi.org/10.1101/2022.02.04.479133>
-
-### Resources
-
--   Website: <https://shiny.metapr2.org/>
-
--   Source code: <https://github.com/pr2database/metapr2-shiny>
-
--   Docker (only version &lt;= 1.0.2):
-    <https://hub.docker.com/repository/docker/vaulot/metapr2>
-
-### Maintainer
-
--   Daniel Vaulot: <vaulot@gmail.com>
-
-### Contributors
-
--   Daniel Vaulot, CNRS Roscoff, NTU-ASE Geek lab
--   Adriana Lopes dos Santos, NTU-ASE Geek lab
--   Clarence Sim, NTU-ASE Geek lab
--   Denise Ong, NTU-ASE Geek lab
--   Bryan Teo, NTU-ASE Geek lab
--   Charlie Biwer, Uppsala University Sweden
--   Mahwash Jamy, Uppsala University Sweden
+-   Please report any issue on [GitHub](https://github.com/vaulot/pr2_database/issues)

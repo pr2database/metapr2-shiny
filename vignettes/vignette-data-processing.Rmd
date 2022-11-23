@@ -35,7 +35,22 @@ knitr::opts_chunk$set(
 
 * ASVs with less 100 reads total and with bootstrap value at the supergroup level < 75 were not considered.
 
+* It is possible to use either all ASVs or clustered ASVs (default option).  ASVs are clustered at 100% identity with `VSEARCH --cluster_fast --id 1.00`. We used the centroid of each cluster as the reference sequence for this cluster. See the [metaPR2 paper](https://doi.org/10.1111/1755-0998.13674) for more information. 
+
 * Total read number per sample has been normalized to 100 with 3 decimals so that the value displayed in the different panels correspond to % of total eukaryotic reads. For this the number of reads for a given ASV in a given sample was divided by the total number of reads in this sample multiplied by 100.
+
+<br />
+<br />
+```{r echo=FALSE, out.width="40%", fig.cap="Fig. 1: Selection menu."}
+# knitr::include_graphics("img/select_01.png")
+
+htmltools::img(src = "img/welcome_01.png", 
+               style = 'position:relative; left:50px; top:0px; padding:10px;',
+               width = "300px")
+
+```
+<br />
+<br />
 
 ## References
 

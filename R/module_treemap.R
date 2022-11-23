@@ -76,6 +76,10 @@ treemapUI <- function(id) {
   ns <- NS(id)
   tagList(
     p("Number of reads have been normalized (not rarefield) to 100 with 3 decimals."), 
+    
+    htmlOutput(ns("asv_number")),
+    htmlOutput(ns("taxo_selected")),
+    
     # div(actionButton(ns("update_treemap"), "Update treemap", class = "btn-primary"), style="text-align: left;"),
     shinycssloaders::withSpinner(uiOutput(ns('treemap')))
   )
@@ -114,6 +118,14 @@ treemapServer <- function(id, df_selected, taxo, messages) {
         # print(update_plot())
         
     # })
+        
+     
+        
+     output$asv_number <- renderText({glue::glue("Number of ASVs: <b> {length(unique(df_selected()$asv_code))} </b>")})
+        
+     output$taxo_selected <- renderText({stringr::str_c("Taxo level: <b>", taxo()$level, 
+                                                           "</b>- Taxon name: <b>", str_c(taxo()$name, collapse = ";"),"</b>", sep=" ")})
+        
 
   })
   

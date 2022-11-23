@@ -32,6 +32,7 @@ Alpha and beta diversity are performed using the phyloseq package (McMurdie and 
 * Number of reads not rarefield or normalized. 
 * For alpha diversity, smoothing is done with "gam" (general additive model). Samples with diversity of 0 are removed.
 * If you increase the minimum number of reads an ASV must have (left menu) computation will be faster.
+* We do not recommend to use these analyses if you only select a small number of ASVs (e.g. at the genus or species level) or small number of samples.
 
 In order to start the computation, press on the button which will build the phyloseq file from the selected data.
 

@@ -58,7 +58,9 @@ htmltools::img(src = "img/select_02.png",
 
 ### Select taxonomy
 
-It is possible at each level (supergroup, division, class, order, family, genus, species, asv_code) to select 1 or more groups.  In order to update the plots, you need to press the **Validate** button.  You can also completely reset the taxonomy selection using the **Reset** button.  It is possible to save and reload the choices made.  The taxonomy is saved as a ([yaml](https://en.wikipedia.org/wiki/YAML)) file.
+It is possible at each level (supergroup, division, class, order, family, genus, species, asv_code) to select 1 or more groups.  In order to update the plots, you need to press the **Validate** button.  You can also completely reset the taxonomy selection using the **Reset** button followed by the **Validate** button.  
+
+It is possible to save and reload the choices made.  The taxonomy is saved as a ([yaml](https://en.wikipedia.org/wiki/YAML)) file.
 
 
 #### Yaml taxonomy file

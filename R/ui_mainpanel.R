@@ -5,6 +5,9 @@
     tabPanel("Datasets",
              data_datasets_table_UI("data")
     ),
+    tabPanel("Taxonomy",
+             taxo_table_UI("taxo_table")
+    ),
     tabPanel("Treemap",
              treemapUI("treemap")
     ),

@@ -1,3 +1,61 @@
+# metapr2 1.0.4
+Released: 2022-11-23
+
+### Database 
+
+#### version 2.0 - 59 datasets
+
+18 new datasets
+
+##### Polar
+* Arctic - 2012 (Kilias 2020)
+* Amundsen_Sea ASPIRE cruise - 2010-2011
+* Fram Strait - 2014
+* Palmer Station Antarctic - LTER - 2014
+* Arctic and Scotian Shelf - 2009-2011
+* Baffin Bay - 2008-2018
+* Southern Ocean - 2017
+* Fram observatory 2016
+* Antarctic Peninsula - 2012-2016
+
+##### Oceanic
+* Atlantic transect cruise PS113 - 2018
+* South West Pacific NIWA - 2009_2018
+
+##### Coastal
+* Roscoff Astan - 2009-2011
+* Roscoff Astan - 2012-2016
+* SE Asia Tsunami deposits
+* Baltic Sea Gdansk Gulf - 2012 Hapto
+* Coral Infecting Apicomplexan
+* Zostera marina - British Columbia - 2015
+* Coral Singapore - 2018
+
+##### Clustering
+An option is now provided to use either all ASVs or clustered ASVs on the [welcome screen](https://pr2database.github.io/metapr2-shiny/articles/vignette-data-processing.html).  ASVs are clustered at 100% identity with VSEARCH --id 1.00 See the [metaPR2 paper](https://doi.org/10.1111/1755-0998.13674) for more information. 
+
+It is also possible to use version 1.0 of the database by entering `v1` on the [welcome screen](https://pr2database.github.io/metapr2-shiny/articles/vignette-data-processing.html).
+
+![](https://pr2database.github.io/metapr2-shiny/articles/img/welcome_01.png)
+
+### Web application
+
+#### New Panel: Taxonomy
+This new [panel](https://pr2database.github.io/metapr2-shiny/articles/vignette-taxonomy.html) provides a table with all the taxa present in the current metaPR2 version with the number of ASV for each species.  The table can be easily searched.
+
+![](https://pr2database.github.io/metapr2-shiny/articles/img/taxonomy_01.png)
+
+#### Minor changes
+* Information about database is provided on left panel
+* New button to disconnect the application and reloading.
+* Maximum number of samples for Phyloseq: 2000.
+* Taxonomy is constructed from all the samples and not only samples selected.
+* [Option to use clustered ASVs](https://pr2database.github.io/metapr2-shiny/articles/vignette-data-processing.html) in Welcome panel.
+
+* **Barplots**. The right side of the graph indicates, for each parameter range, the number of samples that fall into that range as well as the number of samples that contain the taxa selected.
+
+![](https://pr2database.github.io/metapr2-shiny/articles/img/bar_08.png)
+
 # metapr2 1.0.3
 
 Released: 2022-04-30

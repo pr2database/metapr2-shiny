@@ -1,3 +1,3 @@
 pkgload::load_all(".")
 
-metapr2App()
+run_app()

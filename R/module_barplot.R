@@ -16,8 +16,8 @@ barplotUI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-barplotServer <- function(id, df, taxo, messages) {
-  # stopifnot(is.reactive(df))
+barplotServer <- function(id, df_selected, samples_selected, taxo, messages) {
+  # stopifnot(is.reactive(df_selected))
   
   ns <- NS(id)
   
@@ -38,21 +38,26 @@ barplotServer <- function(id, df, taxo, messages) {
                                              "depth","DNA_RNA", "latitude", "temperature", "salinity", "year", "month", "day"),
                                  selected = c("latitude")))
         ),
+        p(),
+        htmlOutput(ns("taxo_selected")),
       )
     })
     
+    output$taxo_selected <- renderText({stringr::str_c("Taxo level: <b>", taxo()$level, 
+                                                       "</b>- Taxon name: <b>", str_c(taxo()$name, collapse = ";"),"</b>", sep=" ")})
     
 
     output$graph_barplot <- renderUI({
-      req(df(), taxo(), input$barplot_variable, input$color_coding)
+      req(df_selected(), taxo(), input$barplot_variable, input$color_coding)
       
 
       # req(input$barplot_variable)
       tagList(
-            if(nrow(df()) > 0) {
+            if(nrow(df_selected()) > 0) {
             plotly::renderPlotly({
               plotly::ggplotly(
-                barplot(df(),
+                barplot(df_selected(),
+                        samples_selected(),
                        variable = input$barplot_variable,
                        color_coding = input$color_coding, 
                        taxo_level = ifelse(taxo()$level != "asv_code",
@@ -85,7 +90,7 @@ barplotServer <- function(id, df, taxo, messages) {
 #     )
 #   )
 #   server <- function(input, output, session) {
-#     barplotServer("barplot", df)
+#     barplotServer("barplot", df_selected)
 #   }
 #   shinyApp(ui, server)
 # }

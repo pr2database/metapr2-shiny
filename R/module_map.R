@@ -35,7 +35,7 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
         reformat_df_map(samples = samples_selected(), taxo_level = taxo()$level)
     })
     
-    # Computer number of samples with present and absent ----------------------
+    # Compute number of samples with present and absent ----------------------
     
     
     n_samples_with_taxa <- reactive(n_distinct(df_map()$present$file_code))
@@ -75,8 +75,6 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
         tagList(
           includeMarkdown(system.file("readme", 'map.md', package = "metapr2")),
           p(),
-          htmlOutput(ns("taxo_selected")),
-          htmlOutput(ns("sample_number")),
           p(),
           fluidRow(
             column(3, 
@@ -98,6 +96,8 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
                )
             )
           ),
+          htmlOutput(ns("taxo_selected")),
+          htmlOutput(ns("sample_number")),
           
           shinycssloaders::withSpinner(leafletOutput(ns("map_1"), width ="auto", height = 1200))
         )

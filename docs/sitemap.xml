@@ -40,6 +40,9 @@
     <loc>/articles/vignette-select.html</loc>
   </url>
   <url>
+    <loc>/articles/vignette-taxonomy.html</loc>
+  </url>
+  <url>
     <loc>/articles/vignette-treemaps.html</loc>
   </url>
   <url>
@@ -58,12 +61,12 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/readme_Shiny.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
     <loc>/reference/metapr2App.html</loc>
+  </url>
+  <url>
+    <loc>/reference/run_app.html</loc>
   </url>
 </urlset>

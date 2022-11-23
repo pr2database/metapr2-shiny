@@ -100,31 +100,6 @@ blaster_asv <- function(fasta.df, query,
 # --- Write fasta file with taxo ------------------------------------------
 # =========================================================================
 
-#' @title Write a fasta file with the taxonomy
-#'
-#' @description
-#' Write a fasta file from a set of sequences
-#' Option : add to the definition line the the taxonomy separated by separator character (e.g. |)
-#'
-#' >Otu0001|Alveolata|Dinophyta|Syndiniales|Dino-Group-I|Dino-Group-I-Clade-1|Dino-Group-I-Clade-1_X|Dino-Group-I-Clade-1_X_sp.
-#'
-#' AGCTCCAATAGCGTATATTAAAGTTGTTGCGGTTAAAAAGCTCGTAGTTGGA...
-#' @param df The data frame with the otu names, the taxonomy and the sequences. It should have the following columns (with exactly these names)
-#'
-#'       * seq_name : the sequence name
-#'       * supergroup: species
-#'       * sequence
-#' @param file_name Character, where to save the fasta file
-#' @param compress If TRUE produces a gz file
-#' @param taxo_include If TRUE then add taxo information which must be provided
-#' @param taxo_separator Character used to separate the different taxonomic levels
-#' TRUE if it terminates OK
-#'
-#' @examples
-#' fasta_write(df,"otu_taxo.fasta", compress=FALSE, include_taxo=TRUE, taxo_separator=";")
-#' @md
-#' @export
-
 fasta_write <- function(df,file_name, compress=FALSE, taxo_include=TRUE, taxo_separator="|") {
   
   # First remove the gaps (can be - or .)

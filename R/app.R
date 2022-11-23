@@ -4,12 +4,12 @@
 #' # Starts shiny application
 #'
 #' \dontrun{
-#'  metapr2::metapr2App()
+#'  metapr2::run_app()
 #'  }
 #'
 #' @export
 
-metapr2App <- function() {
+run_app <- function() {
   
 # Build the whole dataset ---------------------------------------------------------
   
@@ -33,9 +33,9 @@ messages$no_data = tags$div(
 
 shinymanager::set_labels(
   language = "en",
-  "Please authenticate" = "Choose datasets",
-  "Username:" = "Datasets (leave blank for public datasets):",
-  "Password:" = "Password (leave blank for public datasets):",
+  "Please authenticate" = "Choose datasets ",
+  "Username:" = "Datasets (`blank` for version 2.0 and `v1` for version 1.0):",
+  "Password:" = "Password (`blank` for version 1.0 and 2.0):",
   "Login" = "Enter metaPR2"
 )
 
@@ -74,16 +74,25 @@ ui <- fluidPage(
       ),
     # add information on bottom ?
     tags_bottom = tags$div(
-      tags$h4("metaPR2  version: 1.0.3"),
-      tags$h4("Datasets version: 1.1"),
-      tags$h5("41 public datasets (V4 and V9), no password needed"),
+      checkboxInput("asv_clustered", "Use clustered ASVs (see Help)", value = TRUE, width = NULL),
+      tags$p("  "),
+      tags$h4("metaPR2  version: 1.0.4"),
+      tags$h4("Datasets version: 2.0"),
+      tags$h5("59 public datasets (V4 and V9), no password needed"),
+      tags$p("  "),
       tags$p("For other datasets, please  contact ",
         tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")
       )
     )
    ),
 
-
+  # Message for disconnection
+  
+  shinydisconnect::disconnectMessage(
+    text = "Server lost connection.",
+    refresh = "Reload now"
+  ),
+  
   # Title
   title = "MetaPR2",
   # titlePanel(div(img(src='img/metapr2_logo.png', width="80"),"The MetaPR2 database")),
@@ -114,17 +123,23 @@ server <- function(input, output, session) {
                                  id = "auth",
                                  check_credentials = shinymanager::check_credentials(credentials))
   
-  
+  observeEvent(input$button_disconnect, {
+    session$close()
+  })
   # Validate the sample selection
   # See: https://rstudio.github.io/shinyvalidate/articles/shinyvalidate.html
   
   # Datasets - Reformat the datasets and creates output for download  
   
-    asv_set <- dataServer("data", taxo, authentification)
+    asv_set <- dataServer("data", taxo, authentification, input$asv_clustered)
+    
+  # Just print version and whether ASVs are clustered or
+    
+    display_info_server("info", authentification, input$asv_clustered)
 
   # Utils - Dynamic taxonomy boxes
 
-    taxo <- taxoServer("taxo", asv_set$fasta_selected)
+    taxo <- taxoServer("taxo", asv_set$fasta_all)
 
   # Panel - Download
 
@@ -140,7 +155,7 @@ server <- function(input, output, session) {
 
   # Panels - Barplot
 
-    barplotServer("barplot", asv_set$df_selected, taxo, messages)
+    barplotServer("barplot", asv_set$df_selected, asv_set$samples_selected, taxo, messages)
 
 
   # Panels - Alpha and beta diversity
@@ -150,6 +165,10 @@ server <- function(input, output, session) {
   # Panel - Matching ASV
 
     queryServer("query", asv_set$samples_selected, asv_set$df_all, asv_set$fasta_all)
+    
+    # Panel - Taxonomy table
+    
+    taxo_table_Server("taxo_table", asv_set$fasta_all)
 
 
     # cat("Server: ")

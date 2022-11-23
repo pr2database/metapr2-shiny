@@ -80,7 +80,7 @@ data_samples_UI <- function(id) {
 # Server ------------------------------------------------------------------
 
 
-dataServer <- function(id, taxo, authentification) {
+dataServer <- function(id, taxo, authentification, asv_clustered) {
   
   moduleServer(id, function(input, output, session) {
     
@@ -286,11 +286,22 @@ dataServer <- function(id, taxo, authentification) {
       if (authentification$user == "") {
         dir_asv_set <- "data-qs"
       }
+      
+      if (authentification$user == "v1") {
+        dir_asv_set <- "data-qs-1.0"
+      }
+      
       if (authentification$user == "private") {
         dir_asv_set <- "data-qs-private"
       }
       if (authentification$user == "ge") {
         dir_asv_set <- "data-qs-ge"
+      }
+      
+      if(asv_clustered) {
+        file_asv_set <- "asv_set_cluster.qs"
+      } else {
+        file_asv_set <- "asv_set.qs"
       }
       
       
@@ -299,7 +310,7 @@ dataServer <- function(id, taxo, authentification) {
       # Reading the data - Using the normal way ----------------------------------
       asv_set_all  <- tryCatch(
         {
-          qs::qread(system.file(dir_asv_set,  'asv_set.qs', package = "metapr2"))
+          qs::qread(system.file(dir_asv_set,  file_asv_set, package = "metapr2"))
         },
         error=function(cond) {
           message("Cannot use system.file")
@@ -311,7 +322,7 @@ dataServer <- function(id, taxo, authentification) {
       # Reading the data - Using the explicit way ------------------------------
       
       if(is.na(asv_set_all)){
-        asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/asv_set.qs"))
+        asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/", file_asv_set))
         message("Using full path")
       }
       
@@ -387,9 +398,8 @@ dataServer <- function(id, taxo, authentification) {
       asv_set()$fasta %>% 
         filter(asv_code %in% df_selected()$asv_code)
     })
-      
-     
     
+
     
     
       df_all <- reactive(asv_set()$df)

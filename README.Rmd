@@ -21,16 +21,16 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
-![Release](https://img.shields.io/badge/release-1.0.3-blue.svg)
-![Date](https://img.shields.io/badge/date-30%20April%202022-lightgrey.svg)
+![Release](https://img.shields.io/badge/release-1.0.4-blue.svg)
+![Date](https://img.shields.io/badge/date-30%23Nov%202022-lightgrey.svg)
 
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
 
-**Database version**:  1.1 - 41 datasets
+**Database version**:  2.0 - 59 datasets
 
-**Shiny application version**: 1.0.3
+**Shiny application version**: 1.0.4
 
 ### Presentation
 
@@ -57,30 +57,35 @@ Access to the database to map, search and download the barcodes can be done in t
 #### 2 - metaPR2 shiny R package
 
 
-
-```{r, eval=FALSE, echo=FALSE}
-
-# * Download repository from https://github.com/pr2database/metapr2-shiny/archive/refs/heads/main.zip
-# * Unzip on your computer
-# * Launch project `shiny_metapr2.Rproj` in R studio
-# * Run the following lines in the R console
-
-install.packages(devtools) # If package devtools is not installed on your computer
-
-devtools::load_all(".")
-metapr2App()
-```
-
-* Install the package from GitHub and launch function metapr2App()
+##### Install the package from GitHub
 
 ```{r, eval=FALSE, echo=TRUE}
 install.packages(devtools)
 
 devtools::install_github("pr2database/metapr2-shiny")
-metapr2::metapr2App()
+
 ```
 
 Note: You may have to install some packages required by metapr2 if they are not installed on your machine
+
+##### Alternatively install from [R-universe](https://pr2database.r-universe.dev/ui#packages)
+No need in this case to install package `devetools`
+
+```{r, eval=FALSE, echo=TRUE}
+# Enable repository from pr2database
+options(repos = c(
+  pr2database = 'https://pr2database.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'))
+
+# Download and install metapr2 in R
+install.packages('metapr2')
+```
+
+##### Launch shiny interface with function run_app()
+
+```{r, eval=FALSE, echo=TRUE}
+metapr2::run_app()
+```
 
 <!-- This is commented out.
 #### 3 - metaPR2 Docker container
@@ -116,7 +121,7 @@ Please report errors in the [Issues page of the metaPR2 database](https://github
 
 ### Citation
 
-Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes dos Santos, A., 2022. metaPR$^{2}$: a database of eukaryotic 18S rRNA metabarcodes with an emphasis on protists. BioRxiv. https://doi.org/10.1101/2022.02.04.479133
+Vaulot, D., Sim, C.W.H., Ong, D., Teo, B., Biwer, C., Jamy, M., Lopes dos Santos, A., 2022. metaPR$^{2}$: a database of eukaryotic 18S rRNA metabarcodes with an emphasis on protists. Molecular Ecology Resources 22, 3188–3201. https://doi.org/10.1111/1755-0998.13674
 
 
 

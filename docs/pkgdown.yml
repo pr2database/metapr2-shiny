@@ -1,5 +1,5 @@
-pandoc: 2.11.2
-pkgdown: 2.0.1
+pandoc: 2.19.2
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   metapr2: metapr2.html
@@ -11,6 +11,7 @@ articles:
   vignette-maps: vignette-maps.html
   vignette-query: vignette-query.html
   vignette-select: vignette-select.html
+  vignette-taxonomy: vignette-taxonomy.html
   vignette-treemaps: vignette-treemaps.html
-last_built: 2022-05-18T19:09Z
+last_built: 2022-11-23T09:12Z
 

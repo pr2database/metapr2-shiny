@@ -43,11 +43,18 @@ The barplot panel allow to produce barplots using a variety of metadata (Fig. 1)
 
 <br />
 <br />
-```{r bar-01, echo=FALSE, out.width="100%", fig.cap="Fig. 1: Barplot with taxonomy. 1: Color accoding to taxonomy of ecological function. 2: Variable to use. 3: Barplot. Left: Using taxonomy Right: using ecological function"}
+```{r bar-01, echo=FALSE, out.width="100%", fig.cap="Fig. 1A: Barplot with taxonomy. 1: Color accoding to taxonomy or ecological function. 2: Variable to use. 3: Barplot. \\n Left: Using taxonomy Right: using ecological function"}
 knitr::include_graphics("img/bar_01.png")
 ```
 <br />
 <br />
+
+The right side of the graph indicates, for each parameter range, the number of samples that fall into that range as well as the number of samples that contain the taxa selected.
+
+```{r bar-02, echo=FALSE, out.width="100%", fig.cap="Fig. 1B: Number of samples and number of samples with taxa"}
+knitr::include_graphics("img/bar_08.png")
+```
+
 ## Interactive plots
 Plots are interactive and there is a menu on the upper right (Fig. 2). In particular you can isolate a specific taxonomic group by clicking on the group (Fig. 4).
 <br />

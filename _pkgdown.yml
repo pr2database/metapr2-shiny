@@ -18,6 +18,7 @@ articles:
   navbar: ~
   contents:
   - vignette-datasets
+  - vignette-taxonomy
   - vignette-treemaps
   - vignette-maps
   - vignette-barplots
@@ -43,6 +44,8 @@ navbar:
      - text: "Panels"
      - text: Datasets
        href: articles/vignette-datasets.html
+     - text: "Taxonomy table"
+       href: articles/vignette-taxonomy.html
      - text: Treemaps
        href: articles/vignette-treemaps.html
      - text: Maps
@@ -58,3 +61,8 @@ navbar:
 
 template:
   bootstrap: 5
+# bootswatch: cosmo
+# theme: breeze-light
+
+code:
+  width: 80
