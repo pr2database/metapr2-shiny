@@ -297,6 +297,9 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       if (authentification$user == "ge") {
         dir_asv_set <- "data-qs-ge"
       }
+      if (authentification$user == "ge2") {
+        dir_asv_set <- "data-qs-ge2"
+      }
       
       if(asv_clustered) {
         file_asv_set <- "asv_set_cluster.qs"

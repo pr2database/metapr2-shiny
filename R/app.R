@@ -123,9 +123,10 @@ server <- function(input, output, session) {
                                  id = "auth",
                                  check_credentials = shinymanager::check_credentials(credentials))
   
-  observeEvent(input$button_disconnect, {
-    session$close()
-  })
+  # Disconnection
+  
+  observeEvent(input$button_disconnect, {session$close() } )
+
   # Validate the sample selection
   # See: https://rstudio.github.io/shinyvalidate/articles/shinyvalidate.html
   

@@ -1,9 +1,10 @@
-# metapr2 1.0.4
+# metapr2 2.0.0
+
 Released: 2022-11-23
 
 ### Database 
 
-#### version 2.0 - 59 datasets
+#### 59 datasets
 
 18 new datasets
 

@@ -6,16 +6,16 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
-![Release](https://img.shields.io/badge/release-1.0.4-blue.svg)
+![Release](https://img.shields.io/badge/release-2.0.0-blue.svg)
 ![Date](https://img.shields.io/badge/date-23%20Nov%202022-lightgrey.svg)
 
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
 
-**Database version**: 2.0 - 59 datasets
+**Version**: 2.0.0 - 59 datasets
 
-**Shiny application version**: 1.0.4
+**Release date**: 2022-11-23
 
 ### Presentation
 
@@ -55,7 +55,7 @@ are not installed on your machine
 
 ##### Alternatively install from [R-universe](https://pr2database.r-universe.dev/ui#packages)
 
-No need in this case to install package `devetools`
+No need in this case to install package `devtools`
 
 ``` r
 # Enable repository from pr2database
