@@ -318,6 +318,7 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
                                                file_asv_set, 
                                                package = "metapr2", 
                                                mustWork = TRUE))
+          message("Using system.file")
           TRUE                # Returns true if loaded
         },
         error=function(cond) {
@@ -325,14 +326,14 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
           return(FALSE)
         }
       )
-
+      message("Before explicit - File loaded: ", file_loaded)
       # Reading the data - Using the explicit way ------------------------------
       
       if(!file_loaded){
         asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/", file_asv_set))
         message("Using full path")
       }
-      
+      message("After explicit - File loaded: ", file_loaded)
       # Creating a label -------------------------------------------------------
       
       asv_set_all$samples <- asv_set_all$samples %>% 
