@@ -1,3 +1,14 @@
+# metapr2 2.0.1
+
+Released: 2023-02-17
+
+### Web application and R package
+Two bugs fixed:
+* Error linked to version 4.2 of R giving error instead of warning for `if` when the condition a dimension > 1
+* Some long sequences where giving an error in the Query panel
+
+---
+
 # metapr2 2.0.0
 
 Released: 2022-11-23
@@ -56,6 +67,8 @@ This new [panel](https://pr2database.github.io/metapr2-shiny/articles/vignette-t
 * **Barplots**. The right side of the graph indicates, for each parameter range, the number of samples that fall into that range as well as the number of samples that contain the taxa selected.
 
 ![](https://pr2database.github.io/metapr2-shiny/articles/img/bar_08.png)
+
+---
 
 # metapr2 1.0.3
 
