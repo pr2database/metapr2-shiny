@@ -311,23 +311,29 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       message("User: ", authentification$user)
       
       # Reading the data - Using the normal way ----------------------------------
-      asv_set_all  <- tryCatch(
+      
+      file_loaded  <- tryCatch(
         {
-          qs::qread(system.file(dir_asv_set,  file_asv_set, package = "metapr2"))
+          asv_set_all <- qs::qread(system.file(dir_asv_set,  
+                                               file_asv_set, 
+                                               package = "metapr2", 
+                                               mustWork = TRUE))
+          TRUE                # Returns true if loaded
         },
         error=function(cond) {
           message("Cannot use system.file")
-          return(NA)
+          return(FALSE)
         }
       )
 
-      
       # Reading the data - Using the explicit way ------------------------------
       
-      if(is.na(asv_set_all)){
+      if(!file_loaded){
         asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/", file_asv_set))
         message("Using full path")
       }
+      
+      # Creating a label -------------------------------------------------------
       
       asv_set_all$samples <- asv_set_all$samples %>% 
         mutate(label = str_c(dataset_id, dataset_code,
