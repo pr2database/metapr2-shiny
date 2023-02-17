@@ -72,10 +72,11 @@ blaster_asv <- function(fasta.df, query,
   df <- blaster::blast(query, db, 
                        minIdentity = minIdentity,
                        maxAccepts = maxAccepts) 
-  # print(df)
+  print(df)
 
   if(nrow(df) > 0) {
     df <- df %>% 
+      mutate(TargetId = as.character(TargetId)) %>% 
       select(pid = Identity, asv_code = TargetId, 
              mismatches = NumMismatches, gaps = NumGaps,
              query_start = QueryMatchStart, 
