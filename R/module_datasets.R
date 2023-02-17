@@ -312,6 +312,8 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       
       # Reading the data - Using the normal way ----------------------------------
       
+      message("Before loading")
+      
       file_loaded  <- tryCatch(
         {
           asv_set_all <- qs::qread(system.file(dir_asv_set,  
