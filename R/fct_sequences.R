@@ -72,7 +72,7 @@ blaster_asv <- function(fasta.df, query,
   df <- blaster::blast(query, db, 
                        minIdentity = minIdentity,
                        maxAccepts = maxAccepts) 
-  print(df)
+  # print(df)
 
   if(nrow(df) > 0) {
     df <- df %>% 

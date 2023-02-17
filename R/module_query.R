@@ -33,7 +33,7 @@ queryServer <- function(id, samples_selected, df_all, fasta_all) {
     asv_blast <- eventReactive(input$button_match, {
       
       iv_query <- shinyvalidate::InputValidator$new()
-      iv_query$add_rule("query", ~ if(!sequence_check(.)) " Please enter valid sequence at least 130 bp long.")
+      iv_query$add_rule("query", ~ if(!sequence_check(.)) " Please enter valid sequence at least 130 bp long without extra characters (can be in FASTA format).")
       
       iv_query$enable()
       

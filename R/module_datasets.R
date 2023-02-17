@@ -312,7 +312,7 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       
       # Reading the data - Using the normal way ----------------------------------
       
-      message("Before loading")
+      # message("Before loading")
       
       file_loaded  <- tryCatch(
         {
