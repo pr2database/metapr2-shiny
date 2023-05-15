@@ -130,7 +130,7 @@ queryServer <- function(id, samples_selected, df_all, fasta_all) {
       df_all() %>%
         filter(file_code %in% samples_selected()$file_code) %>% 
         left_join(samples_selected()) %>% 
-        left_join(select(fasta_all(), asv_code, kingdom:species, sum_reads_asv)) %>%
+        left_join(select(fasta_all(), asv_code, domain:species, sum_reads_asv)) %>%
         filter(asv_code == asv_selected()) %>% 
         reformat_df_map(samples = samples_selected(), taxo_level = "asv_code")
     })

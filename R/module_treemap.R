@@ -8,8 +8,8 @@ treemap <- function(df, taxo_level) {
   
     taxo_level_number = which(global$taxo_levels == taxo_level)
   
-  # Do not go beyond ASV level (taxo_level_number = 9)
-  if(taxo_level_number >= 8 ) taxo_level_number = 7
+  # Do not go beyond ASV level (taxo_level_number = 10)
+  if(taxo_level_number >= 9 ) taxo_level_number = 8
     
     taxo_level_1 = global$taxo_levels[taxo_level_number + 1] 
     taxo_level_2 = global$taxo_levels[taxo_level_number + 2]

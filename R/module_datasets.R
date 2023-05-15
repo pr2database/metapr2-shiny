@@ -396,8 +396,8 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       req(iv_samples$is_valid())  
       asv_set()$df %>% 
         inner_join(samples_selected(), by = "file_code") %>% 
-        left_join(select(asv_set()$fasta, asv_code, kingdom:species, ecological_function, sum_reads_asv), by="asv_code") %>%
-        filter(!is.na(kingdom)) %>% # Some asvs are missing from the FASTA table... (to be checked) %>% 
+        left_join(select(asv_set()$fasta, asv_code, domain:species, ecological_function, sum_reads_asv), by="asv_code") %>%
+        filter(!is.na(domain)) %>% # Some asvs are missing from the FASTA table... (to be checked) %>% 
         select(-any_of(cols_to_remove)) %>% 
         filter(.data[[taxo()$level]] %in% taxo()$name ,
                sum_reads_asv >= input$reads_min, 

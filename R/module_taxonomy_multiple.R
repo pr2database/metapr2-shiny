@@ -12,6 +12,7 @@ options_picker_exclude <- shinyWidgets::pickerOptions(
   noneSelectedText = "None"
 )
 
+
 # =================================
 # Small function to return the taxo number
 # =================================
@@ -24,10 +25,10 @@ taxo_level_number <- function(taxo_level) {
 # Small function to return the taxo level and taxon name 
 # =================================
 
-taxo_selected <- function(supergroup, division, class, order, family, genus, species, asv_code) {
+taxo_selected <- function(supergroup, division, subdivision, class, order, family, genus, species, asv_code) {
   
-  taxo_1 <- c(supergroup[1], division[1], class[1], order[1], family[1], genus[1], species[1], asv_code[1])
-  taxo_list <- list(supergroup = supergroup, division=division, class=class, order = order, family = family, genus = genus, species = species, asv_code=asv_code)
+  taxo_1 <- c(supergroup[1], division[1], subdivision[1], class[1], order[1], family[1], genus[1], species[1], asv_code[1])
+  taxo_list <- list(supergroup = supergroup, division=division, subdivision=subdivision, class=class, order = order, family = family, genus = genus, species = species, asv_code=asv_code)
   
   # The levels for which nothing is selected return NULL and the length of the vector gives the first rank which is NULL
   
@@ -39,7 +40,7 @@ taxo_selected <- function(supergroup, division, class, order, family, genus, spe
   
   # taxo_name <- taxo_list[[taxo_level]]
   
-  if (taxo_level == "kingdom") taxo_name = "Eukaryota"
+  if (taxo_level == "domain") taxo_name = "Eukaryota"
   
   message("Taxo level: ", taxo_level)
   message(taxo_name)
@@ -69,7 +70,7 @@ taxoUI <- function(id) {
     shinyWidgets::pickerInput(ns("supergroup"), "Supergroup", choices = unique(global$pr2_taxo$supergroup), selected = NULL, multiple = TRUE, options= options_picker_taxo),
     
     # Use the purr map function to create the pickerInput
-    purrr::map(global$taxo_levels[3:9], ~  shinyWidgets::pickerInput(ns(.x), str_to_title(.x) , choices = NULL, selected = NULL, multiple = TRUE, options= options_picker_taxo)),
+    purrr::map(global$taxo_levels[3:10], ~  shinyWidgets::pickerInput(ns(.x), str_to_title(.x) , choices = NULL, selected = NULL, multiple = TRUE, options= options_picker_taxo)),
     
     p(),
     
@@ -112,7 +113,7 @@ taxoServer <- function(id, fasta_all) {
     
     taxo <- reactive({
       # Do not use req because if one member is NULL it will not be activated
-      taxo_selected(input$supergroup, input$division, input$class, input$order, input$family, input$genus, input$species, input$asv_code)
+      taxo_selected(input$supergroup, input$division, input$subdivision, input$class, input$order, input$family, input$genus, input$species, input$asv_code)
       })
     
 
@@ -144,7 +145,7 @@ taxoServer <- function(id, fasta_all) {
       
       # The next line prevents update of taxonomy selector when loading new values from yaml file
       req((taxo_level_number(taxo_level) >= taxo_level_number(taxo()$level)) |
-           (taxo_level == "kingdom"))
+           (taxo_level == "domain"))
       
      taxo_level_below = global$taxo_levels[taxo_level_number(taxo_level) + 1]
       
@@ -210,7 +211,7 @@ taxoServer <- function(id, fasta_all) {
         # shinyWidgets::updatePickerInput(session = session,  inputId = "supergroup", selected = taxo_new[["supergroup"]])
         # purrr::map(global$taxo_levels[2:8], ~ update_taxo_picker_upload(.x, taxo_new))
         # shinyWidgets::updatePickerInput(session = session,  inputId = "asv_code", selected = taxo_new[["asv_code"]])
-        purrr::map(global$taxo_levels[2:9], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = taxo_new[[.x]], selected = taxo_new[[.x]]))
+        purrr::map(global$taxo_levels[2:10], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = taxo_new[[.x]], selected = taxo_new[[.x]]))
 
         shinyWidgets::updatePickerInput(session = session,  inputId = "taxa_excluded", selected = taxo_new[["taxa_excluded"]])
         update_taxo_auto(TRUE)
@@ -230,7 +231,7 @@ taxoServer <- function(id, fasta_all) {
       input$reset_taxo
       update_taxo_auto(FALSE)
       shinyWidgets::updatePickerInput(session = session,  inputId = "supergroup", choices = unique(global$pr2_taxo$supergroup), selected = character(0), )
-      purrr::map(global$taxo_levels[3:9], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
+      purrr::map(global$taxo_levels[3:10], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
       update_taxo_auto(TRUE)
       # click(ns("validate_taxo"))
     })

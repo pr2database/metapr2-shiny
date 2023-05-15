@@ -45,7 +45,7 @@ match_asv <- function(fasta.df, query){
   df <- bind_cols(fasta.df, scores) %>%
     arrange(desc(pid)) %>%
     mutate(pid = round(pid, 2)) %>%  # Only 2 decimals
-    select(asv_code, pid, kingdom:species, sequence, sum_reads_asv)
+    select(asv_code, pid, domain:species, sequence, sum_reads_asv)
   
   # print(df)
   
@@ -88,7 +88,7 @@ blaster_asv <- function(fasta.df, query,
       inner_join(fasta.df) %>% 
       select(asv_code, pid, mismatches, gaps, 
              query_start, query_end, asv_start, asv_end,  
-             kingdom:species, sequence, sum_reads_asv)
+             domain:species, sequence, sum_reads_asv)
   } else {
     df <- NULL
   }
@@ -112,6 +112,7 @@ fasta_write <- function(df,file_name, compress=FALSE, taxo_include=TRUE, taxo_se
     names(seq_out) <- str_c(df$seq_name,
                             df$supergroup,
                             df$division,
+                            df$subdivision,
                             df$class,
                             df$order,
                             df$family,

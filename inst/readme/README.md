@@ -6,16 +6,16 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
-![Release](https://img.shields.io/badge/release-2.0.0-blue.svg)
-![Date](https://img.shields.io/badge/date-23%20Nov%202022-lightgrey.svg)
+![Release](https://img.shields.io/badge/release-2.1.0-blue.svg)
+![Date](https://img.shields.io/badge/date-16%20May%202023-lightgrey.svg)
 
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**: 2.0.0 - 59 datasets
+**Version**: 2.1.0 - 59 datasets
 
-**Release date**: 2022-11-23
+**Release date**: 2023-05-16
 
 ### Presentation
 

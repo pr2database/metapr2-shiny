@@ -91,7 +91,7 @@ ps_alpha <- function(ps, measures = c("Shannon"),
   samples <- samples %>% 
     tibble::rownames_to_column(var = "file_code") %>% 
     left_join(diversity) %>% 
-    tidyr::pivot_longer(cols = measures, values_to = "diversity", names_to = "measures") %>% 
+    tidyr::pivot_longer(cols = all_of(measures), values_to = "diversity", names_to = "measures") %>% 
     filter(diversity > 0)
   
   # print(head(samples))
@@ -202,7 +202,7 @@ otu <- df %>%
 # 3. Taxonomy table
 
 tax <-  fasta %>%
-  select(asv_code, kingdom:species) %>%
+  select(asv_code, domain:species) %>%
   distinct(asv_code, .keep_all = TRUE) %>%
   tibble::column_to_rownames(var = "asv_code")
 
@@ -218,7 +218,7 @@ TAX = phyloseq::tax_table(tax_mat)
 samples = phyloseq::sample_data(samples_df)
 
 
-cat("Make phyloseq done \n")
+# cat("Make phyloseq done \n")
 
 ps <- phyloseq::phyloseq(OTU, TAX, samples)
 

@@ -24,17 +24,18 @@ downloadServer <- function(id, datasets_selected, samples_selected, df_selected,
   # See:  https://stackoverflow.com/questions/43916535/download-multiple-csv-files-with-one-button-downloadhandler-with-r-shiny
     
     ps_selected <- reactive({
-      req(n_samples_valid())
+      req(n_samples_valid(), nrow(df_selected()) > 0)
       ps <- make_phyloseq(samples_selected(), df_selected(), fasta_selected())
-      print(ps)
+      # print(ps)
     })
     
+
     n_samples_max = 2000
     
-    n_samples_valid <- reactive({nrow(samples_selected()) <= n_samples_max})
+    n_samples_valid <- reactive({(nrow(samples_selected()) <= n_samples_max)} )
     
     output$sample_number <- renderText({stringr::str_c("Number of samples: <b>", nrow(samples_selected()), 
-                                                       if_else(n_samples_valid(), "</b>", " - Too many for phyloseq download!!</b> - Must be below <b>2000 !</b>"),
+                                                       if_else(n_samples_valid(), "</b>", " - Too many samples for phyloseq download!!</b> - Samples must be below <b>2000 !</b>"),
                                                        sep=" ")})
   
   

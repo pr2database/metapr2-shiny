@@ -45,10 +45,10 @@ phyloseqServer <- function(id, samples_selected, df_selected, fasta_selected, ta
     
     n_samples_max = 1000
     
-    n_samples_valid <- reactive({nrow(samples_selected()) <= n_samples_max})
+    n_samples_valid <- reactive({(nrow(samples_selected()) <= n_samples_max)} )
 
     output$sample_number <- renderText({stringr::str_c("Number of samples: <b>", nrow(samples_selected()), 
-                                                       if_else(n_samples_valid(), "</b>", " - Too many !!</b> - Must be below <b>1000 !</b>"),
+                                                       if_else(n_samples_valid(), "</b>", " - Too many samples !!</b> - Sample # must be below <b>1000 !</b>"),
                                                        sep=" ")})
     
     # Construct the phyloseq object for selected samples 
@@ -62,6 +62,7 @@ phyloseqServer <- function(id, samples_selected, df_selected, fasta_selected, ta
     output$ui_ps <- renderUI({
       tagList(
         includeMarkdown(system.file("readme", 'phyloseq.md', package = "metapr2")),
+        if(nrow(df_selected()) == 0) {messages$no_data},
         htmlOutput(ns("sample_number")),
         p(),
         actionButton(ns("button_ps"), "Compute diversity - Press again after updating samples", class = ifelse(n_samples_valid(), "btn-primary", "btn-danger")),

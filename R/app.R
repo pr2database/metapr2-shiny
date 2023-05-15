@@ -34,8 +34,8 @@ messages$no_data = tags$div(
 shinymanager::set_labels(
   language = "en",
   "Please authenticate" = "Choose datasets ",
-  "Username:" = "Datasets (`blank` for version 2.0 and `v1` for version 1.0):",
-  "Password:" = "Password (`blank` for version 1.0 and 2.0):",
+  "Username:" = "Datasets (Leave blank for public version):",
+  "Password:" = "Password (Leave blank for public version):",
   "Login" = "Enter metaPR2"
 )
 
@@ -76,11 +76,13 @@ ui <- fluidPage(
     tags_bottom = tags$div(
       checkboxInput("asv_clustered", "Use clustered ASVs (see Help)", value = TRUE, width = NULL),
       tags$p("  "),
-      tags$h4("metaPR2  version: 2.0.1"),
-      tags$h4("Datasets version: 2.0"),
-      tags$h5("59 public datasets (V4 and V9), no password needed"),
-      tags$p("  "),
-      tags$p("For other datasets, please  contact ",
+      tags$h4("metaPR2  version: 2.1.0"),
+      tags$br(),
+      tags$h4("Datasets version: 2.1"),
+      tags$h5("Datasets #: 59 (identical to version 2.0)"),
+      tags$h5("Assignment: PR2 version 5.0.0"),
+      tags$br(),
+      tags$p("No password needed. For other datasets, please  contact ",
         tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")
       )
     )
@@ -169,7 +171,7 @@ server <- function(input, output, session) {
     
     # Panel - Taxonomy table
     
-    taxo_table_Server("taxo_table", asv_set$fasta_all)
+    taxo_table_Server("taxo_table", asv_set$fasta_selected)
 
 
     # cat("Server: ")

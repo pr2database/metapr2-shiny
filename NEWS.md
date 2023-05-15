@@ -1,9 +1,26 @@
+# metapr2 2.1.0
+
+Released: 2023-05-16
+
+### Web application and R package
+
+* Only the latest version (2.1) of the database is provided.
+* Taxonomy table reflects the groups selected on the side panel
+
+### Database version 2.1
+
+* Metabarcodes are now assigned with PR2 version 5.0.0 (9 taxonomy levels).
+
+---
+
 # metapr2 2.0.1
 
 Released: 2023-02-17
 
 ### Web application and R package
+
 Two bugs fixed:
+
 * Error linked to version 4.2 of R giving error instead of warning for `if` when the condition a dimension > 1
 * Some long sequences where giving an error in the Query panel
 
