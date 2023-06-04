@@ -70,7 +70,7 @@ taxoUI <- function(id) {
     shinyWidgets::pickerInput(ns("supergroup"), "Supergroup", choices = unique(global$pr2_taxo$supergroup), selected = NULL, multiple = TRUE, options= options_picker_taxo),
     
     # Use the purr map function to create the pickerInput
-    purrr::map(global$taxo_levels[3:10], ~  shinyWidgets::pickerInput(ns(.x), str_to_title(.x) , choices = NULL, selected = NULL, multiple = TRUE, options= options_picker_taxo)),
+    purrr::map(global$taxo_levels[3:global$number_of_taxo_levels], ~  shinyWidgets::pickerInput(ns(.x), str_to_title(.x) , choices = NULL, selected = NULL, multiple = TRUE, options= options_picker_taxo)),
     
     p(),
     
@@ -164,7 +164,7 @@ taxoServer <- function(id, fasta_all) {
     
     # Update all Pickers using the map function ----------------
     
-    purrr::map(global$taxo_levels[2:8], ~ update_taxo_picker(.x))
+    purrr::map(global$taxo_levels[2:global$number_of_taxo_levels-1], ~ update_taxo_picker(.x))
     
     
     
@@ -211,7 +211,7 @@ taxoServer <- function(id, fasta_all) {
         # shinyWidgets::updatePickerInput(session = session,  inputId = "supergroup", selected = taxo_new[["supergroup"]])
         # purrr::map(global$taxo_levels[2:8], ~ update_taxo_picker_upload(.x, taxo_new))
         # shinyWidgets::updatePickerInput(session = session,  inputId = "asv_code", selected = taxo_new[["asv_code"]])
-        purrr::map(global$taxo_levels[2:10], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = taxo_new[[.x]], selected = taxo_new[[.x]]))
+        purrr::map(global$taxo_levels[2:global$number_of_taxo_levels], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = taxo_new[[.x]], selected = taxo_new[[.x]]))
 
         shinyWidgets::updatePickerInput(session = session,  inputId = "taxa_excluded", selected = taxo_new[["taxa_excluded"]])
         update_taxo_auto(TRUE)
@@ -231,7 +231,7 @@ taxoServer <- function(id, fasta_all) {
       input$reset_taxo
       update_taxo_auto(FALSE)
       shinyWidgets::updatePickerInput(session = session,  inputId = "supergroup", choices = unique(global$pr2_taxo$supergroup), selected = character(0), )
-      purrr::map(global$taxo_levels[3:10], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
+      purrr::map(global$taxo_levels[3:global$number_of_taxo_levels], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
       update_taxo_auto(TRUE)
       # click(ns("validate_taxo"))
     })

@@ -1,6 +1,6 @@
 Package: metapr2
 Title: Eukaryotic 18S rRNA metabarcode database 
-Version: 2.1.0
+Version: 2.1.1
 Authors@R: 
     person(given = "Daniel",
            family = "Vaulot",

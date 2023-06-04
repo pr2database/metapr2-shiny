@@ -1,3 +1,14 @@
+# metapr2 2.1.1
+
+Released: 2023-xx-xx
+
+### Web application and R package
+
+* Bug fixed
+  * ASVs could not be selected on the left menu (Taxonomy)
+
+---
+
 # metapr2 2.1.0
 
 Released: 2023-05-16

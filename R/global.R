@@ -104,6 +104,9 @@ if(!file_loaded){
 }
 
 
+# Number of taxo levels including ASVS -----------------------------------------
+global$number_of_taxo_levels = length(global$taxo_levels)
+
 # Change factors to character ----------------------------------------------------
 
 global$ecosystems = as.character(global$ecosystems)
