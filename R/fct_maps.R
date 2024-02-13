@@ -36,9 +36,11 @@ map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 3,
   color = "blue"
   
 
-  map <- leaflet(width = width, height = height) %>%
+  map <- leaflet(width = width, height = height,
+                 options = leafletOptions(worldCopyJump = FALSE)) %>%
     addTiles() %>%
-    addProviderTiles(providers$Esri.WorldStreetMap) %>%
+    addProviderTiles(providers$Esri.WorldStreetMap,
+                     options = providerTileOptions(noWrap = FALSE)) %>%
     addPolylines(lat = lat_polar, lng = lng_all, dashArray = dash_polar, color = color, weight = line_weight) %>%
     addPolylines(lat = lat_tropics, lng = lng_all, dashArray = dash_tropics, color = color, weight = line_weight) %>%
     addPolylines(lat = lat_equator, lng = lng_all, dashArray = dash_equator, color = color, weight = line_weight) %>% 
@@ -49,9 +51,11 @@ map_leaflet_init <- function(lng_center=0, lat_center=0, zoom = 3,
 
 # Leaflet - Function to draw a  map--------------------------------------------
 
+# add size_factor as an argument to map_leaflet function
 
 map_leaflet <- function(map, df, 
                         pct_max = 100,
+                        size_factor = 30,
                         legend_title="% of eukaryotes",
                         map_type = "pie") {
   
@@ -68,7 +72,6 @@ map_leaflet <- function(map, df,
   
   size_scale = c(1, 0.25, 0.10, 0.025, 0.01)
   size_labels = c(1, 0.25, 0.10, 0.025, 0.01)*pct_max
-  size_factor = 30
   
   df_taxa <- dplyr::select(df$present, -(file_code:dominant_taxon))
   
@@ -83,12 +86,17 @@ map_leaflet <- function(map, df,
                popup = ~ stringr::str_c(label, "<br/>","Taxon is absent"), 
                labelOptions = labelOptions(textsize = "10px", 
                                            noHide = F) 
-    ) %>% 
-    addLegendCustom(colors = "black", 
-                    labels = size_labels,
-                    sizes = sqrt(size_scale)*size_factor,
-                    legend_title = legend_title
     )
+  
+  # add checking if legend_title = "none" # to skip plotting legend on duplicate data
+  if(legend_title != "none") {
+    map <- map  %>% 
+      addLegendCustom(colors = "black", 
+                      labels = size_labels,
+                      sizes = sqrt(size_scale)*size_factor,
+                      legend_title = legend_title
+      )
+  }
   
   if(nrow(df$present) > 0) {
  
@@ -132,9 +140,6 @@ map_leaflet <- function(map, df,
   
   return(map)
 }
-
-
-
 
 # Function to reformat data frame from sample counts ----------------------------
 
@@ -225,4 +230,26 @@ reformat_df_map <- function (df, samples, taxo_level) {
   return(list(present=present, absent = absent))
   
 }
+
+# Function to reformat df_map for duplicated data ------------------------------
+
+reformat_df_map_dup <- function(ls_df) {
+  
+  # this function expect the input from df_map() which is a list of 2 df
+  ls_df_dup = lapply(ls_df, function(df) {
+    # create duplicate data shifted by 360 degrees
+    df1 = df |>
+      subset(subset = df$longitude < 0)
+    df1$longitude = df1$longitude + 360
+    # create duplicate date shifted by -360 degrees
+    df2 = df|>
+      subset(subset = df$longitude >= 0)
+    df2$longitude = df2$longitude - 360
+    # combine df1 and df2
+    df_merge = rbind(df1, df2)
+    return(df_merge)
+  })
+  return(ls_df_dup)
+}
+
 
