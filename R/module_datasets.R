@@ -301,6 +301,16 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
         dir_asv_set <- "data-qs-ge2"
       }
       
+      if (authentification$user == "nansen") {
+        dir_asv_set <- "data-qs-nansen"
+        asv_clustered <- FALSE
+      }
+      
+      if (authentification$user == "pacbio") {
+        dir_asv_set <- "data-qs-pacbio"
+        asv_clustered <- FALSE
+      }
+      
       if(asv_clustered) {
         file_asv_set <- "asv_set_cluster.qs"
       } else {
@@ -344,6 +354,12 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
                              str_replace_na(depth_level, ""),
                              str_replace_na(substrate, ""),
                              sep = "-"))
+      
+      # Special case for Nansen dataset -------------------------------------------------------
+      if (authentification$user == "nansen") {
+        asv_set_all$samples <- asv_set_all$samples %>%
+          filter(cruise == "JC2-2")
+      }
       
       message("Data sets: ", nrow(asv_set_all$datasets))
       message("Samples: ", nrow(asv_set_all$samples))
@@ -401,7 +417,8 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
         select(-any_of(cols_to_remove)) %>% 
         filter(.data[[taxo()$level]] %in% taxo()$name ,
                sum_reads_asv >= input$reads_min, 
-               !(division %in% taxo()$taxa_excluded)
+               !(division %in% taxo()$taxa_excluded),   # For Streptophyta
+               !(subdivision %in% taxo()$taxa_excluded) # For Metazoa and Fungi
         )
     })
     

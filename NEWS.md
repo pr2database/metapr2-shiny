@@ -6,6 +6,9 @@ Released: 2023-xx-xx
 
 * Bug fixed
   * ASVs could not be selected on the left menu (Taxonomy)
+  
+* Other changes
+  * Bootstrap values are now exported in the ASV table
 
 ---
 
