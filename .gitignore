@@ -2,3 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+*.Rproj
+archives
+data-archives
+data-raw
+inst/data-qs*
+sandbox
+tests

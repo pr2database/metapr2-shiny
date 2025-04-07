@@ -56,9 +56,12 @@ queryServer <- function(id, samples_selected, df_all, fasta_all) {
       {input$button_match
         input$pct_id_min}, 
       {
-      req(!is.null(asv_blast()))
-      asv_blast()  %>% 
-        dplyr::filter(pid >= input$pct_id_min)
+      if(!is.null(asv_blast())){
+          asv_blast()  %>% 
+            dplyr::filter(pid >= input$pct_id_min)
+      } else {
+          NULL
+        }
     })
     
     
@@ -104,17 +107,23 @@ queryServer <- function(id, samples_selected, df_all, fasta_all) {
       )
     
     output$ui_query_results <- renderUI({
-      req(asv_filtered())
-      tagList(
-        p(),
-        h4("Matching ASVs"),
-        p(),
-        shinycssloaders::withSpinner(DT::dataTableOutput(ns("asv_filtered"))),
-        # renderPrint({
-        #   cat("ASV selected: ",  asv_selected())
-        # })
-        
-      )
+      # req(asv_filtered())
+      if(!is.null(asv_filtered())){
+        tagList(
+          p(),
+          h4("Matching ASVs"),
+          p(),
+          shinycssloaders::withSpinner(DT::dataTableOutput(ns("asv_filtered"))),
+          # renderPrint({
+          #   cat("ASV selected: ",  asv_selected())
+          # })
+          
+        )
+      } else {
+        tagList(
+          h3("No Matching ASVs")
+        )
+      }
     })
     
     asv_selected <- eventReactive(

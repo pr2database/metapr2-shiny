@@ -83,7 +83,8 @@ blaster_asv <- function(fasta.df, query,
              query_end = QueryMatchEnd, 
              asv_start = TargetMatchStart, 
              asv_end = TargetMatchEnd) %>%
-      mutate(pid = 100*pid) %>% 
+      mutate(pid = 100*pid,
+             pid = round(pid, 2)) %>% 
       arrange(desc(pid)) %>%
       inner_join(fasta.df) %>% 
       select(asv_code, pid, mismatches, gaps, 
