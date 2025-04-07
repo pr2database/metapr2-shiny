@@ -35,6 +35,13 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
         reformat_df_map(samples = samples_selected(), taxo_level = taxo()$level)
     })
     
+    # Create duplicate df for maps ---------------------------------------------
+    df_map_dup <- reactive({
+      req(df_map())
+      df_map() %>%
+        reformat_df_map_dup()
+    })
+    
     # Compute number of samples with present and absent ----------------------
     
     
@@ -56,17 +63,25 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
     
     # Render the map
       observe({
-        req(df_map, input$pct_max, input$map_type)
+        # add input$size_factor to req # add df_map_dup to req
+        req(df_map, input$pct_max, input$map_type, input$size_factor, df_map_dup)
         leafletProxy("map_1") %>%
           clearControls() %>%
           clearMarkers() %>%
           leaflet.minicharts::clearMinicharts() %>%
+          # use input$size_factor in map_leaflet function
           map_leaflet(df_map(),
                       pct_max = input$pct_max,
+                      size_factor = input$size_factor,
                       legend_title = legend_title(),
+                      map_type = input$map_type) %>%
+          # add map_leaflet() for df_map_dup
+          map_leaflet(df_map_dup(),
+                      pct_max = input$pct_max,
+                      size_factor = input$size_factor,
+                      legend_title = "none",
                       map_type = input$map_type)
     })
-    
     
     # UI for map --------------------------------------------------------------
     
@@ -94,6 +109,15 @@ mapServer <- function(id, df_selected, samples_selected, taxo) {
                                              selected = 100, grid = TRUE, post = " %",
                                              width = "200%"
                )
+            ),
+            # add slider for circle size input with size_factor id
+            column(3,
+                   shinyWidgets::sliderTextInput(inputId =  ns("size_factor"), 
+                                                 label ="Change circle size (pixels)",
+                                                 choices = seq(from = 50, to = 5, by = -5),
+                                                 selected = 30, grid = TRUE,
+                                                 # width = "200%"
+                   )
             )
           ),
           htmlOutput(ns("taxo_selected")),
