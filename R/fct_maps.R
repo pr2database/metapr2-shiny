@@ -118,22 +118,29 @@ map_leaflet <- function(map, df,
         } else  if (map_type == "dominant") {
     
         map <- map %>%
-        addCircleMarkers(data = df$present,
-                         lat = ~ latitude,
-                         lng = ~ longitude,
-                         radius = ~ sqrt(pct/pct_max)*size_factor,
-                         popup = ~ stringr::str_c(label, "<br/>", sprintf(pct, fmt = '%.2f'), " % of euks", "<br/>", "Dominant taxon: ", dominant_taxon),
-                         color = ~ pal_dominant(dominant_taxon),
-                         weight = 0,  # No line
-                         fillOpacity = 0.5, # Alpha factor
-                         labelOptions = labelOptions(textsize = "10px",
-                                                     noHide = F)) %>%
-        addLegend("bottomright",
-                  title = "Dominant taxon",
-                  pal = pal_dominant,
-                  values = df$present$dominant_taxon,
-                  opacity = 1)}
-  }  
+          addCircleMarkers(data = df$present,
+                           lat = ~ latitude,
+                           lng = ~ longitude,
+                           radius = ~ sqrt(pct/pct_max)*size_factor,
+                           popup = ~ stringr::str_c(label, "<br/>", sprintf(pct, fmt = '%.2f'), " % of euks", "<br/>", "Dominant taxon: ", dominant_taxon),
+                           color = ~ pal_dominant(dominant_taxon),
+                           weight = 0,  # No line
+                           fillOpacity = 0.5, # Alpha factor
+                           labelOptions = labelOptions(textsize = "10px",
+                                                       noHide = F)) 
+        
+        # add checking if legend_title = "none" # to skip plotting legend on duplicate data
+        if(legend_title != "none") {          
+          map <- map  %>% 
+                addLegend("bottomright",
+                          title = "Dominant taxon",
+                          pal = pal_dominant,
+                          values = df$present$dominant_taxon,
+                          opacity = 1)
+          
+          }
+        }
+  }
   
   # cat("Map: ")
   # print(pryr::mem_used())

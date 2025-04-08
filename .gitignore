@@ -9,3 +9,4 @@ data-raw
 inst/data-qs*
 sandbox
 tests
+logs*
