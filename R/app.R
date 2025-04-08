@@ -117,7 +117,8 @@ server <- function(input, output, session) {
   session$onSessionEnded(stopApp)
   
   # To track usage
-  shinylogs::track_usage(storage_mode = shinylogs::store_sqlite(path = "logs/"))
+  shinylogs::track_usage(storage_mode = shinylogs::store_sqlite(path = "logs/"),
+                         what = c("session", "error"))
   
   # Authentification
   
