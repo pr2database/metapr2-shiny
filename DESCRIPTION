@@ -19,7 +19,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     Biostrings,
-    blaster (>= 1.0.4),
+    blaster (>= 1.0.7),
     bslib,
     dplyr,
     DT,
@@ -51,9 +51,8 @@ Imports:
     treemapify,
     viridis
 Depends: 
-    R (>= 2.10)
+    R (>= 4.4)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Remotes: 
-    manutamminen/blaster
+
