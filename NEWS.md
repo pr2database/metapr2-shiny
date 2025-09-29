@@ -1,6 +1,50 @@
+# metapr2 3.0.0
+
+Released: 2025-09-26
+
+### Database 
+
+#### Statistics
+
+* Data sets: 67
+* Samples: 7 766
+* ASVs clustered: 94 373
+* ASVs unclustered: 113 989
+
+#### New entries
+* __8 new datasets__
+* __1650 new samples__
+
+##### Polar
+* Arctic - Green Edge cruise - 2016
+* Arctic - AWI data set (Greenland, Svalbard, Norway)
+* Arctic - MicroPolar cruise - 2014
+
+##### Oceanic
+* South West Pacific NIWA - 2018
+
+#### Citations
+* Sim et al. 2025. Temporal dynamics and biogeography of sympagic and planktonic photosynthetic microbial eukaryotes during the under-ice Arctic bloom. ISME Communications. ycaf075.
+* Ribeiro et al. 2024. Arctic phytoplankton microdiversity across the marginal ice zone: Subspecies vulnerability to sea-ice loss. Elementa: Science of the Anthropocene. 12:00109.
+* Egge et al. 2021. An 18S V4 rRNA metabarcoding dataset of protist diversity in the Atlantic inflow to the Arctic Ocean, through the year and down to 1000 m depth. Earth System Science Data. 13:4913–28.
+* Hörstmann et al. 2024. Biogeographic gradients of picoplankton diversity indicate increasing dominance of prokaryotes in warmer Arctic fjords. Commun Biol. 7:1–11. 
+* Šupraha et al.. 2022. Diversity and biogeography of planktonic diatoms in Svalbard fjords: the role of dispersal and Arctic endemism in phytoplankton community structuring. Elementa: Science of the Anthropocene. 10:00117.
+* Ong et al. (2025), Consistent cell-specific carbon fixation rates by small eukaryotic phytoplankton in contrasting nutrient-limited conditions. Limnol Oceanogr, 70: 162-177. https://doi.org/10.1002/lno.12751
+* Décima et al. 2023. Salp blooms drive strong increases in passive carbon export in the Southern Ocean. Nat Commun. 14:1–16.
+
+
+### Web application and R package
+
+* Column added in the dataset table to provide a link to the Project accession number
+* Update in the map panel 
+  * select circle size
+  * allow continuous view across the globe when panning
+
+---
+
 # metapr2 2.1.1
 
-Released: 2023-xx-xx
+Released: 2023-05-17
 
 ### Web application and R package
 

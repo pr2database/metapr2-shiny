@@ -70,7 +70,7 @@ taxoUI <- function(id) {
     shinyWidgets::pickerInput(ns("supergroup"), "Supergroup", choices = unique(global$pr2_taxo$supergroup), selected = NULL, multiple = TRUE, options= options_picker_taxo),
     
     # Use the purr map function to create the pickerInput
-    purrr::map(global$taxo_levels[3:global$number_of_taxo_levels], ~  shinyWidgets::pickerInput(ns(.x), str_to_title(.x) , choices = NULL, selected = NULL, multiple = TRUE, options= options_picker_taxo)),
+    purrr::map(global$taxo_levels[3:global$number_of_taxo_levels], ~  shinyWidgets::pickerInput(ns(.x), stringr::str_to_title(.x) , choices = NULL, selected = NULL, multiple = TRUE, options= options_picker_taxo)),
     
     p(),
     

@@ -6,16 +6,17 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
-![Release](https://img.shields.io/badge/release-2.1.0-blue.svg)
-![Date](https://img.shields.io/badge/date-16%20May%202023-lightgrey.svg)
+![Release](https://img.shields.io/badge/release-3.0.0-blue.svg)
+![Date](https://img.shields.io/badge/date-26%20Sep%202025-lightgrey.svg)
 
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**: 2.1.0 - 59 datasets
+**Version**: 3.0.0 Data sets: 67 Samples: 7 766 ASVs clustered: 94 373
+ASVs unclustered: 113 989
 
-**Release date**: 2023-05-16
+**Release date**: 2023-09-26
 
 ### Presentation
 
@@ -53,20 +54,6 @@ devtools::install_github("pr2database/metapr2-shiny")
 Note: You may have to install some packages required by metapr2 if they
 are not installed on your machine
 
-##### Alternatively install from [R-universe](https://pr2database.r-universe.dev/ui#packages)
-
-No need in this case to install package `devtools`
-
-``` r
-# Enable repository from pr2database
-options(repos = c(
-  pr2database = 'https://pr2database.r-universe.dev',
-  CRAN = 'https://cloud.r-project.org'))
-
-# Download and install metapr2 in R
-install.packages('metapr2')
-```
-
 ##### Launch shiny interface with function run_app()
 
 ``` r
@@ -75,26 +62,18 @@ metapr2::run_app()
 
 <!-- This is commented out.
 #### 3 - metaPR2 Docker container
-
-Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
-
-* Install docker on your computer: https://docs.docker.com/desktop/
-
-* At shell prompt (can be Linux or Windows Powershell)
-
-
-```bash
+&#10;Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
+&#10;* Install docker on your computer: https://docs.docker.com/desktop/
+&#10;* At shell prompt (can be Linux or Windows Powershell)
+&#10;
+``` bash
 # Download container
 docker pull vaulot/metapr2:v1.0.2
-
-# Launch container
+&#10;# Launch container
 docker run --rm -p 8080:8080 metapr2
-
-```
-
-* In your browser: http://localhost:8080/
- 
- -->
+&#10;```
+&#10;* In your browser: http://localhost:8080/
+ &#10; -->
 
 ### Help
 

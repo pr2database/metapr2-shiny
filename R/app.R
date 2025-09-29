@@ -76,11 +76,11 @@ ui <- fluidPage(
     tags_bottom = tags$div(
       checkboxInput("asv_clustered", "Use clustered ASVs (see Help)", value = TRUE, width = NULL),
       tags$p("  "),
-      tags$h4("metaPR2  version: 2.1.1"),
+      tags$h4("metaPR2  version: 3.0.0"),
       tags$br(),
-      tags$h4("Datasets version: 2.1"),
-      tags$h5("Datasets #: 59 (identical to version 2.0)"),
-      tags$h5("Assignment: PR2 version 5.0.0"),
+      tags$h4("Datasets version: 3.0"),
+      tags$h5("Datasets #: 65"),
+      tags$h5("Assignment: PR2 version 5.1.0"),
       tags$br(),
       tags$p("No password needed. For other datasets, please  contact ",
         tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")

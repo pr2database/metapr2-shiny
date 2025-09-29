@@ -1,13 +1,13 @@
 Package: metapr2
 Title: Eukaryotic 18S rRNA metabarcode database 
-Version: 2.1.1
+Version: 3.0.0
 Authors@R: 
     person(given = "Daniel",
            family = "Vaulot",
            role = c("aut", "cre"),
            email = "vaulot@gmail.com",
            comment = c(ORCID = "0000-0002-0717-5685"))
-Description: Provides an interface to the metaPR2 database (current version = 1.0) which contains eukaryotic 18S rRNA metabarcodes.
+Description: Provides an interface to the metaPR2 database which contains eukaryotic 18S rRNA metabarcodes.
     Many options for selecting samples are provided. 
     Data can be displayed as maps, barplots, treemaps. 
     Data can be searched and downloaded. 

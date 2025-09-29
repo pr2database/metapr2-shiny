@@ -138,11 +138,18 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
     datasets_table <- reactive ({
       req(asv_set())
       DT::datatable(asv_set()$datasets %>% 
-                      select(dataset_id, dataset_name, region, paper_reference, sequencing_technology, sample_number, asv_number, n_reads_mean) %>%
+                      select(dataset_id, dataset_name, region, paper_reference, bioproject_accession, sequencing_technology, sample_number, asv_number, n_reads_mean) %>%
                       mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>%
                       mutate(paper_reference = iconv(paper_reference, "latin1", to = "UTF-8")) %>% 
+                      mutate(bioproject_accession = if_else((is.na(bioproject_accession)|str_length(bioproject_accession) > 12) ,
+                                                            bioproject_accession,
+                                                            glue::glue("<a href='https://www.ncbi.nlm.nih.gov/bioproject/{bioproject_accession}'
+                                                                            target='_blank'>{bioproject_accession}</a>"))) %>% 
+                      rename(accession = bioproject_accession) %>%
                       arrange(-selected, dataset_name) ,
                     rownames = FALSE ,
+                    filter = 'top',
+                    escape = FALSE,
                     options = list(
                       autoWidth = FALSE,
                       scrollX=FALSE,
