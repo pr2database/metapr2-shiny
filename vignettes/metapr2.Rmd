@@ -35,17 +35,6 @@ install.packages(devtools)
 devtools::install_github("pr2database/metapr2-shiny")
 ```
 
-Alternatively you can also install from [R-universe](https://pr2database.r-universe.dev/ui#packages)
-
-```{r, eval=FALSE, echo=TRUE}
-# Enable repository from pr2database
-options(repos = c(
-  pr2database = 'https://pr2database.r-universe.dev',
-  CRAN = 'https://cloud.r-project.org'))
-
-# Download and install metapr2 in R
-install.packages('metapr2')
-```
 
 # Run the Shiny application
 
