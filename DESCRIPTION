@@ -34,7 +34,7 @@ Imports:
     phyloseq,
     pkgload,
     plotly,
-    pryr,
+    lobstr,
     purrr,
     qs,
     rio,

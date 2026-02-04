@@ -13,8 +13,8 @@
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**: 3.0.0 Data sets: 67 Samples: 7 766 ASVs clustered: 94 373
-ASVs unclustered: 113 989
+**Version**: 3.0.0 - Data sets: 67 - Samples: 7 766 - ASVs clustered: 94
+373 - ASVs unclustered: 113 989
 
 **Release date**: 2023-09-26
 
@@ -43,18 +43,28 @@ done in three different ways:
 
 #### 2 - metaPR2 shiny R package
 
-##### Install the package from GitHub
+##### 2.1 - Install the package from GitHub
 
 ``` r
-install.packages(devtools)
+install.packages("devtools")
+install.packages("remotes")
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+remotes::install_version("qs", version = "0.27.3")
+remotes::install_version("blaster", version = "1.0.7")
+
+BiocManager::install("phyloseq")
+BiocManager::install("Biostrings")
 
 devtools::install_github("pr2database/metapr2-shiny")
 ```
 
-Note: You may have to install some packages required by metapr2 if they
-are not installed on your machine
+Note: You may have to install some CRAN packages required by metapr2 if
+they are not installed on your machine
 
-##### Launch shiny interface with function run_app()
+##### 2.2 - Launch shiny interface with function run_app()
 
 ``` r
 metapr2::run_app()
@@ -98,19 +108,16 @@ metabarcodes with an emphasis on protists. Molecular Ecology Resources
 
 - Source code: <https://github.com/pr2database/metapr2-shiny>
 
-- Docker (only version \<= 1.0.2):
-  <https://hub.docker.com/repository/docker/vaulot/metapr2>
-
 ### Maintainer
 
 - Daniel Vaulot: <vaulot@gmail.com>
 
 ### Contributors
 
-- Daniel Vaulot, CNRS Roscoff, NTU-ASE Geek lab
-- Adriana Lopes dos Santos, NTU-ASE Geek lab
+- Daniel Vaulot, CNRS Roscoff, U. of Oslo
+- Adriana Lopes dos Santos, U. of Oslo
 - Clarence Sim, NTU-ASE Geek lab
-- Denise Ong, NTU-ASE Geek lab
+- Denise Ong, U. of Oslo
 - Bryan Teo, NTU-ASE Geek lab
 - Charlie Biwer, Uppsala University Sweden
 - Mahwash Jamy, Uppsala University Sweden

@@ -318,6 +318,16 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
         asv_clustered <- FALSE
       }
       
+      if (authentification$user == "v4") {
+        dir_asv_set <- "data-qs-4.0"
+        asv_clustered <- FALSE
+      }
+      
+      if (authentification$user == "pelago") {
+        dir_asv_set <- "data-qs-pelago"
+        asv_clustered <- TRUE
+      }
+      
       if(asv_clustered) {
         file_asv_set <- "asv_set_cluster.qs"
       } else {
@@ -372,7 +382,7 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       message("Samples: ", nrow(asv_set_all$samples))
       message("df: ",nrow(asv_set_all$df))
       message("Fasta: ",nrow(asv_set_all$fasta))
-      message("Mem used (GB): ", pryr::mem_used()/10^9)
+      message("Mem used (GB): ", lobstr::mem_used()/10^9)
       
       return(asv_set_all)
       
@@ -430,7 +440,7 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
     })
     
     fasta_selected <- reactive({
-      message("Mem used (GB) after df_selected : ", pryr::mem_used()/10^9)
+      message("Mem used (GB) after df_selected : ", lobstr::mem_used()/10^9)
       asv_set()$fasta %>% 
         filter(asv_code %in% df_selected()$asv_code)
     })
