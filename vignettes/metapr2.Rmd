@@ -31,7 +31,18 @@ You can also:
 Install from the GitHub web site using the devtools package
 
 ```{r, eval=FALSE, echo=TRUE}
-install.packages(devtools)
+install.packages("devtools")
+install.packages("remotes")
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+remotes::install_version("qs", version = "0.27.3")
+remotes::install_version("blaster", version = "1.0.7")
+
+BiocManager::install("phyloseq")
+BiocManager::install("Biostrings")
+
 devtools::install_github("pr2database/metapr2-shiny")
 ```
 

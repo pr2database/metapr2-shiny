@@ -30,5 +30,6 @@ pkgdown::build_reference()
 
 pkgdown::build_article("vignette-shiny-presentation")
 pkgdown::build_article("pr2_01_stats")
+pkgdown::build_article("metapr2")
 
 pkgdown::build_articles_index()
