@@ -13,8 +13,12 @@
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**: 3.0.0 - Data sets: 67 - Samples: 7 766 - ASVs clustered: 94
-373 - ASVs unclustered: 113 989
+**Version**: 3.0.0
+
+- Data sets: 67
+- Samples: 7 766
+- ASVs clustered: 94 373
+- ASVs unclustered: 113 989
 
 **Release date**: 2023-09-26
 

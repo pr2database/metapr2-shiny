@@ -29,6 +29,7 @@ knitr::opts_chunk$set(
 ## A database of 18S rRNA metabarcodes
 
 **Version**:  3.0.0
+
 - Data sets: 67
 - Samples: 7 766
 - ASVs clustered: 94 373
