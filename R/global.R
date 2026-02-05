@@ -2,8 +2,8 @@
 
 #' @import shiny
 
-# To display text boxes in Markdown
-#' @import markdown 
+# # To display text boxes in Markdown
+# #' @import markdown 
 
 #' @import dplyr
 #' @import stringr

@@ -13,8 +13,12 @@
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**: 3.0.0 Data sets: 67 Samples: 7 766 ASVs clustered: 94 373
-ASVs unclustered: 113 989
+**Version**: 3.0.0
+
+- Data sets: 67
+- Samples: 7 766
+- ASVs clustered: 94 373
+- ASVs unclustered: 113 989
 
 **Release date**: 2023-09-26
 
@@ -28,52 +32,75 @@ reprocessed and assigned using PR2.
 Access to the database to map, search and download the barcodes can be
 done in three different ways:
 
-- Using a [web interface](http://shiny.metapr2.org).
+1.  Using a [web interface](http://shiny.metapr2.org).
 
-- Download the R package and launch the shiny application.
+2.  Run as docker container. \<= **This is the best way**
 
-<!-- This is commented out.
-3 - Download and run a Docker container 
- -->
+3.  Download the R package and launch the shiny application (hardest).
+
+Please privilege method \# 2 (Docker Image) if you are going to use
+metapr2 extensively or for a course as the server will crash if too many
+users are logged.
 
 #### 1 - Web interface
 
 - Launch in your browser: <http://shiny.metapr2.org>
 - Help : <https://pr2database.github.io/metapr2-shiny/articles/>
 
-#### 2 - metaPR2 shiny R package
+#### 2 - metaPR2 Docker container (Easier)
 
-##### Install the package from GitHub
+Available from [Docker
+repository](https://hub.docker.com/repository/docker/vaulot/metapr2)
+
+- Install docker on your computer: <https://docs.docker.com/desktop/>
+
+- At shell prompt (can be Linux or Windows Powershell)
+
+``` bash
+# Download container
+docker pull vaulot/metapr2:latest
+
+# Launch container
+docker run --rm -p 8080:8080 vaulot/metapr2
+```
+
+- In your browser: <http://localhost:8080/>
+
+#### 3 - metaPR2 shiny R package (Harder)
+
+Note: *You may run into trouble because quite a few packages need to be
+installed.*
+
+##### 3.1 - Install the R package from GitHub
+
+- Launch R or R Studio
+- Run the following lines.You may have to install some CRAN packages
+  required by metapr2 if they are not installed on your machine.
 
 ``` r
-install.packages(devtools)
+install.packages("devtools")
+install.packages("remotes")
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+remotes::install_version("qs", version = "0.27.3")
+remotes::install_version("blaster", version = "1.0.7")
+
+BiocManager::install("phyloseq")
+BiocManager::install("Biostrings")
 
 devtools::install_github("pr2database/metapr2-shiny")
 ```
 
-Note: You may have to install some packages required by metapr2 if they
-are not installed on your machine
-
-##### Launch shiny interface with function run_app()
+##### 3.2 - Launch shiny interface with function run_app()
 
 ``` r
 metapr2::run_app()
 ```
 
 <!-- This is commented out.
-#### 3 - metaPR2 Docker container
-&#10;Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
-&#10;* Install docker on your computer: https://docs.docker.com/desktop/
-&#10;* At shell prompt (can be Linux or Windows Powershell)
-&#10;
-``` bash
-# Download container
-docker pull vaulot/metapr2:v1.0.2
-&#10;# Launch container
-docker run --rm -p 8080:8080 metapr2
-&#10;```
-&#10;* In your browser: http://localhost:8080/
- &#10; -->
+&#10; -->
 
 ### Help
 
@@ -98,19 +125,16 @@ metabarcodes with an emphasis on protists. Molecular Ecology Resources
 
 - Source code: <https://github.com/pr2database/metapr2-shiny>
 
-- Docker (only version \<= 1.0.2):
-  <https://hub.docker.com/repository/docker/vaulot/metapr2>
-
 ### Maintainer
 
 - Daniel Vaulot: <vaulot@gmail.com>
 
 ### Contributors
 
-- Daniel Vaulot, CNRS Roscoff, NTU-ASE Geek lab
-- Adriana Lopes dos Santos, NTU-ASE Geek lab
+- Daniel Vaulot, CNRS Roscoff, U. of Oslo
+- Adriana Lopes dos Santos, U. of Oslo
 - Clarence Sim, NTU-ASE Geek lab
-- Denise Ong, NTU-ASE Geek lab
+- Denise Ong, U. of Oslo
 - Bryan Teo, NTU-ASE Geek lab
 - Charlie Biwer, Uppsala University Sweden
 - Mahwash Jamy, Uppsala University Sweden

@@ -44,9 +44,7 @@ shinymanager::set_labels(
 
 ui <- fluidPage(
   
-  # Booststrap theme:https://rstudio.github.io/shinythemes/
-  # theme = bslib::bs_theme(bootswatch = "yeti"),
-  
+
   # Tracking not necessary in ui
   # shinylogs::use_tracking(),
   

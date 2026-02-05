@@ -20,7 +20,6 @@ RoxygenNote: 7.1.2
 Imports: 
     Biostrings,
     blaster (>= 1.0.7),
-    bslib,
     dplyr,
     DT,
     forcats,
@@ -29,7 +28,6 @@ Imports:
     leaflet,
     leaflet.minicharts,
     lubridate,
-    markdown,
     patchwork,
     phyloseq,
     pkgload,

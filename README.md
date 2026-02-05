@@ -32,22 +32,50 @@ reprocessed and assigned using PR2.
 Access to the database to map, search and download the barcodes can be
 done in three different ways:
 
-- Using a [web interface](http://shiny.metapr2.org).
+1.  Using a [web interface](http://shiny.metapr2.org).
 
-- Download the R package and launch the shiny application.
+2.  Run as docker container. \<= **This is the best way**
 
-<!-- This is commented out.
-3 - Download and run a Docker container 
- -->
+3.  Download the R package and launch the shiny application (hardest).
+
+Please privilege method \# 2 (Docker Image) if you are going to use
+metapr2 extensively or for a course as the server will crash if too many
+users are logged.
 
 #### 1 - Web interface
 
 - Launch in your browser: <http://shiny.metapr2.org>
 - Help : <https://pr2database.github.io/metapr2-shiny/articles/>
 
-#### 2 - metaPR2 shiny R package
+#### 2 - metaPR2 Docker container (Easier)
 
-##### 2.1 - Install the package from GitHub
+Available from [Docker
+repository](https://hub.docker.com/repository/docker/vaulot/metapr2)
+
+- Install docker on your computer: <https://docs.docker.com/desktop/>
+
+- At shell prompt (can be Linux or Windows Powershell)
+
+``` bash
+# Download container
+docker pull vaulot/metapr2:latest
+
+# Launch container
+docker run --rm -p 8080:8080 vaulot/metapr2
+```
+
+- In your browser: <http://localhost:8080/>
+
+#### 3 - metaPR2 shiny R package (Harder)
+
+Note: *You may run into trouble because quite a few packages need to be
+installed.*
+
+##### 3.1 - Install the R package from GitHub
+
+- Launch R or R Studio
+- Run the following lines.You may have to install some CRAN packages
+  required by metapr2 if they are not installed on your machine.
 
 ``` r
 install.packages("devtools")
@@ -65,29 +93,14 @@ BiocManager::install("Biostrings")
 devtools::install_github("pr2database/metapr2-shiny")
 ```
 
-Note: You may have to install some CRAN packages required by metapr2 if
-they are not installed on your machine
-
-##### 2.2 - Launch shiny interface with function run_app()
+##### 3.2 - Launch shiny interface with function run_app()
 
 ``` r
 metapr2::run_app()
 ```
 
 <!-- This is commented out.
-#### 3 - metaPR2 Docker container
-&#10;Available from Docker repository: https://hub.docker.com/repository/docker/vaulot/metapr2
-&#10;* Install docker on your computer: https://docs.docker.com/desktop/
-&#10;* At shell prompt (can be Linux or Windows Powershell)
-&#10;
-``` bash
-# Download container
-docker pull vaulot/metapr2:v1.0.2
-&#10;# Launch container
-docker run --rm -p 8080:8080 metapr2
-&#10;```
-&#10;* In your browser: http://localhost:8080/
- &#10; -->
+&#10; -->
 
 ### Help
 
