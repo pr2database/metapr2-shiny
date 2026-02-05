@@ -25,6 +25,7 @@ The metaPR2 shiny application allowing access to the metaPR2 database is provide
 You can also:
 
 * Use the [web interface](https://shiny.metapr2.org/).
+* Download and run the Docker image (see [GitHub page](https://github.com/pr2database/metapr2-shiny))
 
 # Installation
 
