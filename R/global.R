@@ -66,7 +66,7 @@ print("Read credentials")
 
 file_loaded  <- tryCatch(
   {
-    credentials <- qs::qread(system.file("data-qs/credentials.qs", package = "metapr2", mustWork = TRUE))
+    credentials <- qs2::qs_read(system.file("data-qs/credentials.qs2", package = "metapr2", mustWork = TRUE))
     TRUE                # Returns true if loaded
   },
   error=function(cond) {
@@ -78,7 +78,7 @@ file_loaded  <- tryCatch(
 ## Using the explicit way
 
 if(!file_loaded){
-  credentials <- qs::qread("inst/data-qs/credentials.qs")
+  credentials <- qs2::qs_read("inst/data-qs/credentials.qs2")
   print("Using full path")
 }
 
@@ -87,7 +87,7 @@ print("Read globals")
 
 file_loaded  <- tryCatch(
   {
-    global <- qs::qread(system.file("data-qs/global.qs", package = "metapr2", mustWork = TRUE))
+    global <- qs2::qs_read(system.file("data-qs/global.qs2", package = "metapr2", mustWork = TRUE))
     TRUE              # Returns true if loaded
   },
   error=function(cond) {
@@ -99,7 +99,7 @@ file_loaded  <- tryCatch(
 ## Using the explicit way
 
 if(!file_loaded){
-  global <- qs::qread("inst/data-qs/global.qs")
+  global <- qs2::qs_read("inst/data-qs/global.qs2")
   print("Using full path")
 }
 

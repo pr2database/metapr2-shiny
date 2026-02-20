@@ -318,6 +318,11 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
         asv_clustered <- FALSE
       }
       
+      if (authentification$user == "v2") {
+        dir_asv_set <- "data-qs-version-2.0"
+        asv_clustered <- FALSE
+      }
+      
       if (authentification$user == "v4") {
         dir_asv_set <- "data-qs-4.0"
         asv_clustered <- FALSE
@@ -329,9 +334,9 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       }
       
       if(asv_clustered) {
-        file_asv_set <- "asv_set_cluster.qs"
+        file_asv_set <- "asv_set_cluster.qs2"
       } else {
-        file_asv_set <- "asv_set.qs"
+        file_asv_set <- "asv_set.qs2"
       }
       
       
@@ -343,7 +348,7 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       
       file_loaded  <- tryCatch(
         {
-          asv_set_all <- qs::qread(system.file(dir_asv_set,  
+          asv_set_all <- qs2::qs_read(system.file(dir_asv_set,  
                                                file_asv_set, 
                                                package = "metapr2", 
                                                mustWork = TRUE))
@@ -359,7 +364,7 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
       # Reading the data - Using the explicit way ------------------------------
       
       if(!file_loaded){
-        asv_set_all <- qs::qread(str_c("inst/", dir_asv_set, "/", file_asv_set))
+        asv_set_all <- qs2::qs_read(str_c("inst/", dir_asv_set, "/", file_asv_set))
         message("Using full path")
       }
       message("After explicit - File loaded: ", file_loaded)

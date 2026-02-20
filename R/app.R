@@ -74,7 +74,7 @@ ui <- fluidPage(
     tags_bottom = tags$div(
       checkboxInput("asv_clustered", "Use clustered ASVs (see Help)", value = TRUE, width = NULL),
       tags$p("  "),
-      tags$h4("metaPR2  version: 3.0.0"),
+      tags$h4("metaPR2  version: 3.0.1"),
       tags$br(),
       tags$h4("Datasets version: 3.0"),
       tags$h5("Datasets #: 65"),

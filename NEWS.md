@@ -1,3 +1,14 @@
+# metapr2 3.0.1
+
+Released: 2026-02-18
+
+### Web application and R package
+
+* Use the [qs2 package](https://github.com/qsbase/qs2) instead of qs to read the data
+* Available as a [Docker repository](https://hub.docker.com/repository/docker/vaulot/metapr2) (preferred solution for off-line use)
+
+---
+
 # metapr2 3.0.0
 
 Released: 2025-09-26

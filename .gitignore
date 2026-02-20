@@ -7,6 +7,8 @@ archives
 data-archives
 data-raw
 inst/data-qs*
+!inst/data-qs
 sandbox
 tests
 logs*
+docker.sh
