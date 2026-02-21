@@ -21,21 +21,21 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
-![Release](https://img.shields.io/badge/release-3.0.0-blue.svg)
-![Date](https://img.shields.io/badge/date-26%20Sep%202025-lightgrey.svg)
+![Release](https://img.shields.io/badge/release-3.0.1-blue.svg)
+![Date](https://img.shields.io/badge/date-18%20Feb%202026-lightgrey.svg)
 
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**:  3.0.0
+**Version**:  3.0.1
 
 - Data sets: 67
 - Samples: 7 766
 - ASVs clustered: 94 373
 - ASVs unclustered: 113 989
 
-**Release date**: 2023-09-26
+**Release date**: 2026-02-18
 
 ### Presentation
 
@@ -67,7 +67,7 @@ Available from [Docker repository](https://hub.docker.com/repository/docker/vaul
 
 -   Install docker on your computer: <https://docs.docker.com/desktop/>
 
--   At shell prompt (can be Linux or Windows Powershell)
+-   At shell prompt (can be Linux, Mac or Windows [Powershell](https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/01-getting-started?view=powershell-7.5)). Note that a Powershell window can be opened from [RStudio Terminal](https://support.posit.co/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal-in-the-RStudio-IDE) or [VSCode Terminal](https://code.visualstudio.com/docs/terminal/basics).
 
 ``` bash
 # Download container
@@ -77,7 +77,8 @@ docker pull vaulot/metapr2:latest
 docker run --rm -p 8080:8080 vaulot/metapr2
 ```
 
--   In your browser: <http://localhost:8080/>
+- In your browser: <http://localhost:8080/>
+- To exit type CTRL-C in the shell prompt
 
 #### 3 - metaPR2 shiny R package (Harder)
 
@@ -95,7 +96,6 @@ install.packages("remotes")
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-remotes::install_version("qs", version = "0.27.3")
 remotes::install_version("blaster", version = "1.0.7")
 
 BiocManager::install("phyloseq")
