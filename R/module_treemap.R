@@ -75,7 +75,7 @@ treemap <- function(df, taxo_level) {
 treemapUI <- function(id) {
   ns <- NS(id)
   tagList(
-    p("Number of reads have been normalized (not rarefield) to 100 with 3 decimals."), 
+    p("Number of reads have been normalized (not rarefied) to 100 with 3 decimals."), 
     
     htmlOutput(ns("asv_number")),
     htmlOutput(ns("taxo_selected")),

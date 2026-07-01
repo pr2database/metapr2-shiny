@@ -74,14 +74,21 @@ ui <- fluidPage(
     tags_bottom = tags$div(
       checkboxInput("asv_clustered", "Use clustered ASVs (see Help)", value = TRUE, width = NULL),
       tags$p("  "),
-      tags$h4("metaPR2  version: 3.0.1"),
-      tags$br(),
-      tags$h4("Datasets version: 3.0"),
-      tags$h5("Datasets #: 65"),
+      # tags$h4("MetaPR2 datasets version: 3.0"),
+      # tags$h5("Datasets #: 65"),
+      tags$h4("MetaPR2 datasets version: 4.0"),
+      tags$h5("Datasets #: 187"),
       tags$h5("Assignment: PR2 version 5.1.0"),
       tags$br(),
-      tags$p("No password needed. For other datasets, please  contact ",
-        tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot")
+      tags$p("No password needed for public datasets."),
+      tags$br(),
+      tags$p("For unreleased datasets: "),  
+      # tags$p("- version 4.0 - 18S rRNA "),      
+      tags$p("- version 5.0 - plastid 16S rRNA "),   
+      tags$p("please  contact ",
+      tags$a(href = "mailto:vaulot@gmail.com", target="_top", "Daniel Vaulot"),
+      tags$br(),
+      tags$h5("metaPR2 Shiny application version: 4.0.0")
       )
     )
    ),
@@ -137,7 +144,7 @@ server <- function(input, output, session) {
     
   # Just print version and whether ASVs are clustered or
     
-    display_info_server("info", authentification, input$asv_clustered)
+    display_info_server("info", authentification, input$asv_clustered, asv_set$samples_selected)
 
   # Utils - Dynamic taxonomy boxes
 

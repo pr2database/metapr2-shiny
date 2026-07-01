@@ -1,4 +1,4 @@
-# Date 2020-02-21
+# Date 2026-02-21
 
 # Notes: 
 # - Necessary to list all libraries
@@ -84,9 +84,13 @@ COPY README.md ./
 COPY *.R ./
 
 COPY /R ./R
-COPY /inst/data-qs  ./inst/data-qs
 COPY /inst/img  ./inst/img
 COPY /inst/readme  ./inst/readme
+COPY /inst/data-qs  ./inst/data-qs
+COPY /inst/data-qs-pelago  ./inst/data-qs-pelago
+COPY /inst/data-qs-pacbio  ./inst/data-qs-pacbio
+COPY /inst/data-qs-nansen  ./inst/data-qs-nansen
+COPY /inst/data-qs-5.0  ./inst/data-qs-5.0
 
 # For testing
 # CMD Rscript R/test.R

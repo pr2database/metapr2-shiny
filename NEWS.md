@@ -1,3 +1,43 @@
+# metapr2 4.0.0
+
+Released: 2026-07-01
+
+### Database 
+
+#### Statistics
+
+- Data sets: 187
+- Samples: 26 315
+- ASVs clustered: 229 793
+- ASVs clustered: 275 680
+
+#### New entries
+* __120 new datasets__
+* __18 549 new samples__
+
+This release includes all EukBanks datasets that contained more than 20 samples.
+
+#### Citations
+Please refer to the web interface to see the reference for each dataset.  
+
+Berney, C., Mahé, F., Henry, N., Lara, E., de Vargas, C., & consortium, E. (2023). EukBank 18S V4 dataset. Zenodo. https://doi.org/10.5281/zenodo.7804946
+
+
+
+---
+
+# metapr2 3.0.2
+
+Released: 2026-04-15
+
+### Web application and R package
+
+* Slight modification of interface
+* Include rRNA gene choice (nuclear 18S, plastid 16S or nuclear operon).
+
+---
+
+
 # metapr2 3.0.1
 
 Released: 2026-02-18

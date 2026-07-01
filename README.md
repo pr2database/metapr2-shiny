@@ -6,21 +6,21 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
-![Release](https://img.shields.io/badge/release-3.0.1-blue.svg)
-![Date](https://img.shields.io/badge/date-18%20Feb%202026-lightgrey.svg)
+![Release](https://img.shields.io/badge/release-4.0.0-blue.svg)
+![Date](https://img.shields.io/badge/date-1%20July%202026-lightgrey.svg)
 
 <!-- badges: end -->
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**: 3.0.1
+**Version**: 4.0.0
 
-- Data sets: 67
-- Samples: 7 766
-- ASVs clustered: 94 373
-- ASVs unclustered: 113 989
+- Data sets: 187
+- Samples: 26 315
+- ASVs clustered: 229 793
+- ASVs clustered: 275 680
 
-**Release date**: 2026-02-18
+**Release date**: 2026-07-01
 
 ### Presentation
 
@@ -32,7 +32,7 @@ reprocessed and assigned using PR2.
 Access to the database to map, search and download the barcodes can be
 done in three different ways:
 
-1.  Using a [web interface](http://shiny.metapr2.org).
+1.  Using a [web interface](http://app.metapr2.org).
 
 2.  Run as docker container. \<= **This is the best way**
 
@@ -44,7 +44,7 @@ users are logged.
 
 #### 1 - Web interface
 
-- Launch in your browser: <http://shiny.metapr2.org>
+- Launch in your browser: <http://app.metapr2.org>
 - Help : <https://pr2database.github.io/metapr2-shiny/articles/>
 
 #### 2 - metaPR2 Docker container (Easier)
@@ -143,3 +143,4 @@ metabarcodes with an emphasis on protists. Molecular Ecology Resources
 - Bryan Teo, NTU-ASE Geek lab
 - Charlie Biwer, Uppsala University Sweden
 - Mahwash Jamy, Uppsala University Sweden
+- EukBank core team (Frédric Mahé, Nicolas Henry, Cédric Bernye)

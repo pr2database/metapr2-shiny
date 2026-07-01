@@ -111,6 +111,7 @@ fasta_write <- function(df,file_name, compress=FALSE, taxo_include=TRUE, taxo_se
   
   if (taxo_include==TRUE) {
     names(seq_out) <- str_c(df$seq_name,
+                            df$domain,
                             df$supergroup,
                             df$division,
                             df$subdivision,

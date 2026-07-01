@@ -44,7 +44,7 @@ data_datasets_table_UI <- function(id) {
   tagList(
     
     h4("Quick dataset selection."),
-    checkboxGroupInput(ns("dataset_group"), "Dataset groups", inline = TRUE,  
+    checkboxGroupInput(ns("dataset_group"), "Dataset groups", inline = TRUE, width = "60%", 
                        choiceNames = global$datasets$group, choiceValues = global$datasets$filter),
     h4("Save/Load settings"),
     fluidRow(
@@ -63,12 +63,12 @@ data_samples_UI <- function(id) {
   tagList(
 
     h3("Select Samples"),
-    
-    shinyWidgets::pickerInput(ns("gene_region"), "Gene regions", choices = global$gene_regions, selected = "V4", multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("gene"), "Gene", choices = global$genes, selected = global$genes, multiple = TRUE, options= options_picker),    
+    shinyWidgets::pickerInput(ns("gene_region"), "Gene regions", choices = global$gene_regions, selected = c("V4", "V4-V5"), multiple = TRUE, options= options_picker),
     shinyWidgets::pickerInput(ns("DNA_RNA"), "DNA or RNA", choices = global$DNA_RNAs, selected = "DNA", multiple = TRUE, options= options_picker),
-    shinyWidgets::pickerInput(ns("ecosystem"), "Ecosystems", choices = global$ecosystems, selected = global$ecosystems, multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("ecosystem"), "Ecosystems", choices = global$ecosystems, selected = "oceanic", multiple = TRUE, options= options_picker),
     shinyWidgets::pickerInput(ns("substrate"), "Substrates", choices = global$substrates, selected = "water", multiple = TRUE, options= options_picker),
-    shinyWidgets::pickerInput(ns("fraction_name"), "Size fractions", choices = global$fraction_names, selected = c("pico", "total"), multiple = TRUE, options= options_picker),
+    shinyWidgets::pickerInput(ns("fraction_name"), "Size fractions", choices = global$fraction_names, selected = "total", multiple = TRUE, options= options_picker),
     shinyWidgets::pickerInput(ns("depth_level"), "Depth levels", choices = global$depth_levels, selected = "surface", multiple = TRUE, options= options_picker),
     
   )
@@ -93,7 +93,8 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
     # Validate sample selection -----------------------------------------------
     
     iv_samples <- shinyvalidate::InputValidator$new()
-    
+
+    iv_samples$add_rule("gene", shinyvalidate::sv_required(message = "Choose at least one gene"))    
     iv_samples$add_rule("gene_region", shinyvalidate::sv_required(message = "Choose at least one gene region"))
     iv_samples$add_rule("DNA_RNA", shinyvalidate::sv_required(message = "Choose at least one DNA or RNA"))
     iv_samples$add_rule("ecosystem", shinyvalidate::sv_required(message = "Choose at least one ecosystem"))
@@ -138,9 +139,10 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
     datasets_table <- reactive ({
       req(asv_set())
       DT::datatable(asv_set()$datasets %>% 
-                      select(dataset_id, dataset_name, region, paper_reference, bioproject_accession, sequencing_technology, sample_number, asv_number, n_reads_mean) %>%
+                      select( metapr2_version, gene, gene_region,  dataset_id,dataset_name, region, paper_reference, bioproject_accession, 
+                              sequencing_technology, sample_number, asv_number, n_reads_mean) %>%
                       mutate(selected = ifelse(dataset_id %in% input$datasets_selected_id,TRUE, FALSE)) %>%
-                      mutate(paper_reference = iconv(paper_reference, "latin1", to = "UTF-8")) %>% 
+                      # mutate(paper_reference = iconv(paper_reference, "latin1", to = "UTF-8")) %>% 
                       mutate(bioproject_accession = if_else((is.na(bioproject_accession)|str_length(bioproject_accession) > 12) ,
                                                             bioproject_accession,
                                                             glue::glue("<a href='https://www.ncbi.nlm.nih.gov/bioproject/{bioproject_accession}'
@@ -153,7 +155,7 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
                     options = list(
                       autoWidth = FALSE,
                       scrollX=FALSE,
-                      columnDefs = list(list(width = '10px', targets = 7)))
+                      columnDefs = list(list(width = '10px', targets = 8)))
       ) %>% DT::formatStyle("selected",  target = 'row',
                             backgroundColor = DT::styleEqual(c(FALSE, TRUE), c('white', 'lightcyan'))
       )
@@ -190,13 +192,17 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
     
     # Update Sample Checkboxes With the values possible for the datasets selected ---
     
-    update_picker <- function(asv_set, variable, values_selected, datasets_id) {
+    update_picker <- function(asv_set, variable, values_initial, values_selected, datasets_id) {
       choices <- asv_set$samples %>% 
         filter(dataset_id %in% datasets_id) %>% 
         arrange(.data[[variable]]) %>% 
         pull(.data[[variable]]) %>% 
         unique() %>% 
         as.character()
+
+      choices <- choices[match(values_initial, choices)] 
+      choices <- choices[!is.na(choices)]
+
       if (is.null(values_selected)) values_selected <- choices
       shinyWidgets::updatePickerInput( session = session,
                                        inputId = variable, 
@@ -206,13 +212,14 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
     }
     
     observeEvent(input$datasets_selected_id,{
-      req(asv_set())
-      update_picker(asv_set(), "gene_region", input$gene_region, input$datasets_selected_id)
-      update_picker(asv_set(), "DNA_RNA", input$DNA_RNA, input$datasets_selected_id)
-      update_picker(asv_set(), "ecosystem", input$ecosystem, input$datasets_selected_id)
-      update_picker(asv_set(), "substrate", input$substrate, input$datasets_selected_id)
-      update_picker(asv_set(), "fraction_name",  input$fraction_name, input$datasets_selected_id)
-      update_picker(asv_set(), "depth_level", input$depth_level, input$datasets_selected_id)
+      req(asv_set())      
+      update_picker(asv_set(), "gene", global$genes, input$gene, input$datasets_selected_id)
+      update_picker(asv_set(), "gene_region", global$gene_regions, input$gene_region, input$datasets_selected_id)
+      update_picker(asv_set(), "DNA_RNA", global$DNA_RNA ,input$DNA_RNA, input$datasets_selected_id)
+      update_picker(asv_set(), "ecosystem", global$ecosystems ,input$ecosystem, input$datasets_selected_id)
+      update_picker(asv_set(), "substrate", global$substrates ,input$substrate, input$datasets_selected_id)
+      update_picker(asv_set(), "fraction_name",  global$fraction_names, input$fraction_name, input$datasets_selected_id)
+      update_picker(asv_set(), "depth_level", global$depth_levels, input$depth_level, input$datasets_selected_id)
     })
     
     # Create settings -----------------------------------------------------------
@@ -258,12 +265,14 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
             selected =  settings_new$datasets_selected_id,
             options= options_picker_datasets
           )
-          update_picker(asv_set(), "gene_region", settings_new$gene_region, settings_new$datasets_selected_id)
-          update_picker(asv_set(), "DNA_RNA", settings_new$DNA_RNA, settings_new$datasets_selected_id)
-          update_picker(asv_set(), "ecosystem", settings_new$ecosystem, settings_new$datasets_selected_id)
-          update_picker(asv_set(), "substrate", settings_new$substrate, settings_new$datasets_selected_id)
-          update_picker(asv_set(), "fraction_name", settings_new$fraction_name, settings_new$datasets_selected_id)
-          update_picker(asv_set(), "depth_level", settings_new$depth_level, settings_new$datasets_selected_id)
+
+          update_picker(asv_set(), "gene", global$genes, input$gene, input$datasets_selected_id)
+          update_picker(asv_set(), "gene_region", global$gene_regions, input$gene_region, input$datasets_selected_id)
+          update_picker(asv_set(), "DNA_RNA", global$DNA_RNA ,input$DNA_RNA, input$datasets_selected_id)
+          update_picker(asv_set(), "ecosystem", global$ecosystems ,input$ecosystem, input$datasets_selected_id)
+          update_picker(asv_set(), "substrate", global$substrates ,input$substrate, input$datasets_selected_id)
+          update_picker(asv_set(), "fraction_name",  global$fraction_names, input$fraction_name, input$datasets_selected_id)
+          update_picker(asv_set(), "depth_level", global$depth_levels, input$depth_level, input$datasets_selected_id)
         },
           error=function(cond) {
             message("Invalid yaml file")
@@ -294,18 +303,8 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
         dir_asv_set <- "data-qs"
       }
       
-      if (authentification$user == "v1") {
-        dir_asv_set <- "data-qs-1.0"
-      }
-      
       if (authentification$user == "private") {
-        dir_asv_set <- "data-qs-private"
-      }
-      if (authentification$user == "ge") {
-        dir_asv_set <- "data-qs-ge"
-      }
-      if (authentification$user == "ge2") {
-        dir_asv_set <- "data-qs-ge2"
+        dir_asv_set <- "data-qs-private-3.0"
       }
       
       if (authentification$user == "nansen") {
@@ -317,15 +316,21 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
         dir_asv_set <- "data-qs-pacbio"
         asv_clustered <- FALSE
       }
-      
+     
       if (authentification$user == "v2") {
-        dir_asv_set <- "data-qs-version-2.0"
-        asv_clustered <- FALSE
+        dir_asv_set <- "data-qs-2.0"
       }
-      
+
+      if (authentification$user == "v3") {
+        dir_asv_set <- "data-qs-3.0"
+      }
+
       if (authentification$user == "v4") {
         dir_asv_set <- "data-qs-4.0"
-        asv_clustered <- FALSE
+      }
+
+      if (authentification$user == "v5") {
+        dir_asv_set <- "data-qs-5.0"
       }
       
       if (authentification$user == "pelago") {
@@ -412,7 +417,8 @@ dataServer <- function(id, taxo, authentification, asv_clustered) {
     
     samples_selected <- reactive({
       asv_set()$samples%>% 
-        filter(gene_region %in% input$gene_region,
+        filter(gene %in% input$gene,
+               gene_region %in% input$gene_region,
                DNA_RNA %in% input$DNA_RNA,
                ecosystem %in% input$ecosystem,
                depth_level %in% input$depth_level,

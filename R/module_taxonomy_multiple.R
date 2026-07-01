@@ -2,7 +2,7 @@ options_picker_taxo <- shinyWidgets::pickerOptions(
   # actionsBox = TRUE,
   selectedTextFormat = "count > 10",
   liveSearch = TRUE,
-   noneSelectedText = "All"
+  noneSelectedText = "All"
 )
 
 options_picker_exclude <- shinyWidgets::pickerOptions(
@@ -25,14 +25,29 @@ taxo_level_number <- function(taxo_level) {
 # Small function to return the taxo level and taxon name 
 # =================================
 
-taxo_selected <- function(supergroup, division, subdivision, class, order, family, genus, species, asv_code) {
+taxo_selected <- function(domain, supergroup, division, 
+                          subdivision, class, order, family, 
+                          genus, species, asv_code) {
   
-  taxo_1 <- c(supergroup[1], division[1], subdivision[1], class[1], order[1], family[1], genus[1], species[1], asv_code[1])
-  taxo_list <- list(supergroup = supergroup, division=division, subdivision=subdivision, class=class, order = order, family = family, genus = genus, species = species, asv_code=asv_code)
+  taxo_1 <- c(domain[1], supergroup[1], division[1], 
+              subdivision[1], class[1], order[1], family[1], 
+              genus[1], species[1], asv_code[1])
+  taxo_list <- list(domain = domain, supergroup = supergroup, division=division, 
+                    subdivision=subdivision, class=class, order = order, family = family, 
+                    genus = genus, species = species, asv_code=asv_code)
   
   # The levels for which nothing is selected return NULL and the length of the vector gives the first rank which is NULL
   
-  taxo_level <- global$taxo_levels[length(taxo_1) + 1]
+  # taxo_level <- global$taxo_levels[length(taxo_1) + 1] # This was when using the Supergroup as base
+
+  message("Length of taxo_1: ", length(taxo_1))
+  message("taxo_1: ", str_flatten(taxo_1, collapse ="; "))
+
+  if (length(taxo_1) == 0) {
+    return( c(level = "domain", list(name = "Eukaryota"), taxo_list))
+  }
+
+  taxo_level <- global$taxo_levels[length(taxo_1)] # Using domain as base
   
   taxo_name <- taxo_list[[taxo_level]]
   
@@ -43,7 +58,7 @@ taxo_selected <- function(supergroup, division, subdivision, class, order, famil
   if (taxo_level == "domain") taxo_name = "Eukaryota"
   
   message("Taxo level: ", taxo_level)
-  message(taxo_name)
+  message("Taxo name: ", str_flatten(taxo_name, collapse = "; "))
   
   # Very strange, the if one puts the name in the list then if there are more than one it is returned as several names (name1, name2 etc...) 
   # See: https://stackoverflow.com/questions/9031819/add-named-vector-to-a-list
@@ -67,15 +82,19 @@ taxoUI <- function(id) {
     p("RESET + VALIDATE to cancel choices"),
     p(),
     
-    shinyWidgets::pickerInput(ns("supergroup"), "Supergroup", choices = unique(global$pr2_taxo$supergroup), selected = NULL, multiple = TRUE, options= options_picker_taxo),
+    shinyWidgets::pickerInput(ns("domain"), "Domain (select Eukaryota:plas for 16S plastid)", choices = c("Eukaryota", "Eukaryota:plas"), 
+                                 selected =  character(0) , multiple = TRUE, options= options_picker_taxo),
     
     # Use the purr map function to create the pickerInput
-    purrr::map(global$taxo_levels[3:global$number_of_taxo_levels], ~  shinyWidgets::pickerInput(ns(.x), stringr::str_to_title(.x) , choices = NULL, selected = NULL, multiple = TRUE, options= options_picker_taxo)),
-    
+    purrr::map(global$taxo_levels[2:global$number_of_taxo_levels], 
+               ~  shinyWidgets::pickerInput(ns(.x), stringr::str_to_title(.x) , 
+                                            choices = NULL, selected = NULL, multiple = TRUE, 
+                                            options= options_picker_taxo)),
     p(),
     
     h3("Exclude Taxa"),
-    shinyWidgets::pickerInput(ns("taxa_excluded"), "", choices = c("Metazoa", "Streptophyta", "Fungi"), selected = NULL, multiple = TRUE, options= options_picker_exclude),
+    shinyWidgets::pickerInput(ns("taxa_excluded"), "", choices = c("Metazoa", "Streptophyta", "Fungi"), 
+                              selected = NULL, multiple = TRUE, options= options_picker_exclude),
     p(),
     
     h3("Save/Load Taxa"),
@@ -97,7 +116,7 @@ taxoUI <- function(id) {
 
 taxoServer <- function(id, fasta_all) {
   
-  # Taxonomy is now selected for the full dataset and not only for the selected samples
+  # Taxonomy is selected for the dataset loaded (fasta_all)
 
   moduleServer(id, function(input, output, session) {
     
@@ -113,7 +132,7 @@ taxoServer <- function(id, fasta_all) {
     
     taxo <- reactive({
       # Do not use req because if one member is NULL it will not be activated
-      taxo_selected(input$supergroup, input$division, input$subdivision, input$class, input$order, input$family, input$genus, input$species, input$asv_code)
+      taxo_selected(input$domain, input$supergroup, input$division, input$subdivision, input$class, input$order, input$family, input$genus, input$species, input$asv_code)
       })
     
 
@@ -230,8 +249,8 @@ taxoServer <- function(id, fasta_all) {
     observe({
       input$reset_taxo
       update_taxo_auto(FALSE)
-      shinyWidgets::updatePickerInput(session = session,  inputId = "supergroup", choices = unique(global$pr2_taxo$supergroup), selected = character(0), )
-      purrr::map(global$taxo_levels[3:global$number_of_taxo_levels], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
+      shinyWidgets::updatePickerInput(session = session,  inputId = "domain", choices = c("Eukaryota", "Eukaryota:plas"), selected =  character(0) )
+      purrr::map(global$taxo_levels[2:global$number_of_taxo_levels], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
       update_taxo_auto(TRUE)
       # click(ns("validate_taxo"))
     })

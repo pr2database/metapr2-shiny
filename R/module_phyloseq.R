@@ -43,7 +43,7 @@ phyloseqServer <- function(id, samples_selected, df_selected, fasta_selected, ta
     
     # Make sure that no more than 1000 samples selected
     
-    n_samples_max = 1000
+    
     
     n_samples_valid <- reactive({(nrow(samples_selected()) <= n_samples_max)} )
 
