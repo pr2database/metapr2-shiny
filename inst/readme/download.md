@@ -1,7 +1,15 @@
 
+<br>
+ 
+<br>
+
+On this page you can download the raw data to be processed with software like R or python.**The asv_reads and phyloseq files can be very big** if you download all datasets and all taxa. 
+
+You can get these files for the full dataset (clustered) directly from Zenodo (https://zenodo.org/records/21106507).
+
 The following files are provided. 
 
-**The asv_reads and phyloseq files can be very big** if you download all datasets and all taxa. 
+
 
 <!--- https://stackoverflow.com/questions/52239087/table-in-r-markdown-is-not-printing-correctly-in-shiny-application -->
 <style>
