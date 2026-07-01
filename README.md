@@ -13,14 +13,15 @@
 
 ## A database of 18S rRNA metabarcodes
 
-**Version**: 4.0.0
+**Release date**: 2026-07-01
+
+**Version**:  4.0.0
 
 - Data sets: 187
 - Samples: 26 315
 - ASVs clustered: 229 793
 - ASVs clustered: 275 680
-
-**Release date**: 2026-07-01
+- This release (4.0) includes all **EukBank** datasets that contained more than 20 samples (Berney, C., Mahé, F., Henry, N., Lara, E., de Vargas, C., & consortium, E. (2023). EukBank 18S V4 dataset. Zenodo. https://doi.org/10.5281/zenodo.7804946).
 
 ### Presentation
 
@@ -143,4 +144,4 @@ metabarcodes with an emphasis on protists. Molecular Ecology Resources
 - Bryan Teo, NTU-ASE Geek lab
 - Charlie Biwer, Uppsala University Sweden
 - Mahwash Jamy, Uppsala University Sweden
-- EukBank core team (Frédric Mahé, Nicolas Henry, Cédric Bernye)
+- EukBank core team (Frédric Mahé, Nicolas Henry, Cédric Berney)

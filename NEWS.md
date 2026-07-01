@@ -15,7 +15,7 @@ Released: 2026-07-01
 * __120 new datasets__
 * __18 549 new samples__
 
-This release includes all EukBanks datasets that contained more than 20 samples.
+This release includes all EukBank datasets that contained more than 20 samples.
 
 #### Citations
 Please refer to the web interface to see the reference for each dataset.  
