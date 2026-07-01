@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![DOI](https://zenodo.org/badge/410160328.svg)](https://zenodo.org/badge/latestdoi/410160328)
+[![DOI](https://zenodo.org/badge/21106507.svg)](https://zenodo.org/badge/latestdoi/21106507)
 ![Release](https://img.shields.io/badge/release-4.0.0-blue.svg)
 ![Date](https://img.shields.io/badge/date-1%20July%202026-lightgrey.svg)
 
