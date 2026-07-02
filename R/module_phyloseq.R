@@ -43,9 +43,7 @@ phyloseqServer <- function(id, samples_selected, df_selected, fasta_selected, ta
     
     # Make sure that no more than 1000 samples selected
     
-    
-    
-    n_samples_valid <- reactive({(nrow(samples_selected()) <= n_samples_max)} )
+    n_samples_valid <- reactive({(nrow(samples_selected()) <= global$n_samples_max_phyloseq)} )
 
     output$sample_number <- renderText({stringr::str_c("Number of samples: <b>", nrow(samples_selected()), 
                                                        if_else(n_samples_valid(), "</b>", " - Too many samples !!</b> - Sample # must be below <b>1000 !</b>"),

@@ -33,7 +33,7 @@ knitr::opts_chunk$set(
 - Data sets: 187
 - Samples: 26 315
 - ASVs clustered: 229 793
-- ASVs clustered: 275 680
+- ASVs non clustered: 275 680
 - This release (4.0) includes all **EukBank** datasets that contained more than 20 samples (Berney, C., Mahé, F., Henry, N., Lara, E., de Vargas, C., & consortium, E. (2023). EukBank 18S V4 dataset. Zenodo. https://doi.org/10.5281/zenodo.7804946).
 
 ### Presentation

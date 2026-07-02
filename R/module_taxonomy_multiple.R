@@ -83,7 +83,7 @@ taxoUI <- function(id) {
     p(),
     
     shinyWidgets::pickerInput(ns("domain"), "Domain (select Eukaryota:plas for 16S plastid)", choices = c("Eukaryota", "Eukaryota:plas"), 
-                                 selected =  character(0) , multiple = TRUE, options= options_picker_taxo),
+                                 selected =  "Eukaryota" , multiple = TRUE, options= options_picker_taxo),
     
     # Use the purr map function to create the pickerInput
     purrr::map(global$taxo_levels[2:global$number_of_taxo_levels], 
@@ -249,7 +249,7 @@ taxoServer <- function(id, fasta_all) {
     observe({
       input$reset_taxo
       update_taxo_auto(FALSE)
-      shinyWidgets::updatePickerInput(session = session,  inputId = "domain", choices = c("Eukaryota", "Eukaryota:plas"), selected =  character(0) )
+      shinyWidgets::updatePickerInput(session = session,  inputId = "domain", choices = c("Eukaryota", "Eukaryota:plas"), selected =  "Eukaryota" )
       purrr::map(global$taxo_levels[2:global$number_of_taxo_levels], ~ shinyWidgets::updatePickerInput(session = session,  inputId = .x, choices = character(0), selected = character(0)))
       update_taxo_auto(TRUE)
       # click(ns("validate_taxo"))
