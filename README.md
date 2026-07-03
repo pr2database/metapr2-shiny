@@ -15,13 +15,16 @@
 
 **Release date**: 2026-07-01
 
-**Version**:  4.0.0
+**Version**: 4.0.0
 
 - Data sets: 187
 - Samples: 26 315
 - ASVs clustered: 229 793
 - ASVs non clustered: 275 680
-- This release (4.0) includes all **EukBank** datasets that contained more than 20 samples (Berney, C., Mahé, F., Henry, N., Lara, E., de Vargas, C., & consortium, E. (2023). EukBank 18S V4 dataset. Zenodo. https://doi.org/10.5281/zenodo.7804946).
+- This release (4.0) includes all **EukBank** datasets that contained
+  more than 20 samples (Berney, C., Mahé, F., Henry, N., Lara, E.,
+  de Vargas, C., & consortium, E. (2023). EukBank 18S V4 dataset.
+  Zenodo. <https://doi.org/10.5281/zenodo.7804946>).
 
 ### Presentation
 
@@ -38,6 +41,9 @@ done in three different ways:
 2.  Run as docker container. \<= **This is the best way**
 
 3.  Download the R package and launch the shiny application (hardest).
+
+4.  Download raw data and process them with your scripts (R, Python or
+    other)
 
 Please privilege method \# 2 (Docker Image) if you are going to use
 metapr2 extensively or for a course as the server will crash if too many
@@ -104,6 +110,31 @@ devtools::install_github("pr2database/metapr2-shiny")
 ``` r
 metapr2::run_app()
 ```
+
+#### 4 - Download raw data
+
+Data are available from the [Zenodo
+record](https://zenodo.org/records/21106507). You can use your own
+scripts to process the data.
+
+Two files are provided:
+
+1 -
+[metapr2_4.0_datasets_samples_asv.zip](https://zenodo.org/records/21106507/files/metapr2_4.0_datasets_samples_asv.zip?download=1)
+which contains 4 files
+
+- datasets.xlsx - Information on the different datasets selected
+  including reference and GenBank id
+- samples.xlsx - List of samples selected with medadata
+- asv.xlsx - ASV selected with taxonomy and sequence
+- asv.fasta - ASV selected with taxonomy and sequence in fasta form
+
+2 -
+[metapr2_4.0_asv_abundance.tsv.gz](https://zenodo.org/records/21106507/files/metapr2_4.0_asv_abundance.tsv.gz?download=1) -
+Percent of reads (normalized to total number of eukaryotic reads in the
+sample), for each ASV and each sample (long form). The file_code and
+asv_code columns link this table to the samples and asv tables
+(samples.xlsx and asv.xlsx)
 
 <!-- This is commented out.
 &#10; -->

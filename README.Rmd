@@ -51,6 +51,8 @@ Access to the database to map, search and download the barcodes can be done in t
 
 3. Download the R package and launch the shiny application (hardest).
 
+4. Download raw data and process them with your scripts (R, Python or other)
+
 Please privilege method # 2 (Docker Image) if you are going to use metapr2 extensively or for a course as the server will crash if too many users are logged.
 
 
@@ -110,6 +112,21 @@ devtools::install_github("pr2database/metapr2-shiny")
 ```{r, eval=FALSE, echo=TRUE}
 metapr2::run_app()
 ```
+
+#### 4 - Download raw data 
+
+Data are available from the [Zenodo record](https://zenodo.org/records/21106507). You can use your own scripts to process the data.  
+
+Two files are provided:
+
+1 - [metapr2_4.0_datasets_samples_asv.zip](https://zenodo.org/records/21106507/files/metapr2_4.0_datasets_samples_asv.zip?download=1) which contains 4 files
+
+  - datasets.xlsx - Information on the different datasets selected including reference and GenBank id
+  - samples.xlsx - List of samples selected with medadata 
+  - asv.xlsx - ASV selected with taxonomy and sequence
+  - asv.fasta - ASV selected with taxonomy and sequence  in fasta form
+
+2 - [metapr2_4.0_asv_abundance.tsv.gz](https://zenodo.org/records/21106507/files/metapr2_4.0_asv_abundance.tsv.gz?download=1) - Percent of reads (normalized to total number of eukaryotic reads in the sample), for each ASV and each sample (long form).  The file_code and asv_code columns link this table to the samples and asv tables (samples.xlsx and asv.xlsx)
 
 <!-- This is commented out.
 

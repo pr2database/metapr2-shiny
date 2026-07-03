@@ -79,7 +79,7 @@
 <li>Data sets: 187</li>
 <li>Samples: 26 315</li>
 <li>ASVs clustered: 229 793</li>
-<li>ASVs clustered: 275 680</li>
+<li>ASVs non clustered: 275 680</li>
 <li>This release (4.0) includes all <strong>EukBank</strong> datasets that contained more than 20 samples (Berney, C., Mahé, F., Henry, N., Lara, E., de Vargas, C., &amp; consortium, E. (2023). EukBank 18S V4 dataset. Zenodo. <a href="https://doi.org/10.5281/zenodo.7804946" class="external-link uri">https://doi.org/10.5281/zenodo.7804946</a>).</li>
 </ul>
 <div class="section level3">
@@ -95,6 +95,7 @@
 <li><p>Using a <a href="http://app.metapr2.org" class="external-link">web interface</a>.</p></li>
 <li><p>Run as docker container. &lt;= <strong>This is the best way</strong></p></li>
 <li><p>Download the R package and launch the shiny application (hardest).</p></li>
+<li><p>Download raw data and process them with your scripts (R, Python or other)</p></li>
 </ol>
 <p>Please privilege method # 2 (Docker Image) if you are going to use metapr2 extensively or for a course as the server will crash if too many users are logged.</p>
 <div class="section level4">
@@ -156,9 +157,23 @@
 </h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">metapr2</span><span class="fu">::</span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level4">
+<h4 id="id_4---download-raw-data">4 - Download raw data<a class="anchor" aria-label="anchor" href="#id_4---download-raw-data"></a>
+</h4>
+<p>Data are available from the <a href="https://zenodo.org/records/21106507" class="external-link">Zenodo record</a>. You can use your own scripts to process the data.</p>
+<p>Two files are provided:</p>
+<p>1 - <a href="https://zenodo.org/records/21106507/files/metapr2_4.0_datasets_samples_asv.zip?download=1" class="external-link">metapr2_4.0_datasets_samples_asv.zip</a> which contains 4 files</p>
+<ul>
+<li>datasets.xlsx - Information on the different datasets selected including reference and GenBank id</li>
+<li>samples.xlsx - List of samples selected with medadata</li>
+<li>asv.xlsx - ASV selected with taxonomy and sequence</li>
+<li>asv.fasta - ASV selected with taxonomy and sequence in fasta form</li>
+</ul>
+<p>2 - <a href="https://zenodo.org/records/21106507/files/metapr2_4.0_asv_abundance.tsv.gz?download=1" class="external-link">metapr2_4.0_asv_abundance.tsv.gz</a> - Percent of reads (normalized to total number of eukaryotic reads in the sample), for each ASV and each sample (long form). The file_code and asv_code columns link this table to the samples and asv tables (samples.xlsx and asv.xlsx)</p>
 <!-- This is commented out.
 &#10; -->
-</div>
 </div>
 </div>
 <div class="section level3">
